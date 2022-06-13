@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+	font-family: "Comic Cat";
+	src: url('../public/comic-cat.otf');
+}
+
 html, body {
 	@apply bg-secondary
+}
+
+.btn {
+	@apply rounded-md text-secondary px-10 py-1.5
+}
+
+.btn.primary {
+	@apply bg-primary
+}
+
+.btn.secondary {
+	@apply bg-accent-1
+}
+
+.btn.highlight {
+	@apply bg-highlight
 }

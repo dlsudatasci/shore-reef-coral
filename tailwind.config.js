@@ -16,7 +16,8 @@ module.exports = {
         highlight: "#E3AD58",
       },
 			fontFamily: {
-				'sans': ['Josefin Sans', ...defaultTheme.fontFamily.sans]
+				'sans': ['Josefin Sans', ...defaultTheme.fontFamily.sans],
+				'comic-cat': ['Comic Cat', ...defaultTheme.fontFamily.sans],
 			}
     },
   },
