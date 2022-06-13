@@ -18,6 +18,9 @@ module.exports = {
 			fontFamily: {
 				'sans': ['Josefin Sans', ...defaultTheme.fontFamily.sans],
 				'comic-cat': ['Comic Cat', ...defaultTheme.fontFamily.sans],
+			},
+			fontSize: {
+				header: '2.5rem',
 			}
     },
   },

@@ -7,20 +7,24 @@
 	src: url('../public/comic-cat.otf');
 }
 
+a {
+	@apply underline text-highlight hover:text-accent-1 transition-colors
+}
+
 html, body {
 	@apply bg-secondary
 }
 
 .btn {
-	@apply rounded-md text-secondary px-10 py-1.5
+	@apply rounded-full  px-20 h-20 font-comic-cat text-header
 }
 
 .btn.primary {
-	@apply bg-primary
+	@apply bg-primary text-secondary
 }
 
 .btn.secondary {
-	@apply bg-accent-1
+	@apply bg-secondary text-primary
 }
 
 .btn.highlight {
