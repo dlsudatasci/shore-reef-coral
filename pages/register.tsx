@@ -1,4 +1,5 @@
 import { NextPage } from 'next'
+import Link from 'next/link'
 
 const Register: NextPage = () => {
 	return (
@@ -28,7 +29,7 @@ const Register: NextPage = () => {
 					</div>
 					<input className="btn secondary mt-6" type="submit" value="Register" />
 				</form>
-				<p className="mt-6 text-secondary">Already have an account? <a href="/login">Log in here {'>'}</a></p>
+				<p className="mt-6 text-secondary">Already have an account? <Link href="/login"><a>Log in here {'>'}</a></Link></p>
 			</div>
 		</div>
 	)
