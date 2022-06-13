@@ -36,7 +36,7 @@ const NavItem: FC<NavItemProp> = ({ text, path, isHome }) => {
 
 	return (
 		<Link href={path} passHref>
-			<div className="font-comic-cat text-secondary text-header h-full inline-flex justify-center items-center cursor-pointer">
+			<div className="font-comic-cat text-secondary text-xl h-full inline-flex justify-center items-center cursor-pointer">
 				<p className="px-3 py-2" aria-current={path == pathname ? 'page' : undefined}>{text}</p>
 			</div>
 		</Link>
