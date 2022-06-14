@@ -3,7 +3,7 @@ import { FC } from 'react'
 import Header from './header'
 import ScrollToTop from './scroll-to-top'
 
-export const siteTitle = 'CBRACT2 Portal'
+export const siteTitle = 'Reef Mo'
 
 const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 	return (
@@ -13,7 +13,7 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 				<title>{siteTitle}</title>
 				<meta
 					name="description"
-					content="A society of volunteer students who are willing to serve as tutors to students who need academic assistance."
+					content="Submit Philippine coral reef surveys to help monitor our country's precious natural aquatic habitats."
 				/>
 				<meta
 					property="og:image"

@@ -17,8 +17,12 @@
     @apply bg-secondary
   }
 
+	h1 {
+		@apply text-5xl
+	}
+
   h2 {
-    @apply text-4xl;
+    @apply text-4xl
   }
 }
 
@@ -31,7 +35,7 @@
     @apply block;
   }
 
-  .control input {
+  .control input, .control select, .control textarea {
     @apply rounded-lg w-full border-0;
   }
 
