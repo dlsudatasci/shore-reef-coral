@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Image from 'next/image'
 import * as yup from 'yup'
+import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 interface ILoginInputs {
 	email: string
@@ -16,10 +18,22 @@ const loginSchema = yup.object({
 }).required()
 
 const Login: NextPage = () => {
+	const { status } = useSession()
+	const router = useRouter()
+
+	if (status == 'authenticated') {
+		router.replace('/dashboard')
+	}
+
 	const { register, handleSubmit, formState: { errors } } = useForm<ILoginInputs>({
 		resolver: yupResolver(loginSchema)
 	})
-	const onSubmit = handleSubmit(data => console.log(data))
+	const onSubmit = handleSubmit(data => {
+		signIn('credentials', {
+			callbackUrl: '/dashboard',
+			...data
+		})
+	})
 
 	return (
 		<div className="grid place-items-center px-4 sm:px-0 py-10 sm:pt-0">

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Disclosure, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import cn from 'classnames'
+import { useSession, signOut } from "next-auth/react"
 
 interface NavItemProp {
 	text: string
@@ -44,6 +44,8 @@ const NavItem: FC<NavItemProp> = ({ text, path, isHome }) => {
 }
 
 const Header: FC = () => {
+	const { status } = useSession()
+
 	return (
 		<header className="h-[6.25rem] relative z-50">
 			<Disclosure as="nav" className="bg-primary h-full">
@@ -68,12 +70,17 @@ const Header: FC = () => {
 								<div className="hidden md:block md:ml-6">
 									<div className="flex space-x-4 items-center h-full">
 										{navItems.map(nav => <NavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome} />)}
+										{ status == 'authenticated' && <NavItem text="Dashboard" path="/dashboard" />}
 									</div>
 								</div>
 								<div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
-									<Link href='/login'>
-										<button type="button" className="btn secondary">{'login'}</button>
-									</Link>
+									{status == 'authenticated' ?
+										<button type="button" onClick={() => signOut({ callbackUrl: '/' })} className="btn secondary">{'logout'}</button>
+										:
+										<Link href='/login'>
+											<button type="button" className="btn secondary">{'login'}</button>
+										</Link>
+									}
 								</div>
 							</div>
 						</div>

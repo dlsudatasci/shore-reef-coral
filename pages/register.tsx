@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import Image from 'next/image'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 interface IRegisterInputs {
 	email: string
@@ -22,6 +24,13 @@ const registerSchema = yup.object({
 }).required()
 
 const Register: NextPage = () => {
+	const { status } = useSession()
+	const router = useRouter()
+
+	if (status == 'authenticated') {
+		router.replace('/dashboard')
+	}
+
 	const { register, handleSubmit, formState: { errors } } = useForm<IRegisterInputs>({
 		resolver: yupResolver(registerSchema)
 	})
