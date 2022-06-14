@@ -14,7 +14,7 @@
 
   html,
   body {
-    @apply bg-secondary;
+    @apply bg-secondary
   }
 
   h2 {
@@ -24,7 +24,7 @@
 
 @layer components {
   .main-height {
-    height: calc(100vh - 100px);
+		min-height: calc(100vh - 100px);
   }
 
   .control label {

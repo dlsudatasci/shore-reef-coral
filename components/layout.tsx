@@ -21,12 +21,12 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 						siteTitle
 					)}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
 				/>
-				<meta name="theme-color" content="#0370be" />
+				<meta name="theme-color" content="#17829F" />
 				<meta name="og:title" content={siteTitle} />
 				<meta name="twitter:card" content="summary_large_image" />
 			</Head>
 			<Header />
-			<main className="main-height">
+			<main className="main-height grid">
 				{children}
 			</main>
 			<footer className="text-gray-500 h-20 md:h-30 px-4 md:px-8">

@@ -27,7 +27,7 @@ const Register: NextPage = () => {
 	const onSubmit = handleSubmit(data => console.log(data))
 
 	return (
-		<div className="grid place-items-center h-full px-4 sm:px-0 pt-10 sm:pt-0">
+		<div className="grid place-items-center px-4 sm:px-0 py-10">
 			<div className="bg-primary sm:w-[600px] w-full sm:px-12 px-8 py-8 rounded-lg">
 				<h2 className="font-comic-cat text-secondary mb-4">REGISTER</h2>
 				<form onSubmit={onSubmit}>
