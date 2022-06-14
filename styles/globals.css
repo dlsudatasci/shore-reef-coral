@@ -35,8 +35,16 @@
     @apply rounded-lg w-full border-0;
   }
 
+	.control .error {
+		@apply font-light min-h-[1.5rem]
+	}
+
+	.control input + .error {
+		@apply mt-0.5
+	}
+
 	.control ~ .control {
-		@apply mt-4
+		@apply mt-1.5
 	}
 
   .btn {
