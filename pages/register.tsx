@@ -1,31 +1,60 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+
+interface IRegisterInputs {
+	email: string
+	password: string
+	firstName: string
+	lastName: string
+	affiliation: string
+}
+
+const registerSchema = yup.object({
+	email: yup.string().trim().email().required(),
+	password: yup.string().required(),
+	firstName: yup.string().required().trim(),
+	lastName: yup.string().required().trim(),
+	affiliation: yup.string().required().trim(),
+}).required()
 
 const Register: NextPage = () => {
+	const { register, handleSubmit, formState: { errors } } = useForm<IRegisterInputs>({
+		resolver: yupResolver(registerSchema)
+	})
+	const onSubmit = handleSubmit(data => console.log(data))
+
 	return (
-		<div className="grid place-items-center h-full px-4 sm:px-0">
+		<div className="grid place-items-center h-full px-4 sm:px-0 pt-10 sm:pt-0">
 			<div className="bg-primary sm:w-[600px] w-full sm:px-12 px-8 py-8 rounded-lg">
 				<h2 className="font-comic-cat text-secondary mb-4">REGISTER</h2>
-				<form action="">
+				<form onSubmit={onSubmit}>
 					<div className="control">
 						<label htmlFor="email" className="text-secondary">email</label>
-						<input type="email" name="email" id="email" />
+						<input type="email" id="email" {...register('email')} />
+						<p className="error text-secondary">{errors.email?.message}</p>
 					</div>
 					<div className="control">
 						<label htmlFor="password" className="text-secondary">password</label>
-						<input type="password" name="password" id="password" />
+						<input type="password" id="password" {...register('password')} />
+						<p className="error text-secondary">{errors.password?.message}</p>
 					</div>
 					<div className="control">
 						<label htmlFor="first-name" className="text-secondary">first name</label>
-						<input type="text" name="firstName" id="first-name" />
+						<input type="text" id="first-name" {...register('firstName')} />
+						<p className="error text-secondary">{errors.firstName?.message}</p>
 					</div>
 					<div className="control">
 						<label htmlFor="last-name" className="text-secondary">last name</label>
-						<input type="text" name="lastName" id="last-name" />
+						<input type="text" id="last-name" {...register('lastName')} />
+						<p className="error text-secondary">{errors.lastName?.message}</p>
 					</div>
 					<div className="control">
 						<label htmlFor="affiliation" className="text-secondary">affiliation</label>
-						<input type="text" name="affiliation" id="affiliation" />
+						<input type="text" id="affiliation" {...register('affiliation')} />
+						<p className="error text-secondary">{errors.affiliation?.message}</p>
 					</div>
 					<input className="btn secondary mt-6" type="submit" value="Register" />
 				</form>
