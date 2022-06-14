@@ -2,6 +2,7 @@ import { NextPage } from 'next'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import Image from 'next/image'
 import * as yup from 'yup'
 
 interface ILoginInputs {
@@ -22,8 +23,11 @@ const Login: NextPage = () => {
 
 	return (
 		<div className="grid place-items-center px-4 sm:px-0 py-10 sm:pt-0">
-			<div className="bg-primary sm:w-[600px] w-full sm:px-12 px-8 py-8 rounded-lg">
-				<h2 className="font-comic-cat text-secondary mb-6">LOG IN</h2>
+			<div className="bg-primary sm:w-[600px] w-full sm:px-12 p-8 rounded-lg">
+				<div className="flex">
+					<h2 className="font-comic-cat text-secondary mb-6 mr-4">LOG IN</h2>
+					<Image src="/butterfly-fish-light.png" alt="Fish Icon" layout="fixed" width={40} height={40} />
+				</div>
 				<form onSubmit={onSubmit}>
 					<div className="control">
 						<label htmlFor="email" className="text-secondary">email</label>
