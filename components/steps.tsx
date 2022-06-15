@@ -12,7 +12,7 @@ const Step: FC<IStep> = ({ i, title }) => {
 	const { page } = usePageStore()
 	
 	const className = cn({
-		'bg-secondary text-primary': i < page,
+		'bg-secondary text-primary': i <= page,
 	}, 'flex justify-center items-center rounded-full aspect-square w-12 border-secondary border-2')
 
 	return (

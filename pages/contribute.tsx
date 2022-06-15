@@ -16,7 +16,12 @@ const Contribute: NextPage = () => {
 	const { page, nextPage, prevPage } = usePageStore()
 	const onSubmit = handleSubmit(data => {
 		console.log(data)
-		nextPage()
+		if (page == SURVEY_STEPS.length - 1) {
+			console.log('SUBMITTED!')
+		} else {
+			nextPage()
+		}
+
 		window.scrollTo({ top: 0, behavior: 'smooth' })
 	})
 	
@@ -99,8 +104,8 @@ const Contribute: NextPage = () => {
 							<textarea id="others" {...register('others')} rows={3} />
 							<p className="error text-secondary">{errors.others?.message}</p>
 						</div>
-						{page != 1 && <button className="btn primary border-secondary border-2 mr-6" onClick={handleBackClick}>BACK</button>}
-						<input className="btn secondary" type="submit" value="NEXT" />
+						{page != 0 && <button className="btn primary border-secondary border-2 mr-6" onClick={handleBackClick}>BACK</button>}
+						<input className="btn secondary" type="submit" value={page == SURVEY_STEPS.length - 1 ? 'SUBMIT' : 'NEXT'} />
 					</form>
 				</div>
 			</div>
