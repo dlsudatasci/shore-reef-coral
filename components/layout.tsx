@@ -9,7 +9,7 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 	return (
 		<>
 			<Head>
-				<link rel="icon" href="/favicon.ico" />
+				<link rel="icon" href="/clam-light.png" />
 				<title>{siteTitle}</title>
 				<meta
 					name="description"

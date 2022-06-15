@@ -1,47 +1,35 @@
 import { NextPage } from 'next'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
+import { surveyInfoSchema, ISurveyInformation } from '../models/survey'
 import SURVEY_STEPS from '../lib/survey-steps'
 import Steps from '../components/steps'
 import Image from 'next/image'
-
-interface ISurveyInformation {
-	datetime: Date
-	station: string
-	startCorner: string
-	endCorner: string
-	gps: string
-	province: string
-	town: string
-	barangay: string
-	management: string
-	others: string
-}
-
-const surveyInfoSchema = yup.object({
-	datetime: yup.date().typeError('Invalid date').required(),
-	station: yup.string().required(),
-	startCorner: yup.string().required(),
-	endCorner: yup.string().required(),
-	gps: yup.string().required(),
-	province: yup.string().required(),
-	town: yup.string().required(),
-	barangay: yup.string().required(),
-	management: yup.string().required(),
-	others: yup.string(),
-}).required()
+import usePageStore from '../stores/page-store'
+import { MouseEventHandler, useCallback } from 'react'
+import useSurveyStore from '../stores/survey-store'
 
 const Contribute: NextPage = () => {
 	const { register, handleSubmit, formState: { errors } } = useForm<ISurveyInformation>({
 		resolver: yupResolver(surveyInfoSchema)
 	})
-	const onSubmit = handleSubmit(data => console.log(data))
+	const { page, nextPage, prevPage } = usePageStore()
+	const onSubmit = handleSubmit(data => {
+		console.log(data)
+		nextPage()
+		window.scrollTo({ top: 0, behavior: 'smooth' })
+	})
+	
+	const handleBackClick: MouseEventHandler = (e) =>  {
+		e.preventDefault()
+		prevPage()
+		window.scrollTo({ top: 0, behavior: 'smooth' })
+	}
 
 	return (
 		<>
-			<div className="bg-cover pt-28 pb-14 grid justify-center" style={{ backgroundImage: 'url("/beach-bg.jpg")'}}>
-				<div className="flex justify-center border-secondary border-2 items-center mb-20 py-6 px-4">
+			<div className="bg-cover pt-28 pb-14 grid gap-y-20 place-items-center" style={{ backgroundImage: 'url("/beach-bg.jpg")' }}>
+				<div className="flex justify-center border-secondary border-2 items-center py-6 px-8">
 					<h1 className="font-comic-cat text-secondary text-center mr-4">SUBMIT A SURVEY</h1>
 					<Image src="/mask-light.png" alt="Mask Icon" width={60} height={60} layout="fixed" />
 				</div>
@@ -49,7 +37,7 @@ const Contribute: NextPage = () => {
 					<Steps steps={SURVEY_STEPS} />
 				</div>
 			</div>
-			<div className="grid justify-stretch md:justify-center px-4 md:px-0 bg-primary">
+			<div className="grid justify-stretch md:justify-center px-4 md:px-0 bg-primary pb-16">
 				<div className="md:w-[700px] w-full md:px-12 px-8 rounded-lg">
 					<h3 className="font-comic-cat text-secondary text-center text-3xl mb-4">SURVERY INFORMATION</h3>
 					<form onSubmit={onSubmit}>
@@ -111,6 +99,7 @@ const Contribute: NextPage = () => {
 							<textarea id="others" {...register('others')} rows={3} />
 							<p className="error text-secondary">{errors.others?.message}</p>
 						</div>
+						{page != 1 && <button className="btn primary border-secondary border-2 mr-6" onClick={handleBackClick}>BACK</button>}
 						<input className="btn secondary" type="submit" value="NEXT" />
 					</form>
 				</div>
