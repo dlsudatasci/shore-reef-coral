@@ -29,12 +29,6 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 			<main className="main-height grid">
 				{children}
 			</main>
-			<footer className="text-gray-500 h-20 md:h-30 px-4 md:px-8">
-				<div className="flex justify-between items-center min-h-full mx-auto container">
-					
-				</div>
-			</footer>
-
 			<ScrollToTop />
 		</>
 	)

@@ -9,11 +9,11 @@ interface IStep {
 
 const Step: FC<IStep> = ({ i, title, isSelected }) => {
 	const className = cn({
-		'bg-primary text-white': isSelected
-	}, 'flex justify-center items-center rounded-full aspect-square w-12 border-primary border-4')
+		'bg-secondary text-primary': isSelected
+	}, 'flex justify-center items-center rounded-full aspect-square w-12 border-secondary border-2')
 
 	return (
-		<div className="flex-1 flex flex-col items-center text-primary">
+		<div className="flex-1 flex flex-col items-center text-secondary">
 			<div className={className}>
 				<p className="text-2xl font-comic-cat">{i}</p>
 			</div>
