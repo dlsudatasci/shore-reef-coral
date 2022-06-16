@@ -18,7 +18,7 @@ const Contribute: NextPage = () => {
 		window.scrollTo({ top: 200, behavior: 'smooth' })
 	}
 
-	const handleBackClick: MouseEventHandler = () => {
+	function onBack() {
 		prevPage()
 		window.scrollTo({ top: 200, behavior: 'smooth' })
 	}
@@ -38,8 +38,8 @@ const Contribute: NextPage = () => {
 				<div className="md:w-[700px] w-full md:px-12 px-8 rounded-lg">
 					<h3 className="font-comic-cat text-secondary text-center text-3xl mb-4">{SURVEY_STEPS[page]}</h3>
 					{page == 0 && <SurveyForms.SurveyInformation submitHandler={onSubmit} />}
-					{page == 1 && <SurveyForms.TeamInformation submitHandler={onSubmit} />}
-					{page != 0 && <button className="btn primary border-secondary border-2 mr-6" onClick={handleBackClick}>BACK</button>}
+					{page == 1 && <SurveyForms.TeamInformation submitHandler={onSubmit} backHandler={onBack} />}
+					{page != 0 && <input type="submit" form="survey-form" className="btn primary border-secondary border-2 mr-6" value="BACK" />}
 					<input className="btn secondary" form="survey-form" type="submit" value={page == SURVEY_STEPS.length - 1 ? 'SUBMIT' : 'NEXT'} />
 				</div>
 			</div>
