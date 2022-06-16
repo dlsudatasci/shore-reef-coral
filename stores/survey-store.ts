@@ -13,9 +13,9 @@ const useSurveyStore = create<Survey>(set => ({
 	surveyInfo: {
 		datetime: new Date(),
 		station: '',
-		startCorner: '',
-		endCorner: '',
-		gps: '',
+		startCorner: 0,
+		endCorner: 0,
+		gps: 'WGS84',
 		province: 'Manila',
 		town: 'Manila',
 		barangay: 'Manila',

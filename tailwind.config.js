@@ -14,6 +14,7 @@ module.exports = {
         "accent-1": "#3CA6A9",
         "accent-2": "#2D7E84",
         highlight: "#E3AD58",
+				't-highlight': '#254F60',
       },
 			fontFamily: {
 				'sans': ['Josefin Sans', ...defaultTheme.fontFamily.sans],

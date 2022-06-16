@@ -35,12 +35,14 @@ const SurveyInformation: FC<{ submitHandler: () => void }> = ({ submitHandler })
 			</div>
 			<div className="control">
 				<label htmlFor="start-coordinates" className="text-secondary">starting corner coordinates</label>
-				<input type="text" id="start-coordinates" {...register('startCorner')} />
+				<input type="number" id="start-coordinates" {...register('startCorner')} />
 				<p className="error text-secondary">{errors.startCorner?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="end-coordinates" className="text-secondary">starting corner coordinates</label>
-				<input type="text" id="end-coordinates" {...register('endCorner')} />
+				<label htmlFor="end-coordinates" className="text-secondary">ending corner coordinates</label>
+				<input type="number" id="end-coordinates" {...register('endCorner', {
+					setValueAs: v => v === '' ? undefined : parseInt(v)
+				})} />
 				<p className="error text-secondary">{errors.endCorner?.message}</p>
 			</div>
 			<div className="control">

@@ -1,28 +1,27 @@
-import * as yup from 'yup'
+import { object, number, string, date } from 'yup'
 
 export interface ISurveyInformation {
 	datetime: Date
 	station: string
-	startCorner: string
-	endCorner: string
+	startCorner: number
+	endCorner?: number
 	gps: string
 	province: string
 	town: string
 	barangay: string
 	management: string
-	others: string
+	others?: string
 }
 
-export const surveyInfoSchema = yup.object({
-	datetime: yup.date().typeError('Invalid date').required(),
-	station: yup.string().required(),
-	startCorner: yup.string().required(),
-	endCorner: yup.string().required(),
-	gps: yup.string().required(),
-	province: yup.string().required(),
-	town: yup.string().required(),
-	barangay: yup.string().required(),
-	management: yup.string().required(),
-	others: yup.string(),
+export const surveyInfoSchema = object({
+	datetime: date().typeError('Invalid date').required(),
+	station: string().required(' Station name is required.'),
+	startCorner: number().typeError('Start corner is required.').required(),
+	endCorner: number().optional(),
+	gps: string().required('GPS datum is required.'),
+	province: string().required('Province is required.'),
+	town: string().required('Town is required.'),
+	barangay: string().required('Barangay is required.'),
+	management: string().required('Management is required.'),
+	others: string().optional(),
 }).required()
-
