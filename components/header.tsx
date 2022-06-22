@@ -60,7 +60,7 @@ const Header: FC = () => {
 									</Disclosure.Button>
 								</div>
 
-								<div className="flex items-center h-full justify-center md:items-stretch md:justify-start">
+								<div className="flex-1 md:flex-grow-0 flex items-center h-full justify-center md:items-stretch md:justify-start">
 									<Link href="/" passHref>
 										<div className="flex-shrink-0 flex items-center cursor-pointer mr-6">
 											<Image className="block w-auto" src="/logo-white.png" alt="SHORE Logo" width={80} height={80} />
@@ -70,16 +70,21 @@ const Header: FC = () => {
 								<div className="hidden md:block md:ml-6">
 									<div className="flex space-x-4 items-center h-full">
 										{navItems.map(nav => <NavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome} />)}
-										{ status == 'authenticated' && <NavItem text="Dashboard" path="/dashboard" />}
+										{status == 'authenticated' && <NavItem text="Dashboard" path="/dashboard" />}
 									</div>
 								</div>
 								<div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
 									{status == 'authenticated' ?
 										<button type="button" onClick={() => signOut({ callbackUrl: '/' })} className="btn secondary">{'logout'}</button>
 										:
-										<Link href='/login'>
-											<button type="button" className="btn secondary">{'login'}</button>
-										</Link>
+										<>
+											<Link href='/login'>
+												<button type="button" className="font-comic-cat mr-4 text-xl text-secondary">{'login'}</button>
+											</Link>
+											<Link href='/register'>
+												<button type="button" className="btn secondary">{'sign up'}</button>
+											</Link>
+										</>
 									}
 								</div>
 							</div>
