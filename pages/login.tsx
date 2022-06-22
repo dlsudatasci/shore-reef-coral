@@ -30,7 +30,7 @@ const Login: NextPage = () => {
 	})
 	const onSubmit = handleSubmit(data => {
 		signIn('credentials', {
-			callbackUrl: '/dashboard',
+			callbackUrl: router.query.from as string ?? '/dashboard',
 			...data
 		})
 	})
