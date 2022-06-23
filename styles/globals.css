@@ -66,4 +66,8 @@
   .btn.highlight {
     @apply bg-highlight;
   }
+
+	.btn.disabled {
+		@apply bg-[#B4BEBA] text-[#759691]
+	}
 }
