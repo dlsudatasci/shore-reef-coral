@@ -34,18 +34,18 @@ const Reset: NextPage = () => {
 
 	const onSubmit = handleSubmit(data => {
 		toast.success('Password reset successful!', toastSuccessConfig)
-		router.replace('/')
+		router.replace('/login')
 	})
 
 	return (
 		<div className="grid place-items-center px-4 sm:px-0 py-10 sm:pt-0">
 			<div className="bg-primary sm:w-[600px] w-full sm:px-12 p-8 rounded-lg">
-				<div className="flex mb-2">
+				<div className="flex mb-4">
 					<h2 className="font-comic-cat text-secondary mr-4">RESET PASSWORD</h2>
 					<Image src="/butterfly-fish-light.png" alt="Fish Icon" layout="fixed" width={40} height={40} />
 				</div>
-				<p className="text-white mb-6">You have requested to reset your password.
-					Your password should be at least 8 characters and should contain alphanumeric characters.</p>
+				<p className="text-secondary">You have requested to reset your password.</p>
+				<p className="text-secondary mb-6">Your password should be at least 8 characters and should contain alphanumeric characters.</p>
 				<form onSubmit={onSubmit}>
 					<div className="control">
 						<label htmlFor="password" className="text-secondary">new password</label>
