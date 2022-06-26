@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { FC } from 'react'
-import Header from './header'
+import Header from './header/'
 import ScrollToTop from './scroll-to-top'
 
 export const siteTitle = 'Reef Mo'

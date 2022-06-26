@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Disclosure, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import { useSession, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
+import ProfileMenu from './profile-menu'
 
 interface NavItemProp {
 	text: string
@@ -54,7 +55,7 @@ const Header: FC = () => {
 						<div className="container mx-auto px-2 sm:px-6 lg:px-8 h-full">
 							<div className="relative flex items-center justify-between h-full">
 								<div className="absolute inset-y-0 left-0 flex items-center md:hidden">
-									<Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+									<Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-secondary hover:text-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-secondary" aria-controls="mobile-menu" aria-expanded="false">
 										<span className="sr-only">Open main menu</span>
 										{open ? <XIcon className="block h-6 w-6" aria-hidden="true" /> : <MenuIcon className="block h-6 w-6" aria-hidden="true" />}
 									</Disclosure.Button>
@@ -75,7 +76,7 @@ const Header: FC = () => {
 								</div>
 								<div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
 									{status == 'authenticated' ?
-										<button type="button" onClick={() => signOut({ callbackUrl: '/' })} className="btn secondary">{'logout'}</button>
+										<ProfileMenu />
 										:
 										<>
 											<Link href='/login'>
