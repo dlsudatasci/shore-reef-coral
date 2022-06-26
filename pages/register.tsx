@@ -20,10 +20,10 @@ interface IRegisterInputs {
 
 const registerSchema = yup.object({
 	email: yup.string().trim().email().required(),
-	password: yup.string().required(),
-	firstName: yup.string().required().trim(),
-	lastName: yup.string().required().trim(),
-	affiliation: yup.string().required().trim(),
+	password: yup.string().required('Password is required.'),
+	firstName: yup.string().trim().required('First name is required.'),
+	lastName: yup.string().trim().required('Last name is required.'),
+	affiliation: yup.string().trim().required('Affiliation is required.'),
 }).required()
 
 const Register: NextPage = () => {

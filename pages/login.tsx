@@ -8,6 +8,7 @@ import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import { toastErrorConfig } from '../lib/toast-defaults'
+import Alert from '../components/alert'
 
 interface ILoginInputs {
 	email: string
@@ -36,7 +37,7 @@ const Login: NextPage = () => {
 			...data
 		})
 
-		if (res?.ok) return router.replace(router.query.from as string ?? '/dashboard')	
+		if (res?.ok) return router.replace(router.query.from as string ?? '/dashboard')
 		if (res?.status == 401) return toast.error('Invalid credentials. Please recheck.', toastErrorConfig)
 		return toast.error('A server-side error has occured! Please try again later.', toastErrorConfig)
 	})
@@ -48,12 +49,7 @@ const Login: NextPage = () => {
 					<h2 className="font-comic-cat text-secondary mb-6 mr-4">LOG IN</h2>
 					<Image src="/butterfly-fish-light.png" alt="Fish Icon" layout="fixed" width={40} height={40} />
 				</div>
-				{router.query.registered &&
-					<div className="bg-highlight px-6 py-4 flex items-center rounded-md mb-6">
-						<Image src="/check.png" alt="Check Icon" width={28} height={28} />
-						<p className="text-t-highlight leading-5 ml-4 text-lg">Congratulations! Your account has been created. Kindly login to continue.</p>
-					</div>
-				}
+				{router.query.registered && <Alert message="Congratulations! Your account has been created. Kindly login to continue." />}
 				<form onSubmit={onSubmit}>
 					<div className="control">
 						<label htmlFor="email" className="text-secondary">email</label>

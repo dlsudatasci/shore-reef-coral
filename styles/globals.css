@@ -40,7 +40,7 @@
   }
 
 	.control .error {
-		@apply font-light min-h-[1.5rem]
+		@apply text-error min-h-[1.5rem]
 	}
 
 	.control input + .error {
