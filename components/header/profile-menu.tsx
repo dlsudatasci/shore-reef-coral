@@ -4,6 +4,7 @@ import { FC, Fragment, forwardRef, ReactNode, Ref } from 'react'
 import { UserIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 import { signOut, useSession } from "next-auth/react"
+import { LogoutIcon } from '@heroicons/react/outline'
 
 const menuItems = [
 	{ name: 'Account', path: '/dashboard/profile' },
@@ -15,20 +16,20 @@ function className(active: boolean) {
 }
 
 const MyLink = forwardRef((props: { href: string, children: ReactNode, [key: string]: any }, ref: Ref<HTMLAnchorElement>) => {
-  let { href, children, ...rest } = props
-  return (
-    <Link href={href}>
-      <a ref={ref} {...rest}>
-        {children}
-      </a>
-    </Link>
-  )
+	let { href, children, ...rest } = props
+	return (
+		<Link href={href}>
+			<a ref={ref} {...rest}>
+				{children}
+			</a>
+		</Link>
+	)
 })
 MyLink.displayName = 'MyLink'
 
 const ProfileMenu: FC = () => {
 	const { data } = useSession()
-	
+
 	return (
 		<Menu as="div" className="ml-3 relative">
 			<div>
@@ -62,7 +63,10 @@ const ProfileMenu: FC = () => {
 					<p className="mt-3 pl-4 text-accent-1 text-sm">{data?.user.email}</p>
 					<Menu.Item>
 						{({ active }: { active: boolean }) => (
-							<a onClick={() => signOut({ callbackUrl: '/' })} className={cn('cursor-pointer', className(active))}>Log out</a>
+							<a onClick={() => signOut({ callbackUrl: '/' })} className={cn('flex items-center cursor-pointer', className(active))}>
+								<LogoutIcon className="w-5 h-5 inline mr-1" />
+								<span className="translate-y-[0.75px]">Log out</span>
+							</a>
 						)}
 					</Menu.Item>
 				</Menu.Items>
