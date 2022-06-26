@@ -6,6 +6,8 @@ import Image from 'next/image'
 import * as yup from 'yup'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
+import { toastErrorConfig } from '../lib/toast-defaults'
 
 interface ILoginInputs {
 	email: string
@@ -28,11 +30,15 @@ const Login: NextPage = () => {
 	const { register, handleSubmit, formState: { errors } } = useForm<ILoginInputs>({
 		resolver: yupResolver(loginSchema)
 	})
-	const onSubmit = handleSubmit(data => {
-		signIn('credentials', {
-			callbackUrl: router.query.from as string ?? '/dashboard',
+	const onSubmit = handleSubmit(async (data) => {
+		const res = await signIn('credentials', {
+			redirect: false,
 			...data
 		})
+
+		if (res?.ok) return router.replace(router.query.from as string ?? '/dashboard')	
+		if (res?.status == 401) return toast.error('Invalid credentials. Please recheck.', toastErrorConfig)
+		return toast.error('A server-side error has occured! Please try again later.', toastErrorConfig)
 	})
 
 	return (
