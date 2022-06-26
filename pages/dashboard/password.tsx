@@ -3,8 +3,11 @@ import { useForm } from 'react-hook-form';
 import ProfileLayout from '../../components/layouts/profile-layout'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import app from '../../lib/axios-config'
+import { toast } from 'react-toastify';
+import { toastErrorConfig, toastSuccessConfig } from '../../lib/toast-defaults';
 
-interface IPasswordInputs {
+export interface IPasswordInputs {
 	oldPassword: string
 	newPassword: string
 	confirmPassword: string
@@ -12,16 +15,31 @@ interface IPasswordInputs {
 
 const passwordSchema = yup.object({
 	oldPassword: yup.string().required('old password is required'),
-	newPassword: yup.string().required('new password is required'),
+	newPassword: yup.string().required('new password is required')
+		.notOneOf([yup.ref('oldPassword')], 'new password must be different from old password'),
 	confirmPassword: yup.string().oneOf([yup.ref('newPassword'), null], 'passwords must match')
 }).required()
 
 const Profile: FC = () => {
-	const { register, handleSubmit, formState: { errors } } = useForm<IPasswordInputs>({
+	const { register, handleSubmit, setError, reset, formState: { errors } } = useForm<IPasswordInputs>({
 		resolver: yupResolver(passwordSchema)
 	})
-	const onSubmit = handleSubmit(data => {
+	const onSubmit = handleSubmit(async details => {
+		const { status, data } = await app.patch<Partial<IPasswordInputs>>('/api/user/password', details)
 
+		if (status != 200) {
+			return toast.error('A server-side error has occured. Please try again later.', toastErrorConfig)
+		}
+
+		if (!Object.keys(data).length) {
+			toast.success('Password change successful!', toastSuccessConfig)
+			return reset()
+		}
+
+		let k: keyof IPasswordInputs, i = 0
+		for (k in data) {
+			setError(k, { type: 'custom', message: data[k] }, { shouldFocus: i++ == 0 })
+		}
 	})
 
 	return (
