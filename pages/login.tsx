@@ -16,8 +16,8 @@ interface ILoginInputs {
 }
 
 const loginSchema = yup.object({
-	email: yup.string().email().trim().required(),
-	password: yup.string().required(),
+	email: yup.string().email().trim().required('email is required'),
+	password: yup.string().required('password is required'),
 }).required()
 
 const Login: NextPage = () => {
