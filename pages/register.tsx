@@ -6,6 +6,9 @@ import * as yup from 'yup'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import app from '../lib/axios-config'
+import { toast } from 'react-toastify'
+import { toastErrorConfig } from '../lib/toast-defaults'
 
 interface IRegisterInputs {
 	email: string
@@ -31,10 +34,27 @@ const Register: NextPage = () => {
 		router.replace('/dashboard')
 	}
 
-	const { register, handleSubmit, formState: { errors } } = useForm<IRegisterInputs>({
+	const { register, setError, handleSubmit, formState: { errors } } = useForm<IRegisterInputs>({
 		resolver: yupResolver(registerSchema)
 	})
-	const onSubmit = handleSubmit(data => console.log(data))
+	const onSubmit = handleSubmit(async details => {
+		const { status, data } = await app.post<Partial<IRegisterInputs>>('/api/register', details)
+
+		if (status)
+		if (status === 200) {
+			if (!Object.keys(data).length) { // no errors
+				return router.push('/login?registered=true')
+			}
+
+			let name: keyof typeof data
+			let i = 0
+			for (name in data) {
+				setError(name, { type: 'custom', message: data[name] }, { shouldFocus: i++ == 0 })
+			}
+		} else {
+			toast.error('A server-side error has occured. Please try again later.', toastErrorConfig)
+		}
+	})
 
 	return (
 		<div className="grid place-items-center px-4 sm:px-0 py-10">
