@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prisma": "dotenv -c development prisma",
-    "migrate": "yarn prisma migrate dev",
-    "generate": "yarn prisma generate"
+    "migrate": "yarn prisma migrate dev & yarn prisma generate"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.4",

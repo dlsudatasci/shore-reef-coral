@@ -3,7 +3,7 @@ import { signIn, useSession } from 'next-auth/react'
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Card from '../../components/card';
-import DashboardLayout from '../../components/dashboard-bg';
+import DashboardLayout from '../../components/layouts/dashboard-layout';
 
 const Dashboard: NextPage = () => {
 	const { status } = useSession()
