@@ -2,13 +2,14 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient } from '@prisma/client'
 import { hashPassword } from '../../lib/password-util'
 
+const prisma = new PrismaClient()
+
 const registrationHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { body, method } = req
 	
 	try {
 		switch (method) {
 			case 'POST': {
-				const prisma = new PrismaClient()
 				const noMatch = (await prisma.user.findFirst({ where: { email: body.email }})) == null
 
 				if (noMatch) {
