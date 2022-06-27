@@ -3,24 +3,16 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Image from 'next/image'
-import * as yup from 'yup'
+import userSchema from '../models/user'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import { toastErrorConfig } from '../lib/toast-defaults'
 import Alert from '../components/alert'
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { InferType } from 'yup'
 
-interface ILoginInputs {
-	email: string
-	password: string
-}
-
-const loginSchema = yup.object({
-	email: yup.string().email().trim().required('email is required'),
-	password: yup.string().required('password is required'),
-}).required()
+const loginSchema = userSchema.pick(['email', 'password'])
 
 const Login: NextPage = () => {
 	const { status } = useSession()
@@ -30,7 +22,7 @@ const Login: NextPage = () => {
 		router.replace(router.query.from as string ?? '/dashboard')
 	}
 
-	const { register, handleSubmit, formState: { errors } } = useForm<ILoginInputs>({
+	const { register, handleSubmit, formState: { errors } } = useForm<InferType<typeof loginSchema>> ({
 		resolver: yupResolver(loginSchema)
 	})
 	const onSubmit = handleSubmit(async (data) => {

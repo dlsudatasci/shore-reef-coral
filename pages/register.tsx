@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
+import userSchema from '../models/user'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -10,22 +10,10 @@ import app from '../lib/axios-config'
 import { toast } from 'react-toastify'
 import { toastErrorConfig } from '../lib/toast-defaults'
 import Head from 'next/head'
+import { InferType } from 'yup'
 
-interface IRegisterInputs {
-	email: string
-	password: string
-	firstName: string
-	lastName: string
-	affiliation: string
-}
-
-const registerSchema = yup.object({
-	email: yup.string().trim().email().required('email is required'),
-	password: yup.string().required('password is required'),
-	firstName: yup.string().trim().required('first name is required'),
-	lastName: yup.string().trim().required('last name is required'),
-	affiliation: yup.string().trim().required('affiliation is required'),
-}).required()
+const registerSchema = userSchema.pick(['email', 'password', 'firstName', 'lastName', 'affiliation'])
+type RegisterSchema = InferType<typeof registerSchema>
 
 const Register: NextPage = () => {
 	const { status } = useSession()
@@ -35,11 +23,11 @@ const Register: NextPage = () => {
 		router.replace('/dashboard')
 	}
 
-	const { register, setError, handleSubmit, formState: { errors } } = useForm<IRegisterInputs>({
+	const { register, setError, handleSubmit, formState: { errors } } = useForm<RegisterSchema>({
 		resolver: yupResolver(registerSchema)
 	})
 	const onSubmit = handleSubmit(async details => {
-		const { status, data } = await app.post<Partial<IRegisterInputs>>('/api/register', details)
+		const { status, data } = await app.post<Partial<RegisterSchema>>('/api/register', details)
 
 		if (status === 200) {
 			if (!Object.keys(data).length) { // no errors
