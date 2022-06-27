@@ -40,5 +40,11 @@ export default NextAuth({
 			}
 			return token;
 		},
+		async session({ session, token }) {
+			session.user.firstName = token.firstName
+			session.user.lastName = token.lastName
+			session.user.id = token.id
+			return session
+		},
 	},
 });
