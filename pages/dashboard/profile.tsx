@@ -1,7 +1,6 @@
 import { FC, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import ProfileLayout from '../../components/layouts/profile-layout'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useSWRImmutable from 'swr/immutable'
 import app from '../../lib/axios-config'
@@ -9,25 +8,19 @@ import { useSession } from "next-auth/react"
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import { InferType } from 'yup'
+import userSchema from '../../models/user'
+import { toastSuccessConfig } from '../../lib/toast-defaults'
 
-interface IProfileInputs {
-	firstName: string
-	lastName: string
-	affiliation: string
-	contactNumber: string
-}
+const profileSchema = userSchema.pick(['firstName', 'lastName', 'affiliation', 'contactNumber'])
+type ProfileSchema = InferType<typeof profileSchema>
 
-const profileSchema = yup.object({
-	firstName: yup.string().trim().required('first name is required'),
-	lastName: yup.string().trim().required('last name is required'),
-	affiliation: yup.string().trim().required('affiliation is required'),
-	contactNumber: yup.string().trim(),
-}).required()
-
-const useProfile = () => {
-	const { data, error, mutate } = useSWRImmutable(`/api/users/me`, (url: string) => app.get<IProfileInputs>(url))
+const fetcher = (url: string) => app.get<ProfileSchema>(url)
+const useProfile = (id?: number) => {
+	const { data, error, mutate } = useSWRImmutable(id ? `/api/users/${id}` : null, fetcher)
+	
 	return {
-		profile: data?.data,
+		data,
 		isLoading: !data && !error,
 		isError: !!error,
 		mutate,
@@ -36,26 +29,36 @@ const useProfile = () => {
 
 const Profile: FC = () => {
 	const router = useRouter()
-	useSession({
+	const session = useSession({
 		required: true,
 		onUnauthenticated() {
 			toast.error('Unauthorized. Please login to continue')
 			router.replace('/login?from=/dashboard/profile')
 		},
 	})
-	const { profile, isLoading, isError } = useProfile()
-	const { register, handleSubmit, reset, formState: { errors } } = useForm<IProfileInputs>({
+	
+	const { data, mutate } = useProfile(session.data?.user.id)
+	const { register, handleSubmit, reset, formState: { errors } } = useForm<ProfileSchema>({
 		resolver: yupResolver(profileSchema),
 	})
-	const onSubmit = handleSubmit(data => {
-		
+	const onSubmit = handleSubmit(async details => {
+		if (data) {
+			data.data = details // update cache
+		}
+
+		await mutate(app.patch<ProfileSchema>(`/api/users/${session.data?.user.id}`, details), {
+			optimisticData: data,
+			revalidate: false,
+			rollbackOnError: true,
+		})
+		toast.success('Details have been updated', toastSuccessConfig)
 	})
 
 	useEffect(() => {
-		if (profile) {
-			reset(profile)
+		if (data?.data) {
+			reset(data.data)
 		}
-	}, [reset, profile])
+	}, [reset, data?.data])
 	
 	return (
 		<ProfileLayout>

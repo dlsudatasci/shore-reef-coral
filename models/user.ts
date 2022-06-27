@@ -8,7 +8,7 @@ const userSchema = object({
 	firstName: string().trim().required('first name is required'),
 	lastName: string().trim().required('last name is required'),
 	affiliation: string().trim().required('affiliation is required'),
-	contactNumber: string().trim(),
+	contactNumber: string().nullable().trim(),
 }).required()
 
 export default userSchema
