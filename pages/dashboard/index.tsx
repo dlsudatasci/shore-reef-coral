@@ -1,20 +1,28 @@
 import { NextPage } from 'next';
-import { signIn, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import Head from 'next/head'
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 import Card from '../../components/card';
 import DashboardLayout from '../../components/layouts/dashboard-layout';
+import { toastErrorConfig } from '../../lib/toast-defaults';
 
 const Dashboard: NextPage = () => {
-	const { status } = useSession()
 	const router = useRouter()
-
-	if (status == 'unauthenticated') {
-		router.replace('/login?from=/dashboard')
-	}
+	useSession({
+		required: true,
+		onUnauthenticated() {
+			toast.error('Please login to continue.', toastErrorConfig)
+			router.replace('/login')
+		},
+	})
 
 	return (
 		<DashboardLayout>
+			<Head>
+				<title>Reef Mo | Dashboard</title>
+			</Head>
 			<div className="flex items-center mt-20">
 				<Image src="/mask-light.png" alt="Mask Icon" width={60} height={60} />
 				<h1 className="ml-4 font-comic-cat text-secondary">Dashboard</h1>

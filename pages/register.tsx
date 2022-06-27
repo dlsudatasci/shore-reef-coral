@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import app from '../lib/axios-config'
 import { toast } from 'react-toastify'
 import { toastErrorConfig } from '../lib/toast-defaults'
+import Head from 'next/head'
 
 interface IRegisterInputs {
 	email: string
@@ -40,7 +41,6 @@ const Register: NextPage = () => {
 	const onSubmit = handleSubmit(async details => {
 		const { status, data } = await app.post<Partial<IRegisterInputs>>('/api/register', details)
 
-		if (status)
 		if (status === 200) {
 			if (!Object.keys(data).length) { // no errors
 				return router.push('/login?registered=true')
@@ -58,6 +58,9 @@ const Register: NextPage = () => {
 
 	return (
 		<div className="grid place-items-center px-4 sm:px-0 py-10">
+			<Head>
+				<title>Reef Mo | Register</title>
+			</Head>
 			<div className="bg-primary sm:w-[600px] w-full sm:px-12 p-8 rounded-lg">
 				<div className="flex">
 					<h2 className="font-comic-cat text-secondary mb-6 mr-4">REGISTER</h2>

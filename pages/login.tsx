@@ -9,6 +9,8 @@ import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import { toastErrorConfig } from '../lib/toast-defaults'
 import Alert from '../components/alert'
+import Head from 'next/head'
+import { useEffect } from 'react'
 
 interface ILoginInputs {
 	email: string
@@ -25,7 +27,7 @@ const Login: NextPage = () => {
 	const router = useRouter()
 
 	if (status == 'authenticated') {
-		router.replace('/dashboard')
+		router.replace(router.query.from as string ?? '/dashboard')
 	}
 
 	const { register, handleSubmit, formState: { errors } } = useForm<ILoginInputs>({
@@ -37,13 +39,18 @@ const Login: NextPage = () => {
 			...data
 		})
 
-		if (res?.ok) return router.replace(router.query.from as string ?? '/dashboard')
-		if (res?.status == 401) return toast.error('Invalid credentials. Please recheck.', toastErrorConfig)
-		return toast.error('A server-side error has occured! Please try again later.', toastErrorConfig)
+		if (res?.status == 401) {
+			toast.error('Invalid credentials. Please recheck.', toastErrorConfig)
+		} else if (!res?.ok) {
+			toast.error('A server-side error has occured! Please try again later.', toastErrorConfig)
+		}
 	})
 
 	return (
 		<div className="grid place-items-center px-4 sm:px-0 py-10 sm:pt-0">
+			<Head>
+				<title>Reef Mo | Login</title>
+			</Head>
 			<div className="bg-primary sm:w-[600px] w-full sm:px-12 p-8 rounded-lg">
 				<div className="flex">
 					<h2 className="font-comic-cat text-secondary mb-6 mr-4">LOG IN</h2>
