@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient } from '@prisma/client'
 import { getToken } from "next-auth/jwt"
-import { hashPassword, matchPassword } from '../../../lib/password-util'
+import { hashPassword, matchPassword } from '../../../../lib/password-util'
 
 const prisma = new PrismaClient()
 
@@ -13,7 +13,7 @@ const ChangeHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	try {
 		switch (method) {
-			case 'PATCH': {
+			case 'PATCH': { // change password
 				const user = await prisma.user.findFirst({
 					select: { password: true, salt: true },
 					where: { id: token.id }

@@ -6,6 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import app from '../../lib/axios-config'
 import { toast } from 'react-toastify';
 import { toastErrorConfig, toastSuccessConfig } from '../../lib/toast-defaults';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 export interface IPasswordInputs {
 	oldPassword: string
@@ -21,11 +23,21 @@ const passwordSchema = yup.object({
 }).required()
 
 const Profile: FC = () => {
+	const router = useRouter()
+	const session = useSession({
+		required: true,
+		onUnauthenticated() {
+			toast.error('Unauthorized. Please login to continue')
+			router.replace('/login?from=/dashboard/profile')
+		},
+	})
 	const { register, handleSubmit, setError, reset, formState: { errors } } = useForm<IPasswordInputs>({
 		resolver: yupResolver(passwordSchema)
 	})
 	const onSubmit = handleSubmit(async details => {
-		const { status, data } = await app.patch<Partial<IPasswordInputs>>('/api/user/password', details)
+		const { status, data } = await app.patch<Partial<IPasswordInputs>>(
+			`/api/users/${session.data?.user.id}/password`, details
+		)
 
 		if (status != 200) {
 			return toast.error('A server-side error has occured. Please try again later.', toastErrorConfig)

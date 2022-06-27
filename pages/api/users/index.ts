@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient } from '@prisma/client'
-import { hashPassword } from '../../lib/password-util'
+import { hashPassword } from '../../../lib/password-util'
 
 const prisma = new PrismaClient()
 
-const registrationHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+const usersHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { body, method } = req
 	
 	try {
@@ -37,4 +37,4 @@ const registrationHandler = async (req: NextApiRequest, res: NextApiResponse) =>
 	}
 }
 
-export default registrationHandler
+export default usersHandler
