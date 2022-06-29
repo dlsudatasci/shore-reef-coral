@@ -3,16 +3,21 @@ datasource db {
   url      = env("DB_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 model User {
-  id            Int            @id @default(autoincrement())
-  email         String         @unique
-  password      String
-  salt          String
-  firstName     String
-  lastName      String
-  affiliation   String?
-  contactNumber String?
-  UsersOnTeam   UsersOnTeams[]
+  id             Int               @id @default(autoincrement())
+  email          String            @unique
+  password       String
+  salt           String
+  firstName      String
+  lastName       String
+  affiliation    String?
+  contactNumber  String?
+  UsersOnTeam    UsersOnTeams[]
+  PasswordRevery PasswordRecovery?
 }
 
 model Team {
@@ -33,6 +38,8 @@ model UsersOnTeams {
   @@id([teamId, userId])
 }
 
-generator client {
-  provider = "prisma-client-js"
+model PasswordRecovery {
+  userId Int    @id
+  user   User   @relation(fields: [userId], references: [id])
+  code   String
 }

@@ -1,13 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { NextPage } from 'next'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { toast } from 'react-toastify'
-import { toastSuccessConfig } from '../../lib/toast-defaults'
 import { useState } from 'react'
 import Link from 'next/link'
+import app from '../../lib/axios-config'
+import Alert from '../../components/alert'
 
 interface IForgot {
 	email: string
@@ -21,10 +20,21 @@ const Forgot: NextPage = () => {
 	const { register, handleSubmit, formState: { errors } } = useForm<IForgot>({
 		resolver: yupResolver(forgotSchema)
 	})
-	const router = useRouter()
 	const [email, setEmail] = useState('')
-	const onSubmit = handleSubmit(data => {
-		setEmail(data.email)
+	const [notif, setNotif] = useState('')
+	const [isSending, setIsSending] = useState(false)
+	const onSubmit = handleSubmit(async details => {
+		setIsSending(true)
+		const { data, status } = await app.post('/api/forgot', details)
+		setIsSending(false)
+
+		if (status !== 200) {
+			setNotif('A server-side error has occured. Please try again later!')
+		} else if (data) {
+			setEmail(details.email)
+		} else {
+			setNotif('Oops! The email you entered does not have a registered account. Please register.')
+		}
 	})
 
 	return (
@@ -37,13 +47,15 @@ const Forgot: NextPage = () => {
 				{email == '' ?
 					<>
 						<p className="text-secondary mb-6">Enter your email address below and we&apos;ll send you a link to reset your password.</p>
+						{notif && <Alert isError message={notif} />}
 						<form onSubmit={onSubmit}>
 							<div className="control">
 								<label htmlFor="email" className="text-secondary">email</label>
 								<input type="email" id="email" {...register('email')} />
 								<p className="error text-secondary">{errors.email?.message}</p>
 							</div>
-							<input className="btn secondary mt-4" type="submit" value="Send Rest Password Email" />
+							<input className="btn secondary mt-4" type="submit"
+								value={isSending ? 'Sending...' : 'Send Rest Password Email'} disabled={isSending} />
 						</form>
 					</>
 					:

@@ -63,7 +63,7 @@
     @apply bg-highlight;
   }
 
-	.btn.disabled {
-		@apply bg-[#B4BEBA] text-[#759691]
+	.btn.primary:disabled, .btn.secondary:disabled, .btn.highlight:disabled {
+		@apply bg-[#B4BEBA] text-[#759691] cursor-not-allowed
 	}
 }

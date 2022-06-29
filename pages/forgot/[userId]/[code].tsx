@@ -5,36 +5,56 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { toast } from 'react-toastify'
-import { toastSuccessConfig } from '../../../lib/toast-defaults'
+import { toastErrorConfig, toastSuccessConfig } from '../../../lib/toast-defaults'
 import { useEffect } from 'react'
+import app from '../../../lib/axios-config'
 
 interface IReset {
 	password: string
-	newPassword: string
+	confirmPassword: string
 }
 
 const resetSchema = yup.object({
 	password: yup.string().required('Password is a required field'),
-	newPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
+	confirmPassword: yup.string()
 }).required()
 
 const Reset: NextPage = () => {
-	const { register, handleSubmit, formState: { errors } } = useForm<IReset>({
+	const { register, handleSubmit, formState: { errors }, setError } = useForm<IReset>({
 		resolver: yupResolver(resetSchema)
 	})
 	const router = useRouter()
 
+	// checks if link provided is valid, otherwise redirect to forgot password form
 	useEffect(() => {
-		const { email, code } = router.query
-		
-		if (email != '') {
-			console.log(email, code)
+		if (router.query.userId) {
+			app.get<boolean>(`/api/forgot/${router.query.userId}/${router.query.code}`)
+				.then(({ data: isValid }) => {
+					if (!isValid) {
+						toast.error('The reset password link is invalid.')
+						router.replace('/forgot')
+					}
+				})
 		}
-	}, [router.query])
+	}, [router])
 
-	const onSubmit = handleSubmit(data => {
-		toast.success('Password reset successful!', toastSuccessConfig)
-		router.replace('/login')
+	const onSubmit = handleSubmit(async data => {
+		try {
+			const { data: errors } = await app.patch<IReset>(`/api/forgot/${router.query.userId}/${router.query.code}`, data)
+
+			if (!Object.keys(errors).length) {
+				toast.success('Password reset successful!', toastSuccessConfig)
+				router.replace('/login')
+			}
+
+			let k: keyof IReset, i = 0
+			for (k in errors) {
+				setError(k, { type: 'custom', message: errors[k] }, { shouldFocus: i++ == 0 })
+			}
+		} catch (err: any) {
+			toast.error(err.response.data, toastErrorConfig)
+			router.replace('/forgot')
+		}
 	})
 
 	return (
@@ -54,8 +74,8 @@ const Reset: NextPage = () => {
 					</div>
 					<div className="control">
 						<label htmlFor="confirm" className="text-secondary">confirm password</label>
-						<input type="password" id="confirm" {...register('newPassword')} />
-						<p className="error text-secondary">{errors.newPassword?.message}</p>
+						<input type="password" id="confirm" {...register('confirmPassword')} />
+						<p className="error text-secondary">{errors.confirmPassword?.message}</p>
 					</div>
 					<input className="btn secondary mt-4" type="submit" value="Reset Password" />
 				</form>
