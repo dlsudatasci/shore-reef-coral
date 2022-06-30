@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { toastErrorConfig, toastSuccessConfig } from '../../../lib/toast-defaults'
 import { useEffect } from 'react'
 import app from '../../../lib/axios-config'
+import { useSession } from 'next-auth/react'
 
 interface IReset {
 	password: string
@@ -24,6 +25,11 @@ const Reset: NextPage = () => {
 		resolver: yupResolver(resetSchema)
 	})
 	const router = useRouter()
+	const session = useSession()
+
+	if (session.status == 'authenticated') {
+		router.replace('/dashboard')
+	}
 
 	// checks if link provided is valid, otherwise redirect to forgot password form
 	useEffect(() => {

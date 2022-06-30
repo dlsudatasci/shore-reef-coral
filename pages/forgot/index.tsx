@@ -2,27 +2,31 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { NextPage } from 'next'
 import Image from 'next/image'
 import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
 import { useState } from 'react'
 import Link from 'next/link'
 import app from '../../lib/axios-config'
 import Alert from '../../components/alert'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import userSchema from '../../models/user'
+import { InferType } from 'yup'
 
-interface IForgot {
-	email: string
-}
-
-const forgotSchema = yup.object({
-	email: yup.string().email().trim().required(),
-}).required()
+const forgotSchema = userSchema.pick(['email'])
 
 const Forgot: NextPage = () => {
-	const { register, handleSubmit, formState: { errors } } = useForm<IForgot>({
+	const { register, handleSubmit, formState: { errors } } = useForm<InferType<typeof forgotSchema>>({
 		resolver: yupResolver(forgotSchema)
 	})
+	const session = useSession()
+	const router = useRouter()
 	const [email, setEmail] = useState('')
 	const [notif, setNotif] = useState('')
 	const [isSending, setIsSending] = useState(false)
+
+	if (session.status == 'authenticated') {
+		router.replace('/dashboard')
+	}
+
 	const onSubmit = handleSubmit(async details => {
 		setIsSending(true)
 		const { data, status } = await app.post('/api/forgot', details)

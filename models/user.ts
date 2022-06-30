@@ -7,7 +7,7 @@ const userSchema = object({
 	salt: string().required(),
 	firstName: string().trim().required('first name is required'),
 	lastName: string().trim().required('last name is required'),
-	affiliation: string().trim().required('affiliation is required'),
+	affiliation: string().nullable().trim(),
 	contactNumber: string().nullable().trim(),
 }).required()
 
