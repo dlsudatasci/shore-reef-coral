@@ -11,6 +11,8 @@ import { toast } from 'react-toastify'
 import { toastErrorConfig } from '../lib/toast-defaults'
 import Head from 'next/head'
 import { InferType } from 'yup'
+import Alert from '../components/alert'
+import { useState } from 'react'
 
 const registerSchema = userSchema.pick(['email', 'password', 'firstName', 'lastName', 'affiliation'])
 type RegisterSchema = InferType<typeof registerSchema>
@@ -18,6 +20,7 @@ type RegisterSchema = InferType<typeof registerSchema>
 const Register: NextPage = () => {
 	const { status } = useSession()
 	const router = useRouter()
+	const [isTaken, setIsTaken] = useState(false)
 
 	if (status == 'authenticated') {
 		router.replace('/dashboard')
@@ -34,10 +37,12 @@ const Register: NextPage = () => {
 				return router.push('/login?registered=true')
 			}
 
+			setIsTaken(data.email === 'Email is already taken!')
+
 			let name: keyof typeof data
 			let i = 0
 			for (name in data) {
-				setError(name, { type: 'custom', message: data[name] }, { shouldFocus: i++ == 0 })
+				setError(name, { type: 'custom', message: data[name] ?? undefined }, { shouldFocus: i++ == 0 })
 			}
 		} else {
 			toast.error('A server-side error has occured. Please try again later.', toastErrorConfig)
@@ -54,6 +59,9 @@ const Register: NextPage = () => {
 					<h2 className="font-comic-cat text-secondary mb-6 mr-4">REGISTER</h2>
 					<Image src="/clam-light.png" alt="Fish Icon" layout="fixed" width={40} height={40} />
 				</div>
+				{isTaken &&
+					<Alert isError message='An account is already registered with your email address. Please log in.' />
+				}
 				<form onSubmit={onSubmit}>
 					<div className="control">
 						<label htmlFor="email" className="text-secondary">email</label>
