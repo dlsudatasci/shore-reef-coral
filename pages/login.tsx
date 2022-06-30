@@ -32,7 +32,7 @@ const Login: NextPage = () => {
 		})
 
 		if (res?.status == 401) {
-			toast.error('Invalid credentials. Please recheck.', toastErrorConfig)
+			toast.error(res.error, toastErrorConfig)
 		} else if (!res?.ok) {
 			toast.error('A server-side error has occured! Please try again later.', toastErrorConfig)
 		}
