@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import DashboardLayout from '../../components/layouts/dashboard-layout'
-import SurveyList from '../../components/suvey-list'
+import SurveyList from '../../components/survey-list'
 import { toastErrorConfig } from '../../lib/toast-defaults'
 
 const Dashboard: NextPage = () => {
