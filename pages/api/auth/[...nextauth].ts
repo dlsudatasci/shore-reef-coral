@@ -19,7 +19,7 @@ export default NextAuth({
 
 				const user = await prisma.user.findFirst({ where: { email: credentials.email }})
 
-				if (!user) throw Error('Account with email does not exist.')
+				if (!user) throw Error('Account with email does not exist. Please regsiter first.')
 				if (!matchPassword(credentials.password, user.password, user.salt)) throw Error('Invalid email and password combination.')
 
 				return {

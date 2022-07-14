@@ -11,12 +11,14 @@ import { toastErrorConfig } from '../lib/toast-defaults'
 import Alert from '../components/alert'
 import Head from 'next/head'
 import { InferType } from 'yup'
+import { useState } from 'react'
 
 const loginSchema = userSchema.pick(['email', 'password'])
 
 const Login: NextPage = () => {
 	const { status } = useSession()
 	const router = useRouter()
+	const [message, setMessage] = useState('')
 
 	if (status == 'authenticated') {
 		router.replace(router.query.from as string ?? '/dashboard')
@@ -31,8 +33,8 @@ const Login: NextPage = () => {
 			...data
 		})
 
-		if (res?.status == 401) {
-			toast.error(res.error, toastErrorConfig)
+		if (res?.status == 401 && res.error) {
+			setMessage(res.error)
 		} else if (!res?.ok) {
 			toast.error('A server-side error has occured! Please try again later.', toastErrorConfig)
 		}
@@ -49,6 +51,7 @@ const Login: NextPage = () => {
 					<Image src="/butterfly-fish-light.png" alt="Fish Icon" layout="fixed" width={40} height={40} />
 				</div>
 				{router.query.registered && <Alert message="Congratulations! Your account has been created. Kindly login to continue." />}
+				{message !== '' && <Alert isError message={message} /> }
 				<form onSubmit={onSubmit}>
 					<div className="control">
 						<label htmlFor="email" className="text-secondary">email</label>
