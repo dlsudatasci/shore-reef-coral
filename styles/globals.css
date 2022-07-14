@@ -24,19 +24,26 @@
   h2 {
     @apply text-4xl
   }
+
+	label {
+		@apply block
+	}
+
+	select,
+	textarea,
+	[type='text'],
+	[type='email'],
+	[type='number'],
+	[type='password'],
+	[type='tel'],
+	[type='datetime-local'] {
+		@apply rounded-lg w-full border-0 focus:outline-highlight focus:outline-1 focus:outline-offset-0;
+	}
 }
 
 @layer components {
   .main-height {
 		min-height: calc(100vh - 100px);
-  }
-
-  .control label {
-    @apply block;
-  }
-
-  .control input, .control select, .control textarea {
-    @apply rounded-lg w-full border-0;
   }
 
 	.control .error {

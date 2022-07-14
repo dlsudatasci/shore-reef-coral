@@ -37,9 +37,9 @@ const NavItem: FC<NavItemProp> = ({ text, path, isHome }) => {
 
 	return (
 		<Link href={path} passHref>
-			<div className="font-comic-cat text-secondary text-xl h-full inline-flex justify-center items-center cursor-pointer">
+			<a className="font-comic-cat text-secondary text-xl h-full inline-flex justify-center items-center cursor-pointer">
 				<p className="px-3 py-2" aria-current={path == pathname ? 'page' : undefined}>{text}</p>
-			</div>
+			</a>
 		</Link>
 	)
 }
@@ -80,10 +80,10 @@ const Header: FC = () => {
 										:
 										<>
 											<Link href='/login'>
-												<button type="button" className="font-comic-cat mr-4 text-xl text-secondary">{'login'}</button>
+												<a type="button" className="font-comic-cat mr-4 text-xl text-secondary">Login</a>
 											</Link>
 											<Link href='/register'>
-												<button type="button" className="btn secondary">{'sign up'}</button>
+												<a type="button" className="btn secondary h-auto py-1.5">Sign Up</a>
 											</Link>
 										</>
 									}

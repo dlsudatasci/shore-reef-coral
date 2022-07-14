@@ -1,6 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-The backend is built with [Prisma](https://www.prisma.io/) with a MySQL connection.
+The backend is built with [Prisma](https://www.prisma.io/) with a MySQL flavor.
+
+## Prerequisites
+- [NodeJS](https://nodejs.org/en/)
+- [MySQL Server](https://dev.mysql.com/downloads/mysql/)
 
 ## Getting Started
 
