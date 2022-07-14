@@ -32,8 +32,8 @@ const SurveySection: FC<ISection> = ({ title, subsections }) => {
 	return (
 		<div className="font-comic-cat grid grid-cols-[3fr_1fr_1fr] text-secondary">
 			<div className={styles['section-header']}><p>{title}</p></div>
-			<div className={cn(styles['section-header'], 'justify-center')}><p>Score</p></div>
-			<div className={cn(styles['section-header'], 'justify-center')}><p>Letter Grade</p></div>
+			<div className={cn(styles['section-header'], 'justify-center')}><p className="text-center">Score</p></div>
+			<div className={cn(styles['section-header'], 'justify-center')}><p className="text-center">Letter Grade</p></div>
 			{subsections.map(e => <SurveyRow key={e.title} title={e.title} imgSrc={e.imgSrc} score={e.score} grade={e.grade} />)}
 		</div>
 	)
