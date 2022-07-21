@@ -18,12 +18,12 @@ interface MobNavItemProp extends NavItemProp {
 	onClick: () => void
 }
 
-const navItems: NavItemProp[] = [
-	{ path: '/about', text: 'about' },
-	{ path: '/contribute', text: 'how to contribute', status: 'unauthenticated' },
-	{ path: '/survey', text: 'submit a survey', status: 'authenticated' },
-	{ path: '/lessons', text: 'lessons', status: 'authenticated' },
-	{ path: '/dashboard', text: 'dashboard', status: 'authenticated' },
+export const navItems: NavItemProp[] = [
+	{ path: '/about', text: 'About' },
+	{ path: '/contribute', text: 'How to contribute', status: 'unauthenticated' },
+	{ path: '/survey', text: 'Submit a survey', status: 'authenticated' },
+	{ path: '/lessons', text: 'Lessons', status: 'authenticated' },
+	{ path: '/dashboard', text: 'Dashboard', status: 'authenticated' },
 ]
 
 const MobNavItem: FC<MobNavItemProp> = ({ text, path, isHome, onClick }) => {
