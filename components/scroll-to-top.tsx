@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import cn from 'classnames'
+import { ArrowUpIcon } from '@heroicons/react/solid'
 
 export default function ScrollToTop() {
 
@@ -26,7 +27,7 @@ export default function ScrollToTop() {
 	return (
 		<button className={className} onClick={scrollToTop} title="Scroll To Top">
 			<div className="w-5 h-5 flex items-center justify-center">
-				<i className="fa-solid fa-arrow-up" />
+				<ArrowUpIcon />
 			</div>
 		</button>
 	)
