@@ -11,6 +11,7 @@ interface NavItemProp {
 	text: string
 	path: string
 	isHome?: boolean
+	status?: 'authenticated' | 'unauthenticated'
 }
 
 interface MobNavItemProp extends NavItemProp {
@@ -19,7 +20,10 @@ interface MobNavItemProp extends NavItemProp {
 
 const navItems: NavItemProp[] = [
 	{ path: '/about', text: 'about' },
-	{ path: '/contribute', text: 'how to contribute' },
+	{ path: '/contribute', text: 'how to contribute', status: 'unauthenticated' },
+	{ path: '/survey', text: 'submit a survey', status: 'authenticated' },
+	{ path: '/lessons', text: 'lessons', status: 'authenticated' },
+	{ path: '/dashboard', text: 'dashboard', status: 'authenticated' },
 ]
 
 const MobNavItem: FC<MobNavItemProp> = ({ text, path, isHome, onClick }) => {
@@ -70,8 +74,9 @@ const Header: FC = () => {
 								</div>
 								<div className="hidden md:block md:ml-6">
 									<div className="flex space-x-4 items-center h-full">
-										{navItems.map(nav => <NavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome} />)}
-										{status == 'authenticated' && <NavItem text="Dashboard" path="/dashboard" />}
+										{navItems.flatMap(nav => nav.status == undefined || nav.status == status ?
+											<NavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome} /> : []
+										)}
 									</div>
 								</div>
 								<div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
