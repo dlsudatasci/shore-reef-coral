@@ -4,14 +4,21 @@ import Image from 'next/image'
 import SurveySection from '../../components/survey-section'
 import sectionsTemplate from '../../models/survey-summary'
 import styles from '../../styles/survey-display.module.css'
+import { ChevronLeftIcon } from '@heroicons/react/solid'
+import { useRouter } from 'next/router'
 
 const Survey: NextPage = () => {
+	const router = useRouter()
+
 	return (
 		<>
 			<Head>
 				<title>Reef Mo | Survey</title>
 			</Head>
-			<section className={styles['survey-header'] + " text-primary font-comic-cat mt-8 px-2 mb-8"}>
+			<div className="max-w-3xl w-full text-primary mx-auto mt-8 mb-4">
+				<ChevronLeftIcon className="cursor-pointer w-8 hover:text-t-highlight" onClick={router.back} />
+			</div>
+			<section className={styles['survey-header'] + " text-primary font-comic-cat px-2 mb-8"}>
 				<div className="grid md:grid-cols-[4fr_3fr_60px] max-w-3xl mx-auto gap-y-8">
 					<div className="grid border-4 md:border-r-2">
 						<div className="border-b-2">
