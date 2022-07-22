@@ -37,7 +37,7 @@
 	[type='password'],
 	[type='tel'],
 	[type='datetime-local'] {
-		@apply rounded-lg w-full border-0 focus:outline-highlight focus:outline-1 focus:outline-offset-0;
+		@apply rounded-lg w-full border-0 focus:outline-highlight focus:outline-1 focus:outline-offset-0 block text-black;
 	}
 }
 
@@ -55,7 +55,7 @@
 	}
 
   .btn {
-    @apply rounded-full px-10 h-10 font-comic-cat text-xl cursor-pointer transition-colors outline-none focus:ring-2 focus:ring-inset;
+    @apply grid place-items-center rounded-full px-10 h-10 font-comic-cat text-xl cursor-pointer transition-colors outline-none focus:ring-2 focus:ring-inset;
   }
 
   .btn.primary {

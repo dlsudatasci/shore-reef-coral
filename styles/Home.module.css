@@ -1,0 +1,31 @@
+.home {
+	@apply grid bg-primary
+}
+
+.home h1 {
+	@apply font-comic-cat
+}
+
+.home section {
+	@apply py-24 px-4 sm:px-6 odd:bg-secondary odd:text-primary even:text-secondary
+}
+
+.home section > div {
+	@apply container mx-auto
+}
+
+.header {
+	@apply flex mb-4 items-center
+}
+
+.header h1 {
+	@apply mr-3
+}
+
+.home p + a {
+	@apply mt-6
+}
+
+.logo {
+	@apply w-16 md:w-20 aspect-square bg-secondary rounded-full
+}
