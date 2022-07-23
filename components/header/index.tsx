@@ -21,7 +21,7 @@ interface MobNavItemProp extends NavItemProp {
 export const navItems: NavItemProp[] = [
 	{ path: '/about', text: 'About' },
 	{ path: '/contribute', text: 'How to contribute', status: 'unauthenticated' },
-	{ path: '/survey', text: 'Submit a survey', status: 'authenticated' },
+	{ path: '/surveys/submit', text: 'Submit a survey', status: 'authenticated' },
 	{ path: '/lessons', text: 'Lessons', status: 'authenticated' },
 	{ path: '/dashboard', text: 'Dashboard', status: 'authenticated' },
 ]

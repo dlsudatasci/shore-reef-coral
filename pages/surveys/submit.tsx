@@ -1,10 +1,10 @@
 import { NextPage } from 'next'
-import SURVEY_STEPS from '../lib/survey-steps'
-import Steps from '../components/steps'
+import SURVEY_STEPS from '../../lib/survey-steps'
+import Steps from '../../components/steps'
 import Image from 'next/image'
-import usePageStore from '../stores/page-store'
+import usePageStore from '../../stores/page-store'
 import { MouseEventHandler } from 'react'
-import SurveyForms from '../components/survey-form'
+import SurveyForms from '../../components/survey-form'
 
 const Contribute: NextPage = () => {
 	const { page, nextPage, prevPage } = usePageStore()

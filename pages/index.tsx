@@ -90,29 +90,39 @@ const Home: NextPage = () => {
 				</div>
 			</section>
 			<section>
-				<div className="!max-w-2xl">
-					<h1 className="mb-4">Contact Us</h1>
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<div className="control">
-							<label htmlFor="name">Name</label>
-							<input type="text" {...register('name')} />
-							<p className="error">{errors.name?.message}</p>
+				<div className="!max-w-2xl grid md:grid-cols-[180px_1fr] gap-x-6">
+					<div className="hidden md:grid h-min">
+						<div className="self-start">
+							<Image src="/mask-dark.png" alt="Mask Icon" width={140} height={140} />
 						</div>
-
-						<div className="control">
-							<label htmlFor="email">Email</label>
-							<input type="email"  {...register('email')} />
-							<p className="error">{errors.email?.message}</p>
+						<div className="justify-self-end">
+							<Image src="/camera-dark.png" alt="Camera Icon" width={140} height={140} />
 						</div>
-
-						<div className="control">
-							<label htmlFor="message">Message</label>
-							<textarea id="message" rows={10} {...register('message')} />
-							<p className="error">{errors.message?.message}</p>
+						<div className="justify-self-start">
+							<Image src="/fins-dark.png" alt="Flipper Icon" width={140} height={140} />
 						</div>
-
-						<input type="submit" value="Submit" className="btn primary" />
-					</form>
+					</div>
+					<div>
+						<h1 className="mb-4">Contact Us</h1>
+						<form onSubmit={handleSubmit(onSubmit)}>
+							<div className="control">
+								<label htmlFor="name">Name</label>
+								<input type="text" {...register('name')} />
+								<p className="error">{errors.name?.message}</p>
+							</div>
+							<div className="control">
+								<label htmlFor="email">Email</label>
+								<input type="email"  {...register('email')} />
+								<p className="error">{errors.email?.message}</p>
+							</div>
+							<div className="control">
+								<label htmlFor="message">Message</label>
+								<textarea id="message" rows={10} {...register('message')} />
+								<p className="error">{errors.message?.message}</p>
+							</div>
+							<input type="submit" value="Submit" className="btn primary" />
+						</form>
+					</div>
 				</div>
 			</section>
 		</div>
