@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import app from '@lib/axios-config'
 import { toast } from 'react-toastify'
 import { toastErrorConfig, toastSuccessConfig } from '@lib/toast-defaults'
+import WaveBG from '@components/wave-bg'
 
 const contactSchema = yup.object({
 	name: yup.string().required('Name is required!'),
@@ -32,8 +33,9 @@ const Home: NextPage = () => {
 	})
 	return (
 		<div className={styles.home}>
-			<div className="main-height">
+			<div className="main-height relative">
 				<Image src="/landing.jpg" alt="Diver taking pictures" layout="fill" objectFit="cover" objectPosition="top" />
+				<WaveBG className="absolute -bottom-5 md:-bottom-8 lg:-bottom-10 xl:-bottom-16" />
 			</div>
 			<section>
 				<div className="grid md:grid-cols-2 gap-x-8 gap-y-12">
