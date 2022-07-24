@@ -1,16 +1,17 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import ProfileLayout from '../../components/layouts/profile-layout'
+import ProfileLayout from '@components/layouts/profile-layout'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useSWRImmutable from 'swr/immutable'
-import app from '../../lib/axios-config'
+import app from '@lib/axios-config'
 import { useSession } from "next-auth/react"
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { InferType } from 'yup'
-import userSchema from '../../models/user'
-import { toastSuccessConfig } from '../../lib/toast-defaults'
+import userSchema from '@models/user'
+import { toastSuccessConfig } from '@lib/toast-defaults'
+import { NextPage } from 'next'
 
 const profileSchema = userSchema.pick(['firstName', 'lastName', 'affiliation', 'contactNumber'])
 type ProfileSchema = InferType<typeof profileSchema>
@@ -27,7 +28,7 @@ const useProfile = (id?: number) => {
 	}
 }
 
-const Profile: FC = () => {
+const Profile: NextPage = () => {
 	const router = useRouter()
 	const session = useSession({
 		required: true,

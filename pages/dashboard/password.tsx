@@ -1,13 +1,13 @@
-import { FC } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
 import ProfileLayout from '../../components/layouts/profile-layout'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import app from '../../lib/axios-config'
-import { toast } from 'react-toastify';
-import { toastErrorConfig, toastSuccessConfig } from '../../lib/toast-defaults';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import { toast } from 'react-toastify'
+import { toastErrorConfig, toastSuccessConfig } from '../../lib/toast-defaults'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { NextPage } from 'next'
 
 export interface IPasswordInputs {
 	oldPassword: string
@@ -22,7 +22,7 @@ const passwordSchema = yup.object({
 	confirmPassword: yup.string().oneOf([yup.ref('newPassword'), null], 'passwords must match')
 }).required()
 
-const Profile: FC = () => {
+const Profile: NextPage = () => {
 	const router = useRouter()
 	const session = useSession({
 		required: true,

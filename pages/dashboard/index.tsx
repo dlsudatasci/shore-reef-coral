@@ -1,3 +1,4 @@
+import LoadingSpinner from '@components/loading-spinner'
 import { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
@@ -10,13 +11,17 @@ import { toastErrorConfig } from '../../lib/toast-defaults'
 
 const Dashboard: NextPage = () => {
 	const router = useRouter()
-	useSession({
+	const { status } = useSession({
 		required: true,
 		onUnauthenticated() {
 			toast.error('Please login to continue.', toastErrorConfig)
 			router.replace('/login')
 		},
 	})
+
+	if (status == 'loading') {
+		return <DashboardLayout><LoadingSpinner className="main-height" borderColor="border-secondary" /></DashboardLayout>
+	}
 
 	return (
 		<DashboardLayout>
