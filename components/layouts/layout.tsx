@@ -36,8 +36,8 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 			</main>
 			<footer className="bg-primary py-8 px-4">
 				<div className="flex justify-between container mx-auto">
-					<div className="grid grid-cols-2 gap-x-4">
-						<div className="grid border-r-2 border-secondary pr-6">
+					<div className="grid grid-flow-col gap-x-4">
+						<div className="grid pr-2 self-start">
 							{navItems.flatMap(nav => (
 								nav.status == undefined || nav.status == status ?
 									<Link key={nav.path} href={nav.path}>
@@ -47,10 +47,15 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 									[]
 							))}
 						</div>
-						<div className="text-secondary">
-							<p>Email</p>
-							<p>Contact Number</p>
-							<p>Address</p>
+						<div className="text-secondary pl-4 border-l-2 border-secondary ">
+							<p>Br. Alfred Shields FSC Ocean Research (SHORE) Center</p>
+							<p>shorecenter@dlsu.edu.ph</p>
+							<p>524-4611 loc. 426</p>
+							<p>
+								3F Henry Sy Sr. Hall
+								De La Salle University
+								2401 Taft Avenue, Malate, Manila
+							</p>
 						</div>
 					</div>
 					<div className="text-secondary grid items-end">
