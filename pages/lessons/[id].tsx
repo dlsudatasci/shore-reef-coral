@@ -1,10 +1,4 @@
-import DashboardLayout from '@components/layouts/dashboard-layout'
-import LoadingSpinner from '@components/loading-spinner'
-import { toastErrorConfig } from '@lib/toast-defaults'
-import { useSession } from 'next-auth/react'
-import router from 'next/router'
 import { useState } from 'react'
-import { toast } from 'react-toastify'
 import cn from 'classnames'
 import { GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType, NextPage } from 'next'
 import { getLesson, getLessonIds, getLessons } from '@lib/lessons'
@@ -12,20 +6,6 @@ import Link from 'next/link'
 
 const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ lessons, lessonData }) => {
 	const [selected, setSelected] = useState<0 | 1>(0)
-	const { status } = useSession({
-		required: true,
-		onUnauthenticated() {
-			toast.error('Please login to continue.', toastErrorConfig)
-			router.replace('/login?from=/lessons')
-		},
-	})
-
-	if (status == 'loading')
-		return (
-			<DashboardLayout>
-				<LoadingSpinner className="main-height" borderColor="border-secondary" />
-			</DashboardLayout>
-		)
 
 	return (
 		<>
