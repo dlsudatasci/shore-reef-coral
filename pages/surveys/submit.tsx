@@ -3,11 +3,19 @@ import SURVEY_STEPS from '../../lib/survey-steps'
 import Steps from '../../components/steps'
 import Image from 'next/image'
 import usePageStore from '../../stores/page-store'
-import { MouseEventHandler } from 'react'
 import SurveyForms from '../../components/survey-form'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 const Contribute: NextPage = () => {
 	const { page, nextPage, prevPage } = usePageStore()
+	const router = useRouter()
+	const { status } = useSession({
+		required: true,
+		onUnauthenticated() {
+			router.replace('/login?from=/surveys/submit&error=Please login to continue.')
+		},
+	})
 
 	function onSubmit() {
 		if (page == SURVEY_STEPS.length - 1) {

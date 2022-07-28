@@ -4,18 +4,15 @@ import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { toast } from 'react-toastify'
 import DashboardLayout from '../../components/layouts/dashboard-layout'
 import SurveyList from '../../components/survey-list'
-import { toastErrorConfig } from '../../lib/toast-defaults'
 
 const Dashboard: NextPage = () => {
 	const router = useRouter()
 	const { status } = useSession({
 		required: true,
 		onUnauthenticated() {
-			toast.error('Please login to continue.', toastErrorConfig)
-			router.replace('/login')
+			router.replace('/login?error=Please login to continue.')
 		},
 	})
 

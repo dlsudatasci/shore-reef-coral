@@ -6,12 +6,10 @@ import Image from 'next/image'
 import userSchema from '../models/user'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { toast } from 'react-toastify'
-import { toastErrorConfig } from '../lib/toast-defaults'
 import Alert from '../components/alert'
 import Head from 'next/head'
 import { InferType } from 'yup'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const loginSchema = userSchema.pick(['email', 'password'])
 
@@ -19,6 +17,12 @@ const Login: NextPage = () => {
 	const { status } = useSession()
 	const router = useRouter()
 	const [message, setMessage] = useState('')
+
+	useEffect(() => {
+		if (router.query.error) {
+			setMessage(router.query.error as string)
+		}
+	}, [router.query])
 
 	if (status == 'authenticated') {
 		router.replace(router.query.from as string ?? '/dashboard')
@@ -36,7 +40,7 @@ const Login: NextPage = () => {
 		if (res?.status == 401 && res.error) {
 			setMessage(res.error)
 		} else if (!res?.ok) {
-			toast.error('A server-side error has occured! Please try again later.', toastErrorConfig)
+			setMessage('A server-side error has occured! Please try again later.')
 		}
 	})
 

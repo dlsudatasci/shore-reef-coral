@@ -27,8 +27,7 @@ const Profile: NextPage = () => {
 	const session = useSession({
 		required: true,
 		onUnauthenticated() {
-			toast.error('Unauthorized. Please login to continue')
-			router.replace('/login?from=/dashboard/profile')
+			router.replace('/login?from=/dashboard/profile&error=Please login to continue.')
 		},
 	})
 	const { register, handleSubmit, setError, reset, formState: { errors } } = useForm<IPasswordInputs>({
