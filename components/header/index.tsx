@@ -107,8 +107,12 @@ const Header: FC = () => {
 							<Disclosure.Panel className="lg:hidden relative bg-white">
 								<div className="px-2 pt-2 pb-3 space-y-1">
 									{navItems.map(nav => <MobNavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome} onClick={close} />)}
-									<MobNavItem text="Login" path="/login" onClick={close} />
-									<MobNavItem text="Sign Up" path="/register" onClick={close} />
+									{status != 'authenticated' &&
+										<>
+											<MobNavItem text="Login" path="/login" onClick={close} />
+											<MobNavItem text="Sign Up" path="/register" onClick={close} />
+										</>
+									}
 								</div>
 							</Disclosure.Panel>
 						</Transition>
