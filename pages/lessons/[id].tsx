@@ -37,7 +37,7 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ less
 				</div>
 			</section>
 			<section className="py-10">
-				<div className="container mx-auto text-primary">
+				<div className="container mx-auto text-primary max-w-6xl">
 					<div className="outline-primary outline-2 outline w-min flex font-comic-cat">
 						<button className={cn('p-2 w-24 block', { 'bg-primary text-secondary': !selected })} onClick={() => setSelected(0)}>Lesson</button>
 						<button className={cn('p-2 w-24 block', { 'bg-primary text-secondary': selected })} onClick={() => setSelected(1)}>Resources</button>

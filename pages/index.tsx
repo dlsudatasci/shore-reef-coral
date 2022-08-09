@@ -45,7 +45,7 @@ const Home: NextPage = () => {
 							<Image src="/mask-light.png" alt="Mask icon" width={50} height={50} />
 						</div>
 						<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi iste sunt sit quod corporis magnam voluptates veniam aperiam, facilis aspernatur quo quidem laudantium. Ea possimus sit officia perferendis vel mollitia!</p>
-						<Link href="/surveys">
+						<Link href="/surveys/submit">
 							<a className="btn secondary w-72">Submit a survey</a>
 						</Link>
 					</div>

@@ -1,9 +1,9 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import SurveySection from '../../components/survey-section'
-import sectionsTemplate from '../../models/survey-summary'
-import styles from '../../styles/survey-display.module.css'
+import SurveySection from '@components/survey-section'
+import sectionsTemplate from '@models/survey-summary'
+import styles from '@styles/survey-display.module.css'
 import { ChevronLeftIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
 
@@ -50,7 +50,7 @@ const Survey: NextPage = () => {
 				</div>
 			</section>
 
-			<section>
+			<section className="mb-20">
 				<div className="grid max-w-3xl mx-auto gap-y-8">
 					{sectionsTemplate.map(e => <SurveySection key={e.title} title={e.title} subsections={e.subsections} />)}
 				</div>

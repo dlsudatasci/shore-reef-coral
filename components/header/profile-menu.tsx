@@ -1,7 +1,7 @@
 import { Menu, Transition } from '@headlessui/react'
 import cn from 'classnames'
 import { FC, Fragment, forwardRef, ReactNode, Ref } from 'react'
-import { UserIcon } from '@heroicons/react/solid'
+import { ChevronDownIcon, UserIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 import { signOut, useSession } from "next-auth/react"
 import { LogoutIcon } from '@heroicons/react/outline'
@@ -33,9 +33,12 @@ const ProfileMenu: FC = () => {
 	return (
 		<Menu as="div" className="ml-3 relative">
 			<div>
-				<Menu.Button className="bg-secondary p-1.5 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-white">
+				<Menu.Button className="flex items-center">
 					<span className="sr-only">Open user menu</span>
-					<UserIcon className="w-7 h-7 text-primary" />
+					<div className="bg-secondary p-1.5 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-white">
+						<UserIcon className="w-7 h-7 text-primary" />
+					</div>
+					<ChevronDownIcon className="w-4 h-4 text-secondary" />
 				</Menu.Button>
 			</div>
 			<Transition
