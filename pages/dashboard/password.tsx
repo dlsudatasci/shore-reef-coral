@@ -35,7 +35,7 @@ const Profile: NextPage = () => {
 	})
 	const onSubmit = handleSubmit(async details => {
 		const { status, data } = await app.patch<Partial<IPasswordInputs>>(
-			`/api/users/${session.data?.user.id}/password`, details
+			`/users/${session.data?.user.id}/password`, details
 		)
 
 		if (status != 200) {

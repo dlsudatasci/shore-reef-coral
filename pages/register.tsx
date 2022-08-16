@@ -30,7 +30,7 @@ const Register: NextPage = () => {
 		resolver: yupResolver(registerSchema)
 	})
 	const onSubmit = handleSubmit(async details => {
-		const { status, data } = await app.post<Partial<RegisterSchema>>('/api/users', details)
+		const { status, data } = await app.post<Partial<RegisterSchema>>('/users', details)
 
 		if (status === 200) {
 			if (!Object.keys(data).length) { // no errors

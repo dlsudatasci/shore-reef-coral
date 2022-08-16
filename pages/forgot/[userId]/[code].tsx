@@ -34,7 +34,7 @@ const Reset: NextPage = () => {
 	// checks if link provided is valid, otherwise redirect to forgot password form
 	useEffect(() => {
 		if (router.query.userId) {
-			app.get<boolean>(`/api/forgot/${router.query.userId}/${router.query.code}`)
+			app.get<boolean>(`/forgot/${router.query.userId}/${router.query.code}`)
 				.then(({ data: isValid }) => {
 					if (!isValid) {
 						toast.error('The reset password link is invalid.')
@@ -46,7 +46,7 @@ const Reset: NextPage = () => {
 
 	const onSubmit = handleSubmit(async data => {
 		try {
-			const { data: errors } = await app.patch<IReset>(`/api/forgot/${router.query.userId}/${router.query.code}`, data)
+			const { data: errors } = await app.patch<IReset>(`/forgot/${router.query.userId}/${router.query.code}`, data)
 
 			if (!Object.keys(errors).length) {
 				toast.success('Password reset successful!', toastSuccessConfig)

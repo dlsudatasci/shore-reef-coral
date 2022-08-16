@@ -18,7 +18,7 @@ type ProfileSchema = InferType<typeof profileSchema>
 
 const fetcher = (url: string) => app.get<ProfileSchema>(url)
 const useProfile = (id?: number) => {
-	const { data, error, mutate } = useSWRImmutable(id ? `/api/users/${id}` : null, fetcher)
+	const { data, error, mutate } = useSWRImmutable(id ? `/users/${id}` : null, fetcher)
 	
 	return {
 		data,
@@ -46,7 +46,7 @@ const Profile: NextPage = () => {
 			data.data = details // update cache
 		}
 
-		await mutate(app.patch<ProfileSchema>(`/api/users/${session.data?.user.id}`, details), {
+		await mutate(app.patch<ProfileSchema>(`/users/${session.data?.user.id}`, details), {
 			optimisticData: data,
 			revalidate: false,
 			rollbackOnError: true,

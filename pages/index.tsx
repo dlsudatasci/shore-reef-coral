@@ -20,7 +20,7 @@ export type ContactSchema = yup.InferType<typeof contactSchema>
 
 async function onSubmit(data: ContactSchema) {
 	try {
-		await app.post('/api/contact-us', data)
+		await app.post('/contact-us', data)
 		toast.success('Email was sent!', toastSuccessConfig)
 	} catch {
 		toast.error('An error has occurred', toastErrorConfig)

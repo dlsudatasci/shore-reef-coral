@@ -29,7 +29,7 @@ const Forgot: NextPage = () => {
 
 	const onSubmit = handleSubmit(async details => {
 		setIsSending(true)
-		const { data, status } = await app.post('/api/forgot', details)
+		const { data, status } = await app.post('/forgot', details)
 		setIsSending(false)
 
 		if (status !== 200) {
