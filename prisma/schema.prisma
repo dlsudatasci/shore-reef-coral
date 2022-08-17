@@ -25,6 +25,11 @@ model User {
 model Team {
   id              Int               @id @default(autoincrement())
   name            String
+  province        String
+  town            String
+  barangay        String
+  affiliation     String
+  isVerified      Boolean
   UsersOnTeam     UsersOnTeams[]
   Survey          Survey[]
   CoralAssessment CoralAssessment[]
