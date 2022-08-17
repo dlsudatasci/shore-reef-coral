@@ -8,22 +8,31 @@ generator client {
 }
 
 model User {
-  id             Int               @id @default(autoincrement())
-  email          String            @unique
-  password       String
-  salt           String
-  firstName      String
-  lastName       String
-  affiliation    String?
-  contactNumber  String?
-  UsersOnTeam    UsersOnTeams[]
-  PasswordRevery PasswordRecovery?
+  id               Int               @id @default(autoincrement())
+  email            String            @unique
+  password         String
+  salt             String
+  firstName        String
+  lastName         String
+  affiliation      String?
+  contactNumber    String?
+  UsersOnTeam      UsersOnTeams[]
+  PasswordRecovery PasswordRecovery?
+  Survey           Survey[]
+  CoralAssessment  CoralAssessment[]
 }
 
 model Team {
-  id          Int            @id @default(autoincrement())
-  name        String
-  UsersOnTeam UsersOnTeams[]
+  id              Int               @id @default(autoincrement())
+  name            String
+  province        String
+  town            String
+  barangay        String
+  affiliation     String
+  isVerified      Boolean
+  UsersOnTeam     UsersOnTeams[]
+  Survey          Survey[]
+  CoralAssessment CoralAssessment[]
 }
 
 model UsersOnTeams {
@@ -42,4 +51,97 @@ model PasswordRecovery {
   userId Int    @id
   user   User   @relation(fields: [userId], references: [id])
   code   String
+}
+
+model ManagementType {
+  id     Int      @id @default(autoincrement())
+  type   String
+  Survey Survey[]
+}
+
+model Survey {
+  id               Int            @id @default(autoincrement())
+  date             DateTime
+  stationName      String
+  startLongtitude  Float
+  startLatitue     Float
+  secondLongtitude Float
+  secondLatitude   Float
+  gpsDatum         String
+  barangay         String
+  town             String
+  province         String
+  additionalInfo   String
+  managementTypeId Int
+  managementType   ManagementType @relation(fields: [managementTypeId], references: [id])
+  teamId           Int
+  team             Team           @relation(fields: [teamId], references: [id])
+  leaderId         Int
+  leader           User           @relation(fields: [leaderId], references: [id])
+  scientist        String
+  volunteer1       String
+  volunteer2       String
+  volunteer3       String
+  volunteer4       String?
+  C30ImageSet      C30ImageSet?
+  SurveyFile       SurveyFile?
+}
+
+model C30ImageSet {
+  id              Int               @id @default(autoincrement())
+  surveyId        Int               @unique
+  survey          Survey            @relation(fields: [surveyId], references: [id])
+  imageCount      Int
+  C30Image        C30Image[]
+  CoralAssessment CoralAssessment[]
+}
+
+model C30Image {
+  id         Int         @id @default(autoincrement())
+  imageSetId Int
+  imageSet   C30ImageSet @relation(fields: [imageSetId], references: [id])
+  fileName   String
+  CoralInfo  CoralInfo[]
+}
+
+model CoralAssessment {
+  id         Int         @id @default(autoincrement())
+  imageSetId Int
+  imageSet   C30ImageSet @relation(fields: [imageSetId], references: [id])
+  teamId     Int
+  team       Team        @relation(fields: [teamId], references: [id])
+  leaderId   Int
+  leader     User        @relation(fields: [leaderId], references: [id])
+  scientist  String
+  volunteer1 String
+  volunteer2 String
+  volunteer3 String
+  volunteer4 String?
+  CoralInfo  CoralInfo[]
+}
+
+model CoralInfo {
+  id                Int             @id @default(autoincrement())
+  coralAssessmentId Int
+  coralAssessment   CoralAssessment @relation(fields: [coralAssessmentId], references: [id])
+  imageId           Int
+  image             C30Image        @relation(fields: [imageId], references: [id])
+  point1            String
+  point2            String
+  point3            String
+  point4            String
+  point5            String
+  point6            String
+  point7            String
+  point8            String
+  point9            String
+  point10           String
+}
+
+model SurveyFile {
+  id            Int    @id @default(autoincrement())
+  surveyId      Int    @unique
+  survey        Survey @relation(fields: [surveyId], references: [id])
+  excelFilePath String
+  cpceFilePath  String
 }
