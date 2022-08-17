@@ -29,6 +29,10 @@
 		@apply block
 	}
 
+	label.required {
+		@apply after:content-['_*']
+	}
+
 	select,
 	textarea,
 	[type='text'],
@@ -55,7 +59,7 @@
 	}
 
   .btn {
-    @apply grid place-items-center rounded-full px-10 h-10 font-comic-cat text-xl cursor-pointer transition-colors outline-none focus:ring-2 focus:ring-inset;
+    @apply flex items-center justify-center rounded-full px-10 h-10 font-comic-cat text-xl cursor-pointer transition-colors outline-none focus:ring-2 focus:ring-inset;
   }
 
   .btn.primary {
@@ -67,7 +71,7 @@
   }
 
   .btn.highlight {
-    @apply bg-highlight;
+    @apply bg-highlight text-t-highlight hover:bg-yellow-600 focus:ring-highlight;
   }
 
 	.btn.primary:disabled, .btn.secondary:disabled, .btn.highlight:disabled {
