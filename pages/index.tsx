@@ -9,6 +9,11 @@ import app from '@lib/axios-config'
 import { toast } from 'react-toastify'
 import { toastErrorConfig, toastSuccessConfig } from '@lib/toast-defaults'
 import WaveBG from '@components/wave-bg'
+import GetInvolvedButton from '@components/get-involved-button'
+import Laptop from '@components/icons/laptop'
+import Mask from '@components/icons/mask'
+import Coral from '@components/icons/coral'
+import Camera from '@components/icons/camera'
 
 const contactSchema = yup.object({
 	name: yup.string().required('Name is required!'),
@@ -41,67 +46,81 @@ const Home: NextPage = () => {
 				<div className="grid md:grid-cols-2 gap-x-8 gap-y-12">
 					<div className="place-self-center">
 						<div className={styles.header}>
-							<h1>Heading</h1>
-							<Image src="/mask-light.png" alt="Mask icon" width={50} height={50} />
+							<h1>Reef Mo,</h1>
+							<Mask className="fill-secondary w-16" />
 						</div>
-						<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi iste sunt sit quod corporis magnam voluptates veniam aperiam, facilis aspernatur quo quidem laudantium. Ea possimus sit officia perferendis vel mollitia!</p>
+						<h1 className="-mt-4 mb-4">I-monitor mo!</h1>
+						<p>
+							Reef Mo is every citizen scientist&apos;s one-stop shop for reef monitoring in
+							the Philippines. Here, we bring experts and citizen scientists together to study
+							reefs, collaborate, and share reef survey data and learning materials.
+						</p>
 						<Link href="/surveys/submit">
-							<a className="btn secondary w-72">Submit a survey</a>
+							<a className="btn secondary w-72">Dive In</a>
 						</Link>
 					</div>
 					<div className="relative">
 						<Image src="/landing-1.jpg" layout="responsive" width="1920" height="1283" alt="A research team" objectFit="contain" />
 					</div>
 				</div>
-			</section>
-			<section>
-				<div className="!max-w-prose mx-auto">
-					<div className={styles.header}>
-						<h1>Heading</h1>
-						<Image src="/mask-dark.png" alt="Mask icon" width={50} height={50} />
-					</div>
-					<p>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur molestiae nihil
-						error deleniti veritatis tempora, ipsum aliquid placeat reprehenderit, voluptate aut quidem,
-						officiis laboriosam. Dicta cum ratione distinctio numquam modi!
-					</p>
-					<Link href="/lessons">
-						<a className="btn primary">Take the course</a>
-					</Link>
+				<div className="flex justify-center space-x-6 mx-auto mt-12">
+					<div className={styles.logo} />
+					<div className={styles.logo} />
+					<div className={styles.logo} />
+					<div className={styles.logo} />
 				</div>
 			</section>
-			<section>
-				<div className="grid md:grid-cols-2 gap-x-8 gap-y-12">
-					<Image src="/landing-2.jpg" alt="Diver" layout="responsive" width={1132} height={723} />
-					<div className="place-self-center">
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem odit reprehenderit
-							minus ex sit ab eaque cupiditate facilis. Dolorum exercitationem fuga ipsa esse quas quia
-							voluptates! Sunt accusantium amet alias?
+			<section className={styles.secondary}>
+				<div className="!max-w-2xl mx-auto">
+					<div className="aspect-video col-span-full bg-primary mb-8">
+					</div>
+					<div className="grid sm:grid-cols-[3fr_7fr] items-start">
+						<div className={styles.header}>
+							<h1>About<br />Us</h1>
+						</div>
+						<div>
+							<p>
+								ReefMo aims to empower ordinary citizens to monitor their reefs using the
+								Alwan methods and see results in real time. These methods were developed in
+								cooperation between the academe, citizen scientists, and DOST-PCAARRD.
+							</p>
+							<Link href="/lessons">
+								<a className="btn primary w-56">Dive Deeper</a>
+							</Link>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section className="relative min-h-[50vh]">
+				<Image src="/landing-2.jpg" alt="Diver" layout="fill" objectFit="cover" className="z-0" />
+				<div className="grid place-items-center h-full relative z-10">
+					<div className="max-w-md text-center grid justify-items-center gap-y-4">
+						<h1>Become a<br />citizen scientist</h1>
+						<p className="max-w-xs">
+							Want to become a citizen scientist? Take our online course and learn how you can help survey our reefs.
 						</p>
-						<Link href="/about">
-							<a className="btn secondary w-52">About</a>
+						<Link href="/lessons">
+							<a className="btn secondary">Take the course</a>
 						</Link>
 					</div>
 				</div>
-				<div className="flex justify-between !max-w-2xl mx-auto mt-12">
-					<div className={styles.logo} />
-					<div className={styles.logo} />
-					<div className={styles.logo} />
-					<div className={styles.logo} />
+			</section>
+			<section className="min-h-[50vh] text-center">
+				<div className="grid place-items-center gap-y-8">
+					<h1 className="text-5xl sm:text-7xl">Get Involved!</h1>
+					<div className="grid grid-cols-2 sm:grid-cols-4 gap-8 font-comic-cat text-xl leading-6">
+						<GetInvolvedButton icon={<Laptop />} href="/register" text="Sign up" />
+						<GetInvolvedButton icon={<Mask />} href="/teams" text="Join a team" />
+						<GetInvolvedButton icon={<Coral />} href="/lessons" text="Take the course" />
+						<GetInvolvedButton icon={<Camera />} href="/surveys/create" text="Conduct a survey" />
+					</div>
 				</div>
 			</section>
-			<section>
-				<div className="!max-w-2xl grid md:grid-cols-[180px_1fr] gap-x-6">
-					<div className="hidden md:grid h-min">
-						<div className="self-start">
-							<Image src="/mask-dark.png" alt="Mask Icon" width={140} height={140} />
-						</div>
-						<div className="justify-self-end">
-							<Image src="/camera-dark.png" alt="Camera Icon" width={140} height={140} />
-						</div>
-						<div className="justify-self-start">
-							<Image src="/fins-dark.png" alt="Flipper Icon" width={140} height={140} />
+			<section className={styles.secondary}>
+				<div className="!max-w-2xl grid md:grid-cols-[200px_1fr] gap-x-6">
+					<div className="hidden sm:flex items-center">
+						<div className="h-3/4 relative aspect-[600/775] -left-28 lg:-left-40 -rotate-12">
+							<Image src="/landing-3.png" alt="Diver" layout="fill" />
 						</div>
 					</div>
 					<div>
@@ -122,7 +141,7 @@ const Home: NextPage = () => {
 								<textarea id="message" rows={10} {...register('message')} />
 								<p className="error">{errors.message?.message}</p>
 							</div>
-							<input type="submit" value="Submit" className="btn primary" />
+							<input type="submit" value="Submit" className="btn primary mt-8" />
 						</form>
 					</div>
 				</div>

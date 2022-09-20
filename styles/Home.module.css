@@ -7,7 +7,11 @@
 }
 
 .home section {
-	@apply py-24 px-4 sm:px-6 odd:bg-secondary odd:text-primary even:text-secondary
+	@apply py-24 px-4 sm:px-6 text-secondary
+}
+
+.home section.secondary {
+ @apply bg-secondary text-primary 
 }
 
 .home section > div {

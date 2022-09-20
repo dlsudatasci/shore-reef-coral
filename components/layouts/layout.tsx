@@ -35,7 +35,7 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 				{children}
 			</main>
 			<footer className="bg-primary py-8 px-4">
-				<div className="flex justify-between container mx-auto">
+				<div className="flex justify-between container mx-auto flex-wrap">
 					<div className="grid grid-flow-col gap-x-4">
 						<div className="grid pr-2 self-start">
 							{navItems.flatMap(nav => (
