@@ -64,10 +64,10 @@ const Home: NextPage = () => {
 					</div>
 				</div>
 				<div className="flex justify-center space-x-6 mx-auto mt-12">
-					<div className={styles.logo} />
-					<div className={styles.logo} />
-					<div className={styles.logo} />
-					<div className={styles.logo} />
+					<Image src="/logos/DLSU.png" width={75} height={75} alt="DLSU Logo" />
+					<Image src="/logos/DSI.png" width={75} height={75} alt="DSI Logo" />
+					<Image src="/logos/SHORE.png" width={75} height={75} alt="SHORE Logo" />
+					<Image src="/logos/DOST.png" width={75} height={75} alt="DOST Logo" />
 				</div>
 			</section>
 			<section className={styles.secondary}>
@@ -84,7 +84,7 @@ const Home: NextPage = () => {
 								Alwan methods and see results in real time. These methods were developed in
 								cooperation between the academe, citizen scientists, and DOST-PCAARRD.
 							</p>
-							<Link href="/lessons">
+							<Link href="/about">
 								<a className="btn primary w-56">Dive Deeper</a>
 							</Link>
 						</div>
@@ -106,13 +106,13 @@ const Home: NextPage = () => {
 				</div>
 			</section>
 			<section className="min-h-[50vh] text-center">
-				<div className="grid place-items-center gap-y-8">
+				<div className="grid place-items-center gap-y-16">
 					<h1 className="text-5xl sm:text-7xl">Get Involved!</h1>
 					<div className="grid grid-cols-2 sm:grid-cols-4 gap-8 font-comic-cat text-xl leading-6">
 						<GetInvolvedButton icon={<Laptop />} href="/register" text="Sign up" />
 						<GetInvolvedButton icon={<Mask />} href="/teams" text="Join a team" />
 						<GetInvolvedButton icon={<Coral />} href="/lessons" text="Take the course" />
-						<GetInvolvedButton icon={<Camera />} href="/surveys/create" text="Conduct a survey" />
+						<GetInvolvedButton icon={<Camera />} href="/surveys/submit" text="Conduct a survey" />
 					</div>
 				</div>
 			</section>

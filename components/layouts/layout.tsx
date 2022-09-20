@@ -4,6 +4,7 @@ import Header from '../header'
 import ScrollToTop from '../scroll-to-top'
 import { navItems } from '../header'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 
 export const siteTitle = 'Reef Mo'
@@ -35,7 +36,7 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 				{children}
 			</main>
 			<footer className="bg-primary py-8 px-4">
-				<div className="flex justify-between container mx-auto flex-wrap">
+				<div className="flex justify-between container mx-auto flex-wrap space-y-8">
 					<div className="grid grid-flow-col gap-x-4">
 						<div className="grid pr-2 self-start">
 							{navItems.flatMap(nav => (
@@ -47,7 +48,7 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 									[]
 							))}
 						</div>
-						<div className="text-secondary pl-4 border-l-2 border-secondary ">
+						<div className="text-secondary pl-4 border-l-2 border-secondary max-w-sm">
 							<p>Br. Alfred Shields FSC Ocean Research (SHORE) Center</p>
 							<p>shorecenter@dlsu.edu.ph</p>
 							<p>524-4611 loc. 426</p>
@@ -58,7 +59,13 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 							</p>
 						</div>
 					</div>
-					<div className="text-secondary grid items-end">
+					<div className="text-secondary flex flex-col justify-end space-y-2 text-center sm:text-right w-full sm:w-auto">
+						<div className="flex justify-center">
+							<Image src="/logos/DLSU.png" width={45} height={45} alt="DLSU Logo" />
+							<Image src="/logos/DSI.png" width={45} height={45} alt="DSI Logo" />
+							<Image src="/logos/SHORE.png" width={45} height={45} alt="SHORE Logo" />
+							<Image src="/logos/DOST.png" width={45} height={45} alt="DOST Logo" />
+						</div>
 						<p>Copyright {new Date().getFullYear()}</p>
 					</div>
 				</div>

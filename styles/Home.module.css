@@ -29,7 +29,3 @@
 .home p + a {
 	@apply mt-6
 }
-
-.logo {
-	@apply w-16 md:w-20 aspect-square bg-secondary rounded-full
-}
