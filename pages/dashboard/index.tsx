@@ -9,6 +9,8 @@ import DashboardLayout from '@components/layouts/dashboard-layout'
 import SurveyList from '@components/survey-list'
 import { UsersOnTeams } from '@prisma/client'
 import Link from 'next/link'
+import Laptop from '@components/icons/laptop'
+import Camera from '@components/icons/camera'
 
 const Dashboard: NextPage = () => {
 	const router = useRouter()
@@ -30,9 +32,9 @@ const Dashboard: NextPage = () => {
 				<title>Reef Mo | Dashboard</title>
 			</Head>
 			<div className="grid place-items-center mt-20">
-				<div className="flex items-center border-secondary border px-8 py-4">
+				<div className="flex items-center border-secondary border py-4 px-2">
 					<h1 className="mr-4 font-comic-cat text-secondary">Dashboard</h1>
-					<Image src="/laptop-light.png" alt="Laptop Icon" width={60} height={60} />
+					<Laptop className="w-14 fill-secondary" />
 				</div>
 			</div>
 			{teams.length !== 0 ?
@@ -41,9 +43,9 @@ const Dashboard: NextPage = () => {
 					<SurveyList className="mt-8" />
 				</>
 				:
-				<div className="rounded-md bg-highlight flex items-center space-x-4 px-6 py-3 mt-8">
-					<Image src="/camera-dark.png" alt="Camera Icon" width={50} height={50} />
-					<h3 className="flex-1 text-t-highlight text-2xl font-comic-cat">You are not yet in a volunteer team!</h3>
+				<div className="rounded-md bg-highlight flex items-center px-6 py-3 mt-8">
+					<Camera className="fill-primary w-12 hidden sm:block" />
+					<h3 className="flex-1 text-t-highlight md:text-2xl text-base font-comic-cat">You are not yet in a volunteer team!</h3>
 					<Link href="/teams">
 						<a className="btn primary">Join a Team</a>
 					</Link>

@@ -1,16 +1,16 @@
 import { NextPage } from 'next'
-import SURVEY_STEPS from '../../lib/survey-steps'
-import Steps from '../../components/steps'
-import Image from 'next/image'
-import usePageStore from '../../stores/page-store'
-import SurveyForms from '../../components/survey-form'
+import SURVEY_STEPS from '@lib/survey-steps'
+import Steps from '@components/steps'
+import usePageStore from '@stores/page-store'
+import SurveyForms from '@components/survey-form'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import Mask from '@components/icons/mask'
 
 const Contribute: NextPage = () => {
 	const { page, nextPage, prevPage } = usePageStore()
 	const router = useRouter()
-	const { status } = useSession({
+	useSession({
 		required: true,
 		onUnauthenticated() {
 			router.replace('/login?from=/surveys/submit&error=Please login to continue.')
@@ -36,7 +36,7 @@ const Contribute: NextPage = () => {
 			<div className="bg-cover pt-28 pb-14 grid gap-y-20 place-items-center" style={{ backgroundImage: 'url("/beach-bg.jpg")' }}>
 				<div className="flex justify-center border-secondary border-2 items-center py-6 px-8">
 					<h1 className="font-comic-cat text-secondary text-center mr-4">SUBMIT A SURVEY</h1>
-					<Image src="/mask-light.png" alt="Mask Icon" width={60} height={60} layout="fixed" />
+					<Mask className="fill-secondary w-16" />
 				</div>
 				<div className="mb-10 w-[600px]">
 					<Steps steps={SURVEY_STEPS} />

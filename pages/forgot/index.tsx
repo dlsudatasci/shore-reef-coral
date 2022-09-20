@@ -1,15 +1,15 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { NextPage } from 'next'
-import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import Link from 'next/link'
-import app from '../../lib/axios-config'
-import Alert from '../../components/alert'
+import app from '@lib/axios-config'
+import Alert from '@components/alert'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import userSchema from '../../models/user'
+import userSchema from '@models/user'
 import { InferType } from 'yup'
+import ButterflyFish from '@components/icons/butterfly-fish'
 
 const forgotSchema = userSchema.pick(['email'])
 
@@ -40,13 +40,13 @@ const Forgot: NextPage = () => {
 			setNotif('Oops! The email you entered does not have a registered account. Please register.')
 		}
 	})
-
+	// TODO: Fix
 	return (
 		<div className="grid place-items-center px-4 sm:px-0 py-10 sm:pt-0">
 			<div className="bg-primary sm:w-[600px] w-full sm:px-12 p-8 rounded-lg">
 				<div className="flex mb-6">
 					<h2 className="font-comic-cat text-secondary mr-4">FORGOT PASSWORD</h2>
-					<Image src="/butterfly-fish-light.png" alt="Fish Icon" layout="fixed" width={40} height={40} />
+					<ButterflyFish className="fill-secondary w-10" />
 				</div>
 				{email == '' ?
 					<>

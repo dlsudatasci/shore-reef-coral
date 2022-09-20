@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import userSchema from '../models/user'
-import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import app from '../lib/axios-config'
@@ -13,6 +12,7 @@ import Head from 'next/head'
 import { InferType } from 'yup'
 import Alert from '../components/alert'
 import { useState } from 'react'
+import Clam from '@components/icons/clam'
 
 const registerSchema = userSchema.pick(['email', 'password', 'firstName', 'lastName', 'affiliation'])
 type RegisterSchema = InferType<typeof registerSchema>
@@ -55,9 +55,9 @@ const Register: NextPage = () => {
 				<title>Reef Mo | Register</title>
 			</Head>
 			<div className="bg-primary sm:w-[600px] w-full sm:px-12 p-8 rounded-lg">
-				<div className="flex">
-					<h2 className="font-comic-cat text-secondary mb-6 mr-4">REGISTER</h2>
-					<Image src="/clam-light.png" alt="Fish Icon" layout="fixed" width={40} height={40} />
+				<div className="flex items-center mb-6 space-x-4">
+					<h2 className="font-comic-cat text-secondary">REGISTER</h2>
+					<Clam className="fill-secondary w-10" />
 				</div>
 				{isTaken &&
 					<Alert isError message='An account is already registered with your email address. Please log in.' />
