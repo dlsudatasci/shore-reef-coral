@@ -28,8 +28,8 @@ model Team {
   province        String
   town            String
   barangay        String
-  affiliation     String
-  isVerified      Boolean
+  affiliation     String?
+  isVerified      Boolean           @default(false)
   UsersOnTeam     UsersOnTeams[]
   Survey          Survey[]
   CoralAssessment CoralAssessment[]
@@ -40,11 +40,13 @@ model UsersOnTeams {
   teamId      Int
   user        User    @relation(fields: [userId], references: [id])
   userId      Int
-  isLeader    Boolean
-  isScientist Boolean
-  status      String
+  isLeader    Boolean @default(false)
+  isScientist Boolean @default(false)
+  status      String  @default("pending")
 
   @@id([teamId, userId])
+  @@index([isLeader])
+  @@index([status])
 }
 
 model PasswordRecovery {
