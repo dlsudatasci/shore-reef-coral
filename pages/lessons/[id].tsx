@@ -3,6 +3,7 @@ import cn from 'classnames'
 import { GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType, NextPage } from 'next'
 import { getLesson, getLessonIds, getLessons } from '@lib/lessons'
 import Link from 'next/link'
+import styles from '@styles/Lesson.module.css'
 
 const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ lessons, lessonData }) => {
 	const [selected, setSelected] = useState<0 | 1>(0)
@@ -37,14 +38,12 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ less
 				</div>
 			</section>
 			<section className="py-10">
-				<div className="container mx-auto text-primary max-w-6xl">
-					<div className="outline-primary outline-2 outline w-min flex font-comic-cat">
+				<div className="container mx-auto text-primary max-w-6xl px-4">
+					<div className="outline-primary outline-2 outline w-min flex font-comic-cat mb-8">
 						<button className={cn('p-2 w-24 block', { 'bg-primary text-secondary': !selected })} onClick={() => setSelected(0)}>Lesson</button>
 						<button className={cn('p-2 w-24 block', { 'bg-primary text-secondary': selected })} onClick={() => setSelected(1)}>Resources</button>
 					</div>
-
-					<h1 className="font-comic-cat mt-8">Title</h1>
-					<div dangerouslySetInnerHTML={{ __html: lessonData.contentHtml }} />
+					<article className={styles.lesson} dangerouslySetInnerHTML={{ __html: lessonData.contentHtml }} />
 				</div>
 			</section >
 		</>
