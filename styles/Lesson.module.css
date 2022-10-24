@@ -35,6 +35,18 @@
 	@apply list-decimal ml-12
 }
 
+.lesson ol ol {
+	@apply list-[lower-alpha]
+}
+
+.lesson ol ol ol {
+	@apply list-[lower-roman]
+}
+
+.lesson li img {
+	@apply h-48 rounded-sm mb-4
+}
+
 .lesson h1 {
 	@apply text-4xl
 }
