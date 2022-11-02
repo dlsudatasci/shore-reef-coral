@@ -43,6 +43,10 @@
 	@apply list-[lower-roman]
 }
 
+.lesson ul {
+	@apply list-disc ml-12
+}
+
 .lesson li img {
 	@apply h-48 rounded-sm mb-4
 }

@@ -32,9 +32,7 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ less
 							</tbody>
 						</table>
 					</div>
-					<p className="max-w-prose sm:col-span-2">
-						{lessonData.description}
-					</p>
+					<p className="max-w-prose sm:col-span-2" dangerouslySetInnerHTML={{ __html: lessonData.description }} />
 				</div>
 			</section>
 			<section className="py-10">
