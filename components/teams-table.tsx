@@ -59,9 +59,9 @@ const TeamsTable = ({ data }: TeamsTableProps) => {
 				/>
 				<DebouncedInput
 					type="text"
-					placeholder="Location"
-					value={table.getColumn('location').getFilterValue() as string}
-					onChange={value => table.getColumn('location').setFilterValue(value)}
+					placeholder="Leader"
+					value={table.getColumn('leader').getFilterValue() as string}
+					onChange={value => table.getColumn('leader').setFilterValue(value)}
 				/>
 			</div>
 			<div className="space-y-1.5">
