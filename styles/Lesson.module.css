@@ -14,7 +14,11 @@
 	@apply place-self-center max-h-72
 }
 
-.lesson img:has(+ img), .lesson img+img {
+.lesson p img:nth-child(odd) {
+	@apply col-span-2
+}
+
+.lesson img:nth-child(odd):has(+ img), .lesson img+img {
 	@apply col-span-1
 }
 
@@ -25,6 +29,26 @@
 .lesson h5,
 .lesson h6 {
 	@apply font-semibold mt-6 mb-2
+}
+
+.lesson ol {
+	@apply list-decimal ml-12
+}
+
+.lesson ol ol {
+	@apply list-[lower-alpha]
+}
+
+.lesson ol ol ol {
+	@apply list-[lower-roman]
+}
+
+.lesson ul {
+	@apply list-disc ml-12
+}
+
+.lesson li img {
+	@apply h-48 rounded-sm mb-4
 }
 
 .lesson h1 {
