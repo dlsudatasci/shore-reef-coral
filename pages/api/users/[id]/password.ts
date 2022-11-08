@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient } from '@prisma/client'
 import { getToken } from "next-auth/jwt"
-import { hashPassword, matchPassword } from '../../../../lib/password-util'
-
-const prisma = new PrismaClient()
+import { hashPassword, matchPassword } from '@lib/password-util'
+import prisma from '@lib/prisma'
 
 const ChangeHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { body, method } = req

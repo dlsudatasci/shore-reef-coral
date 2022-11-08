@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient } from '@prisma/client'
-import { hashPassword } from '../../../lib/password-util'
-
-const prisma = new PrismaClient()
+import prisma from '@lib/prisma'
+import { hashPassword } from '@lib/password-util'
 
 const usersHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { body, method } = req

@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient } from '@prisma/client'
 import { sendPasswordReset } from '../../../lib/send-email'
 import { randomBytes } from 'crypto'
-
-const prisma = new PrismaClient()
+import prisma from '@lib/prisma'
 
 const ForgotHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { body, method } = req

@@ -1,9 +1,6 @@
-import { PrismaClient } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
-import userSchema from '../../../../models/user'
-import { InferType } from 'yup'
-
-const prisma = new PrismaClient()
+import userSchema from '@models/user'
+import prisma from '@lib/prisma'
 
 const ChangeHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { body, method, query } = req

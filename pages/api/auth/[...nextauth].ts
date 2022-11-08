@@ -1,9 +1,7 @@
 import NextAuth, { User } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { PrismaClient } from '.prisma/client'
+import prisma from '@lib/prisma'
 import { matchPassword } from '../../../lib/password-util'
-
-const prisma = new PrismaClient()
 
 export default NextAuth({
 	providers: [
