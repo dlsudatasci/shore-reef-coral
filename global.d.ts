@@ -1,4 +1,8 @@
+import { PrismaClient } from '@prisma/client'
+
 declare global {
+	var prisma: PrismaClient
+	
 	namespace NodeJS {
 		interface ProcessEnv {
 			DB_URL: string
