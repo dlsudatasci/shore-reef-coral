@@ -24,7 +24,7 @@ model User {
 
 model Team {
   id              Int               @id @default(autoincrement())
-  name            String
+  name            String						@unique
   province        String
   town            String
   barangay        String

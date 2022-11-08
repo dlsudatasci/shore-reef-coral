@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Prisma, PrismaClient, Team, User } from '@prisma/client'
+import { Prisma, Team, User } from '@prisma/client'
 import { getSession } from 'next-auth/react'
-
-const prisma = new PrismaClient()
+import prisma from '@lib/prisma'
+import { TeamCreateSchema } from '@pages/teams/create'
 
 export type TeamProfileSummary = {
 	user: Pick<User, 'firstName' | 'lastName'>
@@ -13,7 +13,7 @@ export type TeamProfileSummary = {
 	}
 }
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<TeamProfileSummary[]>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method } = req
 	const body = req.body as Team
 
@@ -52,15 +52,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<TeamProfileSumm
 				const session = await getSession({ req })
 
 				if (!session) return
-
-				const { id } = await prisma.team.create({ data: body })
-				await prisma.usersOnTeams.create({
-					data: {
-						teamId: id,
-						userId: session.user.id,
-						isLeader: true,
+				try {
+					const { id } = await prisma.team.create({ data: body })
+					await prisma.usersOnTeams.create({
+						data: {
+							teamId: id,
+							userId: session.user.id,
+							isLeader: true,
+						}
+					})
+				} catch (e) {
+					if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') {
+						res.status(400).json({
+							name: 'Team name already taken!',
+						} as Partial<TeamCreateSchema>)
 					}
-				})
+				}
+
 				break
 			}
 

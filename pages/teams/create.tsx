@@ -1,6 +1,7 @@
 import DashboardLayout from '@components/layouts/dashboard-layout'
 import { yupResolver } from '@hookform/resolvers/yup'
 import app from '@lib/axios-config'
+import Axios from 'axios'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
@@ -14,10 +15,10 @@ const teamCreateSchema = yup.object({
 	affiliation: yup.string().trim().optional(),
 })
 
-type TeamCreateSchema = yup.InferType<typeof teamCreateSchema>
+export type TeamCreateSchema = yup.InferType<typeof teamCreateSchema>
 
 const CreateTeam: NextPage = () => {
-	const { handleSubmit, formState: { errors }, register } = useForm<TeamCreateSchema>({
+	const { handleSubmit, formState: { errors }, register, setError } = useForm<TeamCreateSchema>({
 		resolver: yupResolver(teamCreateSchema)
 	})
 	const { push } = useRouter()
@@ -27,7 +28,13 @@ const CreateTeam: NextPage = () => {
 			await app.post('/teams', data)
 			push('/dashboard')
 		} catch (err) {
-			
+			if (Axios.isAxiosError(err)) {
+				const messages = err.response?.data as Partial<TeamCreateSchema>
+
+				for (const [key, value] of Object.entries(messages)) {
+					setError(key as keyof TeamCreateSchema, { type: 'custom', message: value })
+				}
+			}
 		}
 	}
 
