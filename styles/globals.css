@@ -2,19 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@font-face {
+  font-family: "Comic Cat";
+  src: url("../public/comic-cat.otf");
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@layer base {
+  a {
+    @apply text-highlight hover:text-accent-1 transition-colors;
+  }
+
+  html,
+  body {
+    @apply bg-secondary
+  }
+
+	h1 {
+		@apply text-5xl
+	}
+
+  h2 {
+    @apply text-4xl
+  }
+
+	label {
+		@apply block
+	}
+
+	label.required {
+		@apply after:content-['_*']
+	}
+
+	select,
+	textarea,
+	[type='text'],
+	[type='email'],
+	[type='number'],
+	[type='password'],
+	[type='tel'],
+	[type='datetime-local'] {
+		@apply rounded-lg w-full border-0 focus:outline-highlight focus:outline-1 focus:outline-offset-0 block text-black;
+	}
 }
 
-* {
-  box-sizing: border-box;
+@layer components {
+  .main-height {
+		min-height: calc(100vh - 100px);
+  }
+
+	.control .error {
+		@apply text-error min-h-[1.5rem]
+	}
+
+	.control input + .error {
+		@apply mt-0.5
+	}
+
+  .btn {
+    @apply flex items-center justify-center rounded-full px-4 sm:px-10 h-10 font-comic-cat 
+		text-lg sm:text-xl cursor-pointer transition-colors outline-none focus:ring-2 focus:ring-inset;
+  }
+
+  .btn.primary {
+    @apply bg-primary text-secondary hover:bg-accent-1 focus:ring-secondary;
+  }
+
+  .btn.secondary {
+    @apply bg-secondary text-primary hover:bg-accent-1 hover:text-secondary focus:ring-accent-2;
+  }
+
+  .btn.highlight {
+    @apply bg-highlight text-t-highlight hover:bg-yellow-600 focus:ring-highlight;
+  }
+
+	.btn.primary:disabled, .btn.secondary:disabled, .btn.highlight:disabled {
+		@apply bg-[#B4BEBA] text-[#759691] cursor-not-allowed
+	}
 }

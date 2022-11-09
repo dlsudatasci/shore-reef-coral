@@ -1,0 +1,15 @@
+.header {
+	@apply w-full font-comic-cat flex px-4 py-2 text-2xl transition-colors hover:bg-highlight
+}
+
+.panel {
+	@apply bg-secondary py-4 px-4
+}
+
+.panel h6 {
+	@apply text-primary font-comic-cat text-xl
+}
+
+.panel h6 + p {
+	@apply text-lg
+}
