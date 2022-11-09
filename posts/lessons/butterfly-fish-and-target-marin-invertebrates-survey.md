@@ -3,7 +3,7 @@ title: Butterflyfish and Target Marine Invertebrates Survey
 description: "Butterflyfish are one of the most easily recognizable fishes. Along with certain marine invertebrates, they can give context for the state of corals on a reef. This video describes the method for counting butterflyfish and target marine invertebrates in a survey station.
 <br><br>
 Additional lectures and activities are also provided to help citizen scientists identify these indicators."
-url: https://www.youtube.com/embed/oypITK9n3y4
+url: https://www.youtube.com/embed/1NyjyhnkIFE
 order: 5
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Paano Markahan ang Survey Station
 description: Coral reefs are huge geological structures which cannot be surveyed in their entirety. This video shows how to mark a smaller study area on the reef, called the survey station, where the Alwan surveys will be conducted.
-url: https://www.youtube.com/embed/oypITK9n3y4
+url: https://www.youtube.com/embed/gboWpQ5fAko
 order: 4
 ---
 

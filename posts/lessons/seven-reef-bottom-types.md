@@ -3,7 +3,7 @@ title: Seven Reef Bottom Types
 description: "The composition of the reef bottom, including how much coral is present, is an important indicator of reef health.  
 <br><br>
 Photos taken during Alwan surveys are used to measure the composition of the reef bottom. This video shows citizen scientists how to identify the seven reef bottom types used by the Alwan methods."
-url: https://www.youtube.com/embed/pC8TjBMKsBo
+url: https://www.youtube.com/embed/xdJ-E1YF4jk
 order: 8
 ---
 
