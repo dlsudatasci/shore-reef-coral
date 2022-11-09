@@ -1,7 +1,7 @@
 ---
 title: Ano ang Citizen Science
 description: This video describes the key concepts of the citizen science approach behind the Alwan methods of reef assessment.
-url: https://www.youtube.com/embed/pC8TjBMKsBo
+url: https://www.youtube.com/embed/apI5shqomPw
 order: 3
 ---
 

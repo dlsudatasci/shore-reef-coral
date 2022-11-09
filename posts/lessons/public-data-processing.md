@@ -1,7 +1,7 @@
 ---
 title: Pampublikong Pagsusuri ng Bahura
 description: Citizen scientists have a role not only in conducting the surveys, but also in generating data about their reefs. This video shows how images taken during Alwan surveys can be processed in a participatory manner by citizen scientists and presented to stakeholders in a simple and easily understandable format.
-url: https://www.youtube.com/embed/pC8TjBMKsBo
+url: https://www.youtube.com/embed/tMk7GVnirO0
 order: 9
 ---
 
