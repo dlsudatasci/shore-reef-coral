@@ -67,7 +67,7 @@ const Header: FC = () => {
 								<div className="flex-1 lg:flex-grow-0 flex items-center h-full justify-center lg:items-stretch lg:justify-start">
 									<Link href="/" passHref>
 										<div className="flex-shrink-0 flex items-center cursor-pointer mr-6">
-											<Image className="block w-auto" src="/logo-white.png" alt="SHORE Logo" width={80} height={80} />
+											<Image className="block w-auto" src="/logo-alwan.png" alt="SHORE Logo" width={260} height={70} />
 										</div>
 									</Link>
 								</div>
