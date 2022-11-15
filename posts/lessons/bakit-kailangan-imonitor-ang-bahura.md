@@ -32,7 +32,7 @@ Reefs are also an important source of medicine. One example is National Scientis
 
 ### Our reefs are in danger
 
-Despite their importance, the very existence of reefs is threatened by human-induced climate change and direct human impacts, such as destructive fishing practices. According to the most recent nationwide reef assessment [link to article: [https://philjournalsci.dost.gov.ph](https://philjournalsci.dost.gov.ph)], we have lost a third of our corals in the last decade. The average hard coral cover of reefs in our country is now 22.8%.
+Despite their importance, the very existence of reefs is threatened by human-induced climate change and direct human impacts, such as destructive fishing practices. According to the most recent [nationwide reef assessment](https://philjournalsci.dost.gov.ph/images/pdf/pjs_pdf/vol146no2/initial_findings_of_the_nationwide_assessment_of_philippine_coral_reefs.pdf), we have lost a third of our corals in the last decade. The average hard coral cover of reefs in our country is now 22.8%.
 
 ![Degrading corals](/images/lesson-1/5.jpg 'Degrading corals')
 ![Picture showing that hard coral cover is now 22.8%](/images/lesson-1/6.jpg 'Picture showing that hard coral cover is now 22.8%')

@@ -28,7 +28,7 @@
 .lesson h4,
 .lesson h5,
 .lesson h6 {
-	@apply font-comic-cat font-semibold mt-8 mb-2
+	@apply font-comic-cat mt-8 mb-2
 	
 }
 
