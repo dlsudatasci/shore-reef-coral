@@ -48,10 +48,10 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 									[]
 							))}
 						</div>
-						<div className="text-secondary pl-4 border-l-2 border-secondary max-w-sm">
+						<div className="text-secondary pl-4 border-l-2 border-secondary max-w-md">
 							<p>Br. Alfred Shields FSC Ocean Research (SHORE) Center</p>
-							<p>shorecenter@dlsu.edu.ph</p>
-							<p>524-4611 loc. 426</p>
+							<p>reefmo.alwan@gmail.com</p>
+							<p>8256-56-11</p>
 							<p>
 								3F Henry Sy Sr. Hall
 								De La Salle University
