@@ -1,5 +1,5 @@
 -- AlterTable
-ALTER TABLE `usersonteams` MODIFY `isLeader` BOOLEAN NOT NULL DEFAULT false,
+ALTER TABLE `UsersOnTeams` MODIFY `isLeader` BOOLEAN NOT NULL DEFAULT false,
     MODIFY `isScientist` BOOLEAN NOT NULL DEFAULT false,
     MODIFY `status` VARCHAR(191) NOT NULL DEFAULT 'pending';
 
