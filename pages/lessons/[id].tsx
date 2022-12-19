@@ -7,7 +7,6 @@ import styles from '@styles/Lesson.module.css'
 
 const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ lessons, lessonData }) => {
 	const [selected, setSelected] = useState<0 | 1>(0)
-
 	return (
 		<>
 			<section className="bg-primary text-secondary px-4 py-10">
