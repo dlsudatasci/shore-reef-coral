@@ -15,6 +15,7 @@ import Mask from "@components/icons/mask";
 import Coral from "@components/icons/coral";
 import Camera from "@components/icons/camera";
 import cn from "classnames";
+import { ParallaxBanner, ParallaxBannerLayer } from "react-scroll-parallax";
 
 const contactSchema = yup.object({
   name: yup.string().required("Name is required!"),
@@ -46,16 +47,20 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.home}>
-      <div className="main-height relative">
-        <Image
-          src="/landing.jpg"
-          alt="Diver taking pictures"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="top"
-        />
-        <WaveBG className="absolute -bottom-5 md:-bottom-8 lg:-bottom-10 xl:-bottom-16" />
-      </div>
+      <ParallaxBanner className="main-height relative">
+        <ParallaxBannerLayer speed={-60}  >
+          <Image
+            src="/landing.jpg"
+            alt="Diver taking pictures"
+            layout="fill"
+						className="object-cover object-bottom md:object-contain md:object-center"
+          />
+        </ParallaxBannerLayer>
+        <ParallaxBannerLayer>
+					<WaveBG className="absolute -bottom-2 md:-bottom-5 lg:-bottom-8 xl:-bottom-10" />
+				</ParallaxBannerLayer>
+				
+      </ParallaxBanner>
       <section className="my-16">
         <div className="grid md:grid-cols-2 gap-x-8 gap-y-12">
           <div className="place-self-center">
@@ -137,15 +142,18 @@ const Home: NextPage = () => {
           </div>
         </div>
       </section>
-      <section className="relative min-h-[70vh]">
-        <Image
-          src="/landing-2.jpg"
-          alt="Diver"
-          layout="fill"
-          objectFit="cover"
-          className="z-0"
-        />
-        <div className="grid place-items-center h-full relative z-10">
+      <ParallaxBanner className="relative min-h-[70vh] text-secondary">
+				<ParallaxBannerLayer speed={-60}>
+					<Image
+						src="/landing-2.jpg"
+						alt="Diver"
+						layout="fill"
+						objectFit="cover"
+						className="z-0"
+						quality={100}
+					/>
+				</ParallaxBannerLayer>
+        <ParallaxBannerLayer className="grid place-items-center h-full relative z-10">
           <div className="max-w-md text-center grid justify-items-center gap-y-4">
             <h1>
               Become a<br />
@@ -159,8 +167,8 @@ const Home: NextPage = () => {
               <a className="btn secondary">Take the course</a>
             </Link>
           </div>
-        </div>
-      </section>
+        </ParallaxBannerLayer>
+      </ParallaxBanner>
       <section className="relative min-h-[70vh] text-center">
         <Image
           src="/bg4.png"
