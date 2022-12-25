@@ -5,6 +5,7 @@ import Layout from '../components/layouts/layout'
 import { SessionProvider } from "next-auth/react"
 import { ToastContainer } from 'react-toastify'
 import { Session } from 'next-auth'
+import { ParallaxProvider } from 'react-scroll-parallax'
 
 function MyApp({
 	Component,
@@ -14,10 +15,12 @@ function MyApp({
 }>) {
 	return (
 		<SessionProvider session={session}>
-			<Layout>
-				<Component {...pageProps} />
-			</Layout>
-			<ToastContainer />
+			<ParallaxProvider>
+				<Layout>
+					<Component {...pageProps} />
+				</Layout>
+				<ToastContainer />
+			</ParallaxProvider>
 		</SessionProvider>
 	)
 }
