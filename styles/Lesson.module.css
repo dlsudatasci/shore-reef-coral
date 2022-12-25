@@ -71,3 +71,25 @@
 .lesson h5 {
 	@apply text-lg
 }
+
+.lesson-list-wrapper{
+	@apply overflow-y-scroll relative max-h-[600px];
+}
+
+@screen md{
+
+	.lesson-list-wrapper::-webkit-scrollbar{
+		@apply mx-2;
+		width: 10px;
+	}
+	.lesson-list-wrapper::-webkit-scrollbar-track {
+		box-shadow: inset 0 0 5px grey; 
+		border-radius: 10px;
+	}
+	 
+	.lesson-list-wrapper::-webkit-scrollbar-thumb {
+		@apply bg-secondary transition-colors hover:bg-accent-2;
+		border-radius: 10px;
+	}
+}
+
