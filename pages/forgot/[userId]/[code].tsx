@@ -1,14 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { NextPage } from 'next'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { toast } from 'react-toastify'
-import { toastErrorConfig, toastSuccessConfig } from '../../../lib/toast-defaults'
+import { toastErrorConfig, toastSuccessConfig } from '@lib/toast-defaults'
 import { useEffect } from 'react'
-import app from '../../../lib/axios-config'
+import app from '@lib/axios-config'
 import { useSession } from 'next-auth/react'
+import ButterflyFish from '@components/icons/butterfly-fish'
 
 interface IReset {
 	password: string
@@ -68,7 +68,7 @@ const Reset: NextPage = () => {
 			<div className="bg-primary sm:w-[600px] w-full sm:px-12 p-8 rounded-lg">
 				<div className="flex mb-4">
 					<h2 className="font-comic-cat text-secondary mr-4">RESET PASSWORD</h2>
-					<Image src="/butterfly-fish-light.png" alt="Fish Icon" layout="fixed" width={40} height={40} />
+					<ButterflyFish className="fill-secondary w-8 aspect-square" />
 				</div>
 				<p className="text-secondary">You have requested to reset your password.</p>
 				<p className="text-secondary mb-6">Your password should be at least 8 characters and should contain alphanumeric characters.</p>
