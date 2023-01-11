@@ -24,7 +24,7 @@ model User {
 
 model Team {
   id              Int               @id @default(autoincrement())
-  name            String						@unique
+  name            String            @unique
   province        String
   town            String
   barangay        String
@@ -36,6 +36,7 @@ model Team {
 }
 
 model UsersOnTeams {
+  id          Int     @id @default(autoincrement())
   team        Team    @relation(fields: [teamId], references: [id])
   teamId      Int
   user        User    @relation(fields: [userId], references: [id])
@@ -44,15 +45,21 @@ model UsersOnTeams {
   isScientist Boolean @default(false)
   status      String  @default("pending")
 
-  @@id([teamId, userId])
+  @@unique([teamId, userId])
+  @@index([userId])
+  @@index([teamId])
   @@index([isLeader])
   @@index([status])
 }
 
 model PasswordRecovery {
-  userId Int    @id
+  id     Int    @id @default(autoincrement())
   user   User   @relation(fields: [userId], references: [id])
+  userId Int
   code   String
+
+  @@unique([userId])
+	@@index([userId])
 }
 
 model ManagementType {
