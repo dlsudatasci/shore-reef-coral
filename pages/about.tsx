@@ -6,6 +6,12 @@ import Image from 'next/image'
 import ButterflyFish from '@components/icons/butterfly-fish'
 import cn from 'classnames'
 import { ParallaxBanner, ParallaxBannerLayer } from "react-scroll-parallax";
+import Waves from '@components/icons/waves'
+import Starfish from '@components/icons/starfish'
+import Cots from '@components/icons/cots'
+import Featherstar from '@components/icons/featherstar'
+import Clam from '@components/icons/clam'
+import Coral from '@components/icons/coral'
 
 
 const About: NextPage = () => {
@@ -53,7 +59,7 @@ const About: NextPage = () => {
 				</ParallaxBannerLayer>
 				<div className="!max-w-3xl relative z-10 text-xl text-secondary">
 					<h1 className="mb-4">
-						Our <span className="block text-6xl -mt-2">Vision</span>
+						Our <span className="flex items-center text-6xl -mt-2">Vision <Waves className='fill-secondary w-14 ' /> </span>
 					</h1>
 					<p>
 						ReefMo aims to empower citizen scientists from all walks of life, especially
@@ -77,6 +83,14 @@ const About: NextPage = () => {
 				<div className="relative grid md:grid-cols-[1fr_2fr] gap-y-4 z-10 mx-auto text-secondary !max-w-5xl">
 					<div className="sm:w-56">
 						<h1>The Alwan Methods</h1>
+						<div className='flex gap-3'>
+							<ButterflyFish className='fill-primary' />
+							<Starfish className='fill-primary' />
+							<Cots className='fill-primary' />
+							<Featherstar className='fill-primary' />
+							<Clam className='fill-primary' />
+							<Coral className='fill-primary' />
+						</div>
 					</div>
 					<div className="space-y-4">
 						<p>
