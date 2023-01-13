@@ -2,6 +2,8 @@
 title: Coral Survey Method
 description: This video shows how to take photos of the reef bottom using only snorkeling equipment, an underwater camera, and a folding monopod. These photos can later be used to determine the composition of the reef bottom.
 url: https://www.youtube.com/embed/ov2mNlT82bw
+resources: 
+  - Coral Survey Guide: "https://drive.google.com/drive/folders/1jf7Qb04A94eS8fsudcI4hwmtt4H1Uqb0?usp=share_link"
 order: 6
 ---
 

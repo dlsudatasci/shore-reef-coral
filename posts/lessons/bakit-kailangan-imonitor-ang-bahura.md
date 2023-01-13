@@ -2,6 +2,8 @@
 title: Bakit Kailangan i-Monitor ang Bahura
 description: This video contains a brief introduction to coral reefs, their importance, and current status in the Philippines. It also introduces the Alwan methods and the reef health indicators they are designed to measure.
 url: https://www.youtube.com/embed/qC4-8AZrGkM
+resources: 
+  - Nationwide Reef Assessment: "https://philjournalsci.dost.gov.ph/images/pdf/pjs_pdf/vol146no2/initial_findings_of_the_nationwide_assessment_of_philippine_coral_reefs.pdf"
 order: 2
 ---
 
