@@ -4,14 +4,30 @@ import { getSession } from 'next-auth/react'
 import prisma from '@lib/prisma'
 import { TeamCreateSchema } from '@pages/teams/create'
 
-export type TeamProfileSummary = {
-	user: Pick<User, 'firstName' | 'lastName'>
-	team: Pick<Team, 'id' | 'name' | 'town' | 'province' | 'isVerified'> & {
-		_count: {
-			UsersOnTeam: number
-		}
+export type TeamProfileSummary = Prisma.UsersOnTeamsGetPayload<typeof teamProfile>
+
+const teamProfile = Prisma.validator<Prisma.UsersOnTeamsArgs>()({
+	select: {
+		user: {
+			select: {
+				firstName: true,
+				lastName: true,
+			}
+		},
+		team: {
+			select: {
+				id: true,
+				town: true,
+				name: true,
+				province: true,
+				isVerified: true,
+				_count: {
+					select: { UsersOnTeam: true }
+				}
+			}
+		},
 	}
-}
+})
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method } = req
@@ -22,36 +38,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			case 'GET': {
 				const teams = await prisma.usersOnTeams.findMany({
 					where: { isLeader: true },
-					select: {
-						user: {
-							select: {
-								firstName: true,
-								lastName: true,
-							}
-						},
-						team: {
-							select: {
-								id: true,
-								town: true,
-								name: true,
-								province: true,
-								isVerified: true,
-								_count: {
-									select: { UsersOnTeam: true }
-								}
-							}
-						},
-					}
+					...teamProfile,
 				})
-
 				res.json(teams)
 				break
 			}
 
 			case 'POST': {
 				const session = await getSession({ req })
+				if (!session)	return res.status(401)
 
-				if (!session) return
 				try {
 					const { id } = await prisma.team.create({ data: body })
 					await prisma.usersOnTeams.create({
@@ -63,10 +59,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 					})
 				} catch (e) {
 					if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') {
-						res.status(400).json({
+						return res.status(400).json({
 							name: 'Team name already taken!',
 						} as Partial<TeamCreateSchema>)
 					}
+
+					throw e
 				}
 
 				break
