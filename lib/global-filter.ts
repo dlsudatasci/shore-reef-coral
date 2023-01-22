@@ -3,9 +3,6 @@ import { FilterFn, sortingFns, SortingFn } from '@tanstack/react-table'
 import { RankingInfo, rankItem, compareItems, Ranking } from '@tanstack/match-sorter-utils'
 
 declare module '@tanstack/table-core' {
-	interface FilterFns {
-		fuzzy: FilterFn<unknown>
-	}
 	interface FilterMeta {
 		itemRank: RankingInfo
 	}
