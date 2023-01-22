@@ -59,7 +59,7 @@ model PasswordRecovery {
   code   String
 
   @@unique([userId])
-	@@index([userId])
+  @@index([userId])
 }
 
 model ManagementType {
@@ -73,7 +73,7 @@ model Survey {
   date             DateTime
   stationName      String
   startLongtitude  Float
-  startLatitue     Float
+  startLatitude    Float
   secondLongtitude Float
   secondLatitude   Float
   gpsDatum         String
@@ -94,6 +94,11 @@ model Survey {
   volunteer4       String?
   C30ImageSet      C30ImageSet?
   SurveyFile       SurveyFile?
+  dataType         String
+  status           String
+  verified         Boolean
+
+  @@index([teamId])
 }
 
 model C30ImageSet {
