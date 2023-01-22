@@ -9,20 +9,21 @@ import {
 import { getLesson, getLessonIds, getLessons } from "@lib/lessons";
 import Link from "next/link";
 import styles from "@styles/Lesson.module.css";
+import Image from "next/image";
 
 const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   lessons,
   lessonData,
 }) => {
   const [selected, setSelected] = useState<0 | 1>(0);
-	const lessonNumber = (lessonData.order - 1).toString().padStart(2, "0")
+  const lessonNumber = (lessonData.order - 1).toString().padStart(2, "0");
 
   return (
     <>
       <section className="bg-primary text-secondary px-4 py-10">
         <div className="grid gap-6 sm:grid-cols-[1fr_220px] max-w-6xl mx-auto items-end">
           <div>
-						<h3 className="font-comic-cat">LESSON {lessonNumber}:</h3>
+            <h3 className="font-comic-cat">LESSON {lessonNumber}:</h3>
             <h1 className="font-comic-cat mb-4">{lessonData.title}</h1>
             <iframe
               className="w-full aspect-video"
@@ -51,10 +52,10 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                           : "text-secondary"
                       )}
                     >
-											<span>
-												{(lesson.order - 1).toString().padStart(2, "0")}
-											</span>
-											<br />
+                      <span>
+                        {(lesson.order - 1).toString().padStart(2, "0")}
+                      </span>
+                      <br />
                       {lesson.title}
                     </a>
                   </Link>
@@ -68,8 +69,15 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           />
         </div>
       </section>
-      <section className="py-14">
-        <div className="container mx-auto text-primary max-w-6xl px-4">
+      <section className="py-24 relative">
+        <Image
+          src="/bg2.png"
+          alt="Checkered background"
+          layout="fill"
+          className="z-0 bg-repeat"
+          quality={100}
+        />
+        <div className="container mx-auto text-primary max-w-6xl px-4 relative z-10">
           <div className="outline-primary outline-2 outline w-min flex font-comic-cat mb-8">
             <button
               className={cn("p-2 w-24 block", {
