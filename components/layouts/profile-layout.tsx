@@ -16,9 +16,7 @@ const ProfileLayout: FC<{ children: ReactNode }> = ({ children }) => {
 					<h3 className="font-comic-cat text-secondary text-2xl mb-5">SETTINGS</h3>
 					<nav>
 						{navItems.map(e => (
-							<Link key={e.name} href={e.path}>
-								<a className="block">{e.name}</a>
-							</Link>
+							<Link className="block" key={e.name} href={e.path}>{e.name}</Link>
 						))}
 					</nav>
 				</div>

@@ -29,8 +29,9 @@ const MobNavItem: FC<MobNavItemProp> = ({ text, path, onClick }) => {
 	const { pathname } = useRouter()
 
 	return (
-		<Link href={path}>
-			<a className='border-l-2 block px-3 py-2 text-base font-medium cursor-pointer' aria-current={pathname == path ? 'page' : undefined} onClick={onClick}>{text}</a>
+		<Link href={path} onClick={onClick}
+			className='border-l-2 block px-3 py-2 text-base font-medium cursor-pointer' aria-current={pathname == path ? 'page' : undefined}>
+			{text}
 		</Link>
 	)
 }
@@ -39,10 +40,8 @@ const NavItem: FC<NavItemProp> = ({ text, path }) => {
 	const { pathname } = useRouter()
 
 	return (
-		<Link href={path} passHref>
-			<a className="font-comic-cat text-secondary text-xl h-full inline-flex justify-center items-center cursor-pointer">
-				<p className="px-3 py-2" aria-current={path == pathname ? 'page' : undefined}>{text}</p>
-			</a>
+		<Link href={path} className="font-comic-cat text-secondary text-xl h-full inline-flex justify-center items-center cursor-pointer">
+			<p className="px-3 py-2" aria-current={path == pathname ? 'page' : undefined}>{text}</p>
 		</Link>
 	)
 }
@@ -65,9 +64,9 @@ const Header: FC = () => {
 								</div>
 
 								<div className="flex-1 lg:flex-grow-0 flex items-center h-full justify-center lg:items-stretch lg:justify-start">
-									<Link href="/" passHref>
+									<Link href="/" className="flex">
 										<div className="flex-shrink-0 flex items-center cursor-pointer mr-6">
-											<Image className="block w-auto" src="/logo-alwan.png" alt="SHORE Logo" width={260} height={70} />
+											<Image src="/logo-alwan.png" alt="SHORE Logo" width={260} height={70} />
 										</div>
 									</Link>
 								</div>
@@ -83,11 +82,11 @@ const Header: FC = () => {
 										<ProfileMenu />
 										:
 										<div className="hidden lg:contents">
-											<Link href='/login'>
-												<a type="button" className="font-comic-cat mr-4 text-xl text-secondary">Login</a>
+											<Link type="button" className="font-comic-cat mr-4 text-xl text-secondary" href="/login">
+												Login
 											</Link>
-											<Link href='/register'>
-												<a type="button" className="btn secondary h-auto py-1.5">Sign Up</a>
+											<Link type="button" className="btn secondary h-auto py-1.5" href="/register">
+												Sign Up
 											</Link>
 										</div>
 									}

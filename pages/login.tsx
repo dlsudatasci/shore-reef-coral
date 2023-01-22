@@ -69,8 +69,8 @@ const Login: NextPage = () => {
 					</div>
 					<input className="btn secondary mt-4" type="submit" value="Login" />
 				</form>
-				<p className="mt-6 text-secondary">Don&apos;t have an account? <Link href="/register"><a>Sign up here {'>'}</a></Link></p>
-				<p><Link href="/forgot"><a>Forgot your password?</a></Link></p>
+				<p className="mt-6 text-secondary">Don&apos;t have an account? <Link href="/register">Sign up here {'>'}</Link></p>
+				<p><Link href="/forgot">Forgot your password?</Link></p>
 			</div>
 		</div>
 	)

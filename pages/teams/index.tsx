@@ -22,11 +22,9 @@ const TeamsPage: NextPage = () => {
 		<DashboardLayout>
 			<div className="flex justify-between mt-16 mb-8">
 				<h3 className="text-secondary text-3xl font-comic-cat">Join a team</h3>
-				<Link href="/teams/create">
-					<a className="btn highlight">
-						<PlusIcon className="aspect-square w-5 inline mr-1" />
-						<span className="leading-none">Create a team</span>
-					</a>
+				<Link className="btn highlight" href="/teams/create">
+					<PlusIcon className="aspect-square w-5 inline mr-1" />
+					<span className="leading-none">Create a team</span>
 				</Link>
 			</div>
 			<TeamsTable data={teams} />
