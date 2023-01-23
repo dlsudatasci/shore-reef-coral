@@ -9,8 +9,12 @@ import {
 import { getLesson, getLessonIds, getLessons } from "@lib/lessons";
 import Link from "next/link";
 import styles from "@styles/Lesson.module.css";
+<<<<<<< HEAD
 import ButterflyFish from "@components/icons/butterfly-fish";
 import Waves from "@components/icons/waves";
+=======
+import Image from "next/image";
+>>>>>>> dev
 
 const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   lessons,
@@ -70,8 +74,15 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           />
         </div>
       </section>
-      <section className="py-14">
-        <div className="container mx-auto text-primary max-w-6xl px-4">
+      <section className="py-24 relative">
+        <Image
+          src="/bg2.png"
+          alt="Checkered background"
+          layout="fill"
+          className="z-0 bg-repeat"
+          quality={100}
+        />
+        <div className="container mx-auto text-primary max-w-6xl px-4 relative z-10">
           <div className="outline-primary outline-2 outline w-min flex font-comic-cat mb-8">
             <button
               className={cn("p-2 w-24 block", {

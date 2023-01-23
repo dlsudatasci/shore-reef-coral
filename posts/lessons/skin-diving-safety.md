@@ -78,6 +78,8 @@ All the citizen scientists’ designated roles and responsibilities should be cl
 - You can place the floatation device in the center of the station so that there is a designated resting spot.
 - Team members who do not need to skin dive can also wear or hold on to a life jacket during the survey.
 
+&nbsp;
+
 If any team members are inexperienced in skin diving, don’t attempt the survey without an experienced companion.
 
 The most important thing to remember is that everyone’s safety is the first priority. Don’t hesitate to abort the survey if safety is threatened.

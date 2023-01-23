@@ -72,6 +72,8 @@ Example:
 
 You conducted a survey in Talim Outer A, Barangay Luyahan, Lian, Batangas and your team name is Lian Fisherfolk Association. You surveyed the reef here in May 2021.
 
+&nbsp;
+
 The hard coral cover is 52%. Look for the letter grade this falls under. Since the hard coral cover is greater than 44%, ‘A’ is the proper letter grade to indicate on the scorecard.
 
 ![Coral category classification](/images/lesson-8/5.png 'Coral category classification')
@@ -108,6 +110,8 @@ Only 6 Linckia were found in the station. ‘C’ is also the letter grade in th
 ![Linckia abundance grading sheet](/images/lesson-8/18.png 'Linckia abundance grading sheet')
 
 If you’re conducting another survey in the same station, use the same scorecard. For example, if you were to conduct another survey in 2022, indicate the month and year and repeat the process.
+
+&nbsp;
 
 For example, you conducted another survey here in May 2022. Simply indicate the current year and repeat the process. This will allow you to see if the scores for each criterion have changed after a certain period of time. These changes can serve as a basis of discussion for the community and a guide for what management measures might be appropriate for your reef.
 
