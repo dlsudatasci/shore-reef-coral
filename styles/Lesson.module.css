@@ -93,3 +93,6 @@
 	}
 }
 
+.resource-link:hover > svg, .resource-link:hover > span{
+	@apply fill-secondary border-secondary;
+} 

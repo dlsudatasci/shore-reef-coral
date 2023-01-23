@@ -9,6 +9,8 @@ import {
 import { getLesson, getLessonIds, getLessons } from "@lib/lessons";
 import Link from "next/link";
 import styles from "@styles/Lesson.module.css";
+import ButterflyFish from "@components/icons/butterfly-fish";
+import Waves from "@components/icons/waves";
 import Image from "next/image";
 
 const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
@@ -97,9 +99,43 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             </button>
           </div>
           <article
-            className={styles.lesson}
+            className={cn(styles.lesson, selected === 0 ? "grid" : "!hidden")}
             dangerouslySetInnerHTML={{ __html: lessonData.contentHtml }}
           />
+          {selected === 1 && (
+            <div>
+              <div className="bg-primary p-2 inline-flex items-center gap-3 mb-5">
+                <ButterflyFish className="fill-secondary w-6" />
+                <h3 className="text-secondary text-xl">
+                  LESSON {lessonNumber}
+                </h3>
+              </div>
+              {lessonData.resources ? (
+                <div>
+                  {lessonData.resources.map((resource, index) => {
+                    const resourceName = Object.keys(resource)[0];
+                    const link = resource[resourceName];
+                    return (
+                      <a
+                        key={index}
+                        href={link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={cn("text-primary border-primary border-2  hover:bg-primary  hover:text-secondary inline-flex items-center", styles['resource-link'])}
+                      >
+                        <Waves className="fill-primary w-14 h-6" />
+                        <span className="border-l-2 border-primary p-2">{resourceName}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div>
+                  <h3 className="text-2xl">None for this lesson.</h3>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
     </>
