@@ -48,6 +48,8 @@ The citizen scientists must position themselves in the center of one half of the
 
 To make sure that the images taken on the reef aren’t biased, the random numbers serve as a guide for the citizen scientists to determine which parts of the reef will be photographed.
 
+&nbsp;
+
 There are two kinds of random numbers:
 
 **The first random number indicates direction.** There are eight possible numbers indicating direction. Number 1 is toward the left. Number 2 is toward the fourth corner buoy. Number 3 is toward the shore. Number 4 is toward the third corner buoy. Number 5 is toward the right. Number 6 is toward the second corner buoy. Number 7 is toward the deep. Number 8 is toward the starting corner buoy.
@@ -55,6 +57,8 @@ There are two kinds of random numbers:
 ![8 directions around the survey layout](/images/lesson-5/7.jpg '8 directions around the survey layout')
 
 **The second random number indicates distance or meters to swim.** The citizen scientists can swim from five up to ten meters within the survey station.
+
+&nbsp;
 
 For example:
 
@@ -105,6 +109,8 @@ Remember to make sure that the camera is properly attached to the monopod and ta
 ![Red camera](/images/lesson-5/17.jpg 'Red camera')
 
 The base of the monopod should be lined up to the bottom edge of the camera screen or frame. There should be no blur in the image; all the details should be clear.
+
+&nbsp;
 
 Because the colors can shift when you go deeper into the water, you have to adjust the camera settings to capture the right colors. This is essential for distinguishing live corals from dead or bleached corals.
 
