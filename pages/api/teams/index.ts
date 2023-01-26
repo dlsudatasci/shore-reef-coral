@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Prisma, Team, User } from '@prisma/client'
+import { Prisma, Team } from '@prisma/client'
 import { getSession } from 'next-auth/react'
 import prisma from '@lib/prisma'
 import { TeamCreateSchema } from '@pages/teams/create'
+import locations from '@public/bgy-masterlist.json'
 
 export type TeamProfileSummary = Prisma.UsersOnTeamsGetPayload<typeof teamProfile>
 
@@ -46,7 +47,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 			case 'POST': {
 				const session = await getSession({ req })
-				if (!session)	return res.status(401)
+				if (!session) return res.status(401)
+
+				// validate location
+				const barangayList = (locations[2] as unknown as Record<string, string[]>)[body.province + body.town]
+				console.log(barangayList)
+				console.log(body.barangay)
+				if (!barangayList.includes(body.barangay)) {
+					return res.status(400).json({
+						barangay: 'Invalid location'
+					} as Partial<TeamCreateSchema>)
+				}
 
 				try {
 					const { id } = await prisma.team.create({ data: body })
