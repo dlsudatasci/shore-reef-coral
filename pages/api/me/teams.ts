@@ -1,32 +1,36 @@
 import prisma from '@lib/prisma'
 import { Prisma } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getSession } from 'next-auth/react'
 
-const userteams = Prisma.validator<Prisma.UsersOnTeamsArgs>()({
+const userteams = Prisma.validator<Prisma.TeamArgs>()({
 	select: {
-		teamId: true,
-		isLeader: true,
-		status: true,
-		team: {
-			select: {
-				name: true
-			}
-		}
+		id: true,
+		name: true
 	}
 })
 
-export type UserTeamsAPI = Prisma.UsersOnTeamsGetPayload<typeof userteams>
+export type UserTeamsAPI = Prisma.TeamGetPayload<typeof userteams>
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { method, query } = req
-	const id = parseInt(query.id as string)
+	const { method } = req
+
+	const session = await getSession({ req })
+	if (!session) return res.status(401)
 
 	try {
 		switch (method) {
 			case 'GET': {
-				const teams = await prisma.usersOnTeams.findMany({
+				const teams = await prisma.team.findMany({
 					...userteams,
-					where: { userId: id }
+					where: {
+						UsersOnTeam: {
+							some: {
+								userId: session.user.id,
+								status: 'approved'
+							}
+						}
+					}
 				})
 
 				res.json(teams)

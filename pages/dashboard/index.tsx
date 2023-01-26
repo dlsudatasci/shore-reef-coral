@@ -9,7 +9,7 @@ import SurveyList from '@components/survey-list'
 import Link from 'next/link'
 import Laptop from '@components/icons/laptop'
 import Camera from '@components/icons/camera'
-import { UserTeamsAPI } from '@pages/api/users/[id]/teams'
+import { UserTeamsAPI } from '@pages/api/me/teams'
 
 const Dashboard: NextPage = () => {
 	const router = useRouter()
@@ -19,7 +19,7 @@ const Dashboard: NextPage = () => {
 			router.replace('/login?error=Please login to continue.')
 		},
 	})
-	const { data: teams } = useRetriever<UserTeamsAPI[]>(data ? `/users/${data.user.id}/teams` : null, [])
+	const { data: teams } = useRetriever<UserTeamsAPI[]>(`/me/teams`)
 
 	if (status == 'loading') {
 		return <DashboardLayout><LoadingSpinner className="main-height" borderColor="border-secondary" /></DashboardLayout>
@@ -36,7 +36,7 @@ const Dashboard: NextPage = () => {
 					<Laptop className="w-14 fill-secondary" />
 				</div>
 			</div>
-			{teams.length !== 0 ?
+			{teams?.length ?
 				<SurveyList className="mt-8" teams={teams} />
 				:
 				<div className="rounded-md bg-highlight flex items-center px-6 py-3 mt-8">

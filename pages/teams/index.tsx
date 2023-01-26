@@ -5,12 +5,13 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useRetriever } from '@lib/useRetriever'
-import TeamsTable from '@components/teams-table'
+import { TeamsTable } from '@components/teams-table'
 import { TeamProfileSummary } from '@pages/api/teams'
 
 const TeamsPage: NextPage = () => {
 	const router = useRouter()
-	const { data: teams } = useRetriever<TeamProfileSummary[]>('/teams', [])
+	const { data: teams } = useRetriever<TeamProfileSummary[]>('/teams?filter=joinable', [])
+
 	useSession({
 		required: true,
 		onUnauthenticated() {
@@ -27,7 +28,12 @@ const TeamsPage: NextPage = () => {
 					<span className="leading-none">Create a team</span>
 				</Link>
 			</div>
-			<TeamsTable data={teams} />
+			{
+				teams.length == 0 ?
+					<p className="text-center text-secondary text-4xl mt-24">No teams available.</p>
+					:
+					<TeamsTable data={teams} />
+			}
 		</DashboardLayout>
 	)
 }

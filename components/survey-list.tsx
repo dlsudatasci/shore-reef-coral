@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Waves from './icons/waves'
 import { HTMLAttributes, useMemo, useState } from 'react'
-import { UserTeamsAPI } from '@pages/api/users/[id]/teams'
+import { UserTeamsAPI } from '@pages/api/me/teams'
 import { SurveyTable } from './survey-table'
 import { TeamSurveySummary } from '@pages/api/teams/[teamId]/surveys'
 
@@ -21,7 +21,7 @@ const SampleData: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
 }))
 
 function SurveyList({ teams, ...props }: SurveyListProps) {
-	const [teamId, setTeamId] = useState(teams[0].teamId)
+	const [teamId, setTeamId] = useState(teams[0].id)
 
 	return (
 		<section {...props}>
@@ -30,7 +30,7 @@ function SurveyList({ teams, ...props }: SurveyListProps) {
 					<Waves className="w-8 aspect-square fill-secondary" />
 					<select className="font-comic-cat w-auto" value={teamId} onChange={e => setTeamId(Number(e.target.value))}>
 						{teams.map(t =>
-							<option key={t.teamId} value={t.teamId}>{t.team.name}</option>
+							<option key={t.id} value={t.id}>{t.name}</option>
 						)}
 					</select>
 				</div>
