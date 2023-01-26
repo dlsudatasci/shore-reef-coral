@@ -5,28 +5,28 @@ import prisma from '@lib/prisma'
 import { TeamCreateSchema } from '@pages/teams/create'
 import locations from '@public/bgy-masterlist.json'
 
-export type TeamProfileSummary = Prisma.UsersOnTeamsGetPayload<typeof teamProfile>
+export type TeamProfileSummary = Prisma.TeamGetPayload<typeof selectTeamProfile>
 
-const teamProfile = Prisma.validator<Prisma.UsersOnTeamsArgs>()({
+const selectLeaderName = Prisma.validator<Prisma.Team$UsersOnTeamArgs>()({
 	select: {
 		user: {
-			select: {
-				firstName: true,
-				lastName: true,
-			}
+			select: { firstName: true, lastName: true, }
 		},
-		team: {
-			select: {
-				id: true,
-				town: true,
-				name: true,
-				province: true,
-				isVerified: true,
-				_count: {
-					select: { UsersOnTeam: true }
-				}
-			}
+	},
+	where: { isLeader: true }
+})
+
+const selectTeamProfile = Prisma.validator<Prisma.TeamArgs>()({
+	select: {
+		id: true,
+		town: true,
+		name: true,
+		province: true,
+		isVerified: true,
+		_count: {
+			select: { UsersOnTeam: true }
 		},
+		UsersOnTeam: selectLeaderName
 	}
 })
 
@@ -37,10 +37,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		switch (method) {
 			case 'GET': {
-				const teams = await prisma.usersOnTeams.findMany({
-					where: { isLeader: true },
-					...teamProfile,
-				})
+				const query = req.query as { filter?: string }
+
+				const session = await getSession({ req })
+				if (!session) return res.status(401)
+
+				if (query.filter == 'joinable') {
+					const teams = await prisma.team.findMany({
+						...selectTeamProfile,
+						where: {
+							UsersOnTeam: {
+								none: { userId: session.user.id }
+							}
+						}
+					})
+					return res.json(teams)
+				}
+
+				const teams = await prisma.team.findMany({ ...selectTeamProfile })
 				res.json(teams)
 				break
 			}
@@ -51,8 +65,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 				// validate location
 				const barangayList = (locations[2] as unknown as Record<string, string[]>)[body.province + body.town]
-				console.log(barangayList)
-				console.log(body.barangay)
+
 				if (!barangayList.includes(body.barangay)) {
 					return res.status(400).json({
 						barangay: 'Invalid location'
@@ -66,6 +79,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 							teamId: id,
 							userId: session.user.id,
 							isLeader: true,
+							status: 'approved'
 						}
 					})
 				} catch (e) {
