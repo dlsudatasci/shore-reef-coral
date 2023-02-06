@@ -3,7 +3,7 @@ import { useRef, useState } from 'react'
 import styles from '@styles/Modal.module.css'
 import { LoadingButton } from '@components/loading-button'
 
-type ConfirmationModalProps = {
+export type ConfirmationModalProps = {
 	message: string
 	onAction: () => void | Promise<void>
 } & Omit<BaseModalProps, 'children'>

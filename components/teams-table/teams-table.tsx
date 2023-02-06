@@ -22,13 +22,16 @@ import { toastAxiosError } from '@lib/utils'
 import { toast } from 'react-toastify'
 import { mutate } from 'swr'
 import { toastSuccessConfig } from '@lib/toast-defaults'
+import { ConfirmationModalProps } from '@components/confirmation-modal'
 
 type TeamsTableProps = {
 	data: TeamProfileSummary[]
 }
 
 const columnHelper = createColumnHelper<TeamProfileSummary>()
-const ConfirmationModal = dynamic(() => import('@components/confirmation-modal').then(mod => mod.ConfirmationModal))
+const ConfirmationModal = dynamic<ConfirmationModalProps>(
+	() => import('@components/confirmation-modal').then(mod => mod.ConfirmationModal)
+)
 
 const columns = [
 	columnHelper.accessor('id', {}),
