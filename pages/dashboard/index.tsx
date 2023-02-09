@@ -10,14 +10,13 @@ import Link from 'next/link'
 import Laptop from '@components/icons/laptop'
 import Camera from '@components/icons/camera'
 import { UserTeamsAPI } from '@pages/api/me/teams'
+import { onUnauthenticated } from '@lib/utils'
 
 const Dashboard: NextPage = () => {
 	const router = useRouter()
-	const { status, data } = useSession({
+	const { status } = useSession({
 		required: true,
-		onUnauthenticated() {
-			router.replace('/login?error=Please login to continue.')
-		},
+		onUnauthenticated: onUnauthenticated(router)
 	})
 	const { data: teams } = useRetriever<UserTeamsAPI[]>(`/me/teams`)
 
