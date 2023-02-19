@@ -19,14 +19,13 @@ const Team = () => {
     },
   });
   const { data: teams } = useRetriever<UserTeamsAPI[]>(`/me/teams`);
-
   // if(teams?.length === 0){
   //   router.push("/dashboard");
   // }
 
   const surveyData = [
     {
-      date: new Date(),
+      date: new Date("February 14, 2023"),
       id: 0,
       dataType: "Photos",
       startLatitude: 14.576,
@@ -36,7 +35,7 @@ const Team = () => {
       verified: true,
     },
     {
-      date: new Date(),
+      date: new Date("February 14, 2023"),
       id: 0,
       dataType: "Photos",
       startLatitude: 14.576,
