@@ -66,9 +66,7 @@ const Forgot: NextPage = () => {
 					<>
 						<p className="text-secondary mb-4"> An email is on its way to <span className="font-bold">{email}</span> with instructions for resetting your password.</p>
 						<p className="text-secondary mb-6">If you do not receive the email soon, check that the email address you entered is correct and check your spam folder.</p>
-						<Link href="/login">
-							<button className="btn secondary mt-4" type="button">Return to Sign In</button>
-						</Link>
+						<Link href="/login" className="btn secondary mt-4">Return to Sign In</Link>
 					</>
 				}
 			</div>

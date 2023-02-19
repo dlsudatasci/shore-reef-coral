@@ -5,23 +5,30 @@ import Axios from 'axios'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
+import { string, object, InferType } from 'yup'
+import useSWRImmutable from 'swr/immutable'
+import axios from 'axios'
+import LoadingSpinner from '@components/loading-spinner'
 
-const teamCreateSchema = yup.object({
-	name: yup.string().trim().required('Team name is required.'),
-	barangay: yup.string().trim().required('Barangay is required.'),
-	town: yup.string().trim().required('Town is required.'),
-	province: yup.string().trim().required('Province is required.'),
-	affiliation: yup.string().trim().optional(),
+const teamCreateSchema = object({
+	name: string().trim().required('Team name is required.'),
+	barangay: string().trim().required('Barangay is required.'),
+	town: string().trim().required('Town is required.'),
+	province: string().trim().required('Province is required.'),
+	affiliation:string().trim().optional(),
 })
 
-export type TeamCreateSchema = yup.InferType<typeof teamCreateSchema>
+export type TeamCreateSchema = InferType<typeof teamCreateSchema>
 
 const CreateTeam: NextPage = () => {
-	const { handleSubmit, formState: { errors }, register, setError } = useForm<TeamCreateSchema>({
+	const { data: locations, isLoading } = useSWRImmutable('/bgy-masterlist.json', url => axios.get(url).then(res => res.data))
+	const { handleSubmit, formState: { errors }, register, setError, watch } = useForm<TeamCreateSchema>({
 		resolver: yupResolver(teamCreateSchema)
 	})
 	const { push } = useRouter()
+
+	const province = watch('province')
+	const town = watch('town')
 
 	async function onSubmit(data: TeamCreateSchema) {
 		try {
@@ -38,10 +45,14 @@ const CreateTeam: NextPage = () => {
 		}
 	}
 
+	if (isLoading) {
+		return <LoadingSpinner borderColor="border-highlight" />
+	}
+
 	return (
 		<DashboardLayout>
 			<h2 className="font-comic-cat text-secondary mt-24 text-center mb-8">Create a team</h2>
-			<form className="max-w-2xl mx-auto space-y-1" onSubmit={handleSubmit(onSubmit)}>
+			<form className="max-w-2xl mx-auto space-y-1 mb-16" onSubmit={handleSubmit(onSubmit)}>
 				<div className="control">
 					<label htmlFor="name" className="text-secondary required">Team Name</label>
 					<input type="text" id="name" {...register('name')} />
@@ -49,17 +60,36 @@ const CreateTeam: NextPage = () => {
 				</div>
 				<div className="control">
 					<label htmlFor="province" className="text-secondary required">Province</label>
-					<input type="text" id="province" {...register('province')} />
+					<select id="province" {...register('province')}>
+						<option value=""></option>
+						{locations[0].map((l: string) => (
+							<option key={l} value={l}>{l}</option>
+						))}
+					</select>
 					<p className="error">{errors.province?.message}</p>
 				</div>
 				<div className="control">
 					<label htmlFor="town" className="text-secondary required">Town</label>
-					<input type="text" id="town" {...register('town')} />
+					<select id="town" {...register('town')} disabled={!locations[1][province]}>
+						<option value=""></option>
+						{
+							locations[1][province]?.map((t: string) => (
+								<option key={t} value={t}>{t}</option>
+							))
+						}
+					</select>
 					<p className="error">{errors.town?.message}</p>
 				</div>
 				<div className="control">
 					<label htmlFor="barangay" className="text-secondary required">Barangay</label>
-					<input type="text" id="barangay" {...register('barangay')} />
+					<select id="barangay" {...register('barangay')} disabled={!locations[2][province + town]}>
+						<option value=""></option>
+						{
+							locations[2][province + town]?.map((b: string) => (
+								<option key={b} value={b}>{b}</option>
+							))
+						}
+					</select>
 					<p className="error">{errors.barangay?.message}</p>
 				</div>
 				<div className="control">

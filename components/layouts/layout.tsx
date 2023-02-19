@@ -41,9 +41,7 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 						<div className="grid pr-2 self-start">
 							{navItems.flatMap(nav => (
 								nav.status == undefined || nav.status == status ?
-									<Link key={nav.path} href={nav.path}>
-										<a>{nav.text}</a>
-									</Link>
+									<Link key={nav.path} href={nav.path}>{nav.text}</Link>
 									:
 									[]
 							))}
