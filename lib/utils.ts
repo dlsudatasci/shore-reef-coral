@@ -8,9 +8,15 @@ import { NextRouter } from 'next/router'
  * @param error - an error object of unknown type
  */
 export function toastAxiosError(error: unknown) {
-	if (isAxiosError(error)) {
-		toast.error(error.message, toastErrorConfig)
+	if (!isAxiosError(error)) {
+		return
 	}
+	console.error(error)
+	if (error.response?.data) {
+		return toast.error(error.response.data, toastErrorConfig)
+	}
+
+	toast.error(error.message, toastErrorConfig)
 }
 
 export function onUnauthenticated({ replace, pathname }: NextRouter) {
@@ -18,5 +24,5 @@ export function onUnauthenticated({ replace, pathname }: NextRouter) {
 	searchParams.append('error', 'Please login to continue.')
 	searchParams.append('pathname', pathname)
 
-	return () => replace(`/login?` + searchParams)
+	return () => replace(`/login?${searchParams}`)
 }

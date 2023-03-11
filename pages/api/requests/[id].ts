@@ -43,7 +43,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				const request = await prisma.usersOnTeams.findUnique({ where: { id } })
 
 				if (!request) return res.status(400).send('Request not found')
-				if (request.status !== Status.PENDING) return res.status(400).send('Cannot set non-pending request')
+				if (request.status === Status.INACTIVE || request.status === Status.REJECTED) {
+					return res.status(400).send('The request status is not allowed to be updated!')
+				}
 
 				// check if logged-in user is the leader of the requester's team
 				const count = await prisma.usersOnTeams.count({
