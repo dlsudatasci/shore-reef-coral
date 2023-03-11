@@ -41,7 +41,7 @@ const NavItem: FC<NavItemProp> = ({ text, path }) => {
 
 	return (
 		<Link href={path} className="font-comic-cat text-secondary text-xl h-full inline-flex justify-center items-center cursor-pointer">
-			<p className="px-3 py-2" aria-current={path == pathname ? 'page' : undefined}>{text}</p>
+			<p className="px-3 py-2" aria-current={path === pathname ? 'page' : undefined}>{text}</p>
 		</Link>
 	)
 }
@@ -78,7 +78,7 @@ const Header: FC = () => {
 									</div>
 								</div>
 								<div className="absolute inset-y-0 right-0 flex items-center pr-2 lg:static lg:inset-auto lg:ml-6 lg:pr-0">
-									{status == 'authenticated' ?
+									{status === 'authenticated' ?
 										<ProfileMenu />
 										:
 										<div className="hidden lg:contents">
@@ -106,7 +106,7 @@ const Header: FC = () => {
 							<Disclosure.Panel className="lg:hidden relative bg-white">
 								<div className="px-2 pt-2 pb-3 space-y-1">
 									{navItems.map(nav => <MobNavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome} onClick={close} />)}
-									{status != 'authenticated' &&
+									{status !== 'authenticated' &&
 										<>
 											<MobNavItem text="Login" path="/login" onClick={close} />
 											<MobNavItem text="Sign Up" path="/register" onClick={close} />
