@@ -45,7 +45,6 @@ model UsersOnTeams {
   isScientist Boolean @default(false)
   status      String  @default("pending")
 
-  @@unique([teamId, userId])
   @@index([userId])
   @@index([teamId])
   @@index([isLeader])
