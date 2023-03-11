@@ -30,7 +30,7 @@ function SurveyList({ teams, ...props }: SurveyListProps) {
 		onUnauthenticated: onUnauthenticated(router)
 	})
 	const [teamId, setTeamId] = useState(teams[0].id)
-	const team = useMemo(() => teams.find(t => t.id == teamId), [teams, teamId])
+	const team = useMemo(() => teams.find(t => t.id === teamId), [teams, teamId])
 
 	return (
 		<section {...props}>
@@ -45,15 +45,15 @@ function SurveyList({ teams, ...props }: SurveyListProps) {
 						</select>
 						<div className="h-6">
 							{
-								team?.UsersOnTeam[0].userId == session?.user.id &&
+								team?.UsersOnTeam[0].userId === session?.user.id &&
 								<Link className="text-white underline" href={`/teams/${teamId}`}>manage team</Link>
 							}
 						</div>
 					</div>
 				</div>
 				<div className="flex space-x-4">
-					<button className="btn highlight">SUBMIT A SURVEY</button>
-					<button className="btn primary">SUBMIT CORAL REASSESSMENT</button>
+					<Link className="btn highlight" href="/surveys/submit">SUBMIT A SURVEY</Link>
+					<Link className="btn primary" href="/reassess/submit">SUBMIT CORAL REASSESSMENT</Link>
 				</div>
 			</div>
 			<SurveyTable className="w-full mt-8" data={SampleData} />
