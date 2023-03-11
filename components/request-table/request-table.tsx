@@ -1,5 +1,6 @@
 import app, { fetcher } from '@lib/axios-config'
 import { RequestsAPI } from '@pages/api/teams/[teamId]/requests'
+import { Status } from '@prisma/client'
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { TableHTMLAttributes } from 'react'
 import useSWR from 'swr'
@@ -26,18 +27,18 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 
 				return (
 					<div className="flex space-x-4">
-						<button className="btn highlight" onClick={() => handleAction(id, 'approved')}>Accept</button>
-						<button className="btn secondary" onClick={() => handleAction(id, 'rejected')}>Reject</button>
+						<button className="btn highlight" onClick={() => handleAction(id, Status.ACCEPTED)}>Accept</button>
+						<button className="btn secondary" onClick={() => handleAction(id, Status.REJECTED)}>Reject</button>
 					</div>
 				)
 			}
 		})
 	]
 
-	async function handleAction(reqId: number, status: 'approved' | 'rejected') {
+	async function handleAction(reqId: number, status: Status) {
 		await mutate(app.patch(`/requests/${reqId}`, { status }), {
 			optimisticData: data?.filter(e => e.id !== reqId)
-		});
+		})
 	}
 
 	const table = useReactTable<RequestsAPI>({

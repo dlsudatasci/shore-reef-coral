@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Prisma, Team } from '@prisma/client'
+import { Prisma, Status, Team } from '@prisma/client'
 import { getSession } from 'next-auth/react'
 import prisma from '@lib/prisma'
 import { TeamCreateSchema } from '@pages/teams/create'
@@ -42,7 +42,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				const session = await getSession({ req })
 				if (!session) return res.status(401)
 
-				if (query.filter == 'joinable') {
+				if (query.filter === 'joinable') {
 					const teams = await prisma.team.findMany({
 						...selectTeamProfile,
 						where: {
@@ -79,7 +79,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 							teamId: id,
 							userId: session.user.id,
 							isLeader: true,
-							status: 'approved'
+							status: Status.ACCEPTED,
 						}
 					})
 				} catch (e) {

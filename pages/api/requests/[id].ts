@@ -1,5 +1,5 @@
 import prisma from '@lib/prisma'
-import { Prisma } from '@prisma/client'
+import { Prisma, Status } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 
@@ -22,6 +22,10 @@ const userteams = Prisma.validator<Prisma.TeamArgs>()({
 
 export type UserTeamsAPI = Prisma.TeamGetPayload<typeof userteams>
 
+export function isValidStatus(str?: string): str is Status {
+	return str !== undefined && str in Status
+}
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method } = req
 	const id = Number(req.query.id)
@@ -34,12 +38,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			case 'PATCH': {
 				const status = req.body.status as string | undefined
 
-				if (status != 'approved' && status != 'rejected') return res.status(400).send('Invalid status')
+				if (!isValidStatus(status)) return res.status(400).send('Invalid status')
 
 				const request = await prisma.usersOnTeams.findUnique({ where: { id } })
 
 				if (!request) return res.status(400).send('Request not found')
-				if (request.status != 'pending') return res.status(400).send('Cannot set non-pending request')
+				if (request.status !== Status.PENDING) return res.status(400).send('Cannot set non-pending request')
 
 				// check if logged-in user is the leader of the requester's team
 				const count = await prisma.usersOnTeams.count({

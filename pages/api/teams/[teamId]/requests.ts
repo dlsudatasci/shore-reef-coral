@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 import prisma from '@lib/prisma'
-import { Prisma } from '@prisma/client'
+import { Prisma, Status } from '@prisma/client'
 
 const selectRequests = Prisma.validator<Prisma.UsersOnTeamsArgs>()({
 	select: {
@@ -41,7 +41,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				const requests = await prisma.usersOnTeams.findMany({
 					...selectRequests,
 					where: {
-						status: 'pending',
+						status: Status.PENDING,
 						teamId,
 					}
 				})

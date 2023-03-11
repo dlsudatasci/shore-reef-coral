@@ -1,5 +1,5 @@
 import prisma from '@lib/prisma'
-import { Prisma } from '@prisma/client'
+import { Prisma, Status } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 
@@ -37,7 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						UsersOnTeam: {
 							some: {
 								userId: session.user.id,
-								status: 'approved'
+								status: Status.ACCEPTED
 							}
 						}
 					}
