@@ -47,20 +47,22 @@ const Home: NextPage = () => {
 
 	return (
 		<div className={styles.home}>
-			<ParallaxBanner className="main-height relative">
-				<ParallaxBannerLayer speed={-60}  >
-					<Image
-						src="/landing.jpg"
-						alt="Diver taking pictures"
-						fill
-						className="object-cover object-bottom md:object-contain md:object-center"
-					/>
-				</ParallaxBannerLayer>
-				<ParallaxBannerLayer>
-					<WaveBG className="absolute -bottom-2 md:-bottom-5 lg:-bottom-8 xl:-bottom-10" />
-				</ParallaxBannerLayer>
-			</ParallaxBanner>
-			<section className="my-16">
+			<section className="relative !px-0 !py-0">
+				<ParallaxBanner className="main-height w-full !mx-0 !max-w-full">
+					<ParallaxBannerLayer speed={-60}  >
+						<Image
+							src="/landing.jpg"
+							alt="Diver taking pictures"
+							fill
+							className="object-cover object-bottom md:object-contain md:object-center"
+						/>
+					</ParallaxBannerLayer>
+				</ParallaxBanner>
+				<WaveBG className="absolute -bottom-5 md:-bottom-8 lg:-bottom-10 xl:-bottom-16" />
+			</section>
+			<section className="relative">
+				{/* <WaveBG className="absolute top-0 left-0" /> */}
+				{/* <WaveBG className="absolute -top-12 md:-top-16 lg:-top-20 xl:-top-44 left-0 z-10" /> */}
 				<div className="grid md:grid-cols-2 gap-x-8 gap-y-12">
 					<div className="place-self-center">
 						<div className={styles.header}>
