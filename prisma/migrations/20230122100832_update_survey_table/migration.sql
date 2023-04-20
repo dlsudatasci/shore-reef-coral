@@ -9,11 +9,11 @@
 
 */
 -- AlterTable
-ALTER TABLE `survey` DROP COLUMN `startLatitue`,
+ALTER TABLE `Survey` DROP COLUMN `startLatitue`,
     ADD COLUMN `dataType` VARCHAR(191) NOT NULL,
     ADD COLUMN `startLatitude` DOUBLE NOT NULL,
     ADD COLUMN `status` VARCHAR(191) NOT NULL,
     ADD COLUMN `verified` BOOLEAN NOT NULL;
 
 -- RenameIndex
-ALTER TABLE `survey` RENAME INDEX `Survey_teamId_fkey` TO `Survey_teamId_idx`;
+ALTER TABLE `Survey` RENAME INDEX `Survey_teamId_fkey` TO `Survey_teamId_idx`;
