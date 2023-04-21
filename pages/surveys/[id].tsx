@@ -6,9 +6,13 @@ import sectionsTemplate from "@models/survey-summary";
 import styles from "@styles/survey-display.module.css";
 import { ChevronLeftIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
+import { useRetriever } from "@lib/useRetriever";
+import { Survey } from "@prisma/client";
 
 const Survey: NextPage = () => {
   const router = useRouter();
+  const { id } = router.query;
+  const { data: survey } = useRetriever<Survey>(`/teams/surveys/${id}`);
 
   return (
     <>
@@ -30,9 +34,18 @@ const Survey: NextPage = () => {
           <div className="grid border-4 md:border-r-2">
             <div className="border-b-2">
               <p>Survey Date &amp; Time</p>
+              <p>
+                {survey?.date
+                  .toLocaleString("en-US", {
+                    dateStyle: "long",
+                    timeStyle: "short",
+                  })
+                  .replace("at", "")}
+              </p>
             </div>
             <div className="border-t-2">
               <p>Station Name</p>
+              <p>{survey?.stationName}</p>
             </div>
           </div>
           <div className="grid grid-cols-[1fr_4fr] grid-rows-3 border-4 md:border-x-2">
@@ -49,11 +62,11 @@ const Survey: NextPage = () => {
             </div>
             <div className="flex justify-between border-y-2 border-l-2 px-2">
               <p>Longtitude</p>
-              <p>00.00</p>
+              <p>{survey?.startLongtitude}</p>
             </div>
             <div className="flex justify-between border-l-2 border-t-2 px-2">
               <p>Latitude</p>
-              <p>00.00</p>
+              <p>{survey?.startLatitude}</p>
             </div>
           </div>
           <div className="border-l-2 border-4 place-items-center hidden md:grid">

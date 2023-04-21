@@ -21,9 +21,6 @@ const Dashboard: NextPage = () => {
   });
   const { data: teams } = useRetriever<UserTeamsAPI[]>(`/me/teams`);
 
-  const { data: surveyData } =
-    useRetriever<TeamSurveySummary[]>("/teams/1/surveys");
-
   if (status == "loading") {
     return (
       <DashboardLayout>
@@ -42,11 +39,7 @@ const Dashboard: NextPage = () => {
       </Head>
       <DashboardHeader text="Dashboard" />
       {teams?.length ? (
-        <SurveyList
-          className="mt-8"
-          teams={teams}
-          surveyData={surveyData ?? []}
-        />
+        <SurveyList className="mt-8" teams={teams} />
       ) : (
         <div className="rounded-md bg-highlight flex items-center px-6 py-3 mt-8">
           <Camera className="fill-primary w-12 hidden sm:block" />

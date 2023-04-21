@@ -7,10 +7,10 @@ import { TeamSurveySummary } from "@pages/api/teams/[teamId]/surveys";
 import { useSession } from "next-auth/react";
 import { onUnauthenticated } from "@lib/utils";
 import { useRouter } from "next/router";
+import { useRetriever } from "@lib/useRetriever";
 
 type SurveyListProps = {
   teams: UserTeamsAPI[];
-  surveyData: TeamSurveySummary[];
 } & HTMLAttributes<HTMLDivElement>;
 
 const SampleData: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
@@ -24,7 +24,7 @@ const SampleData: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
   verified: true,
 }));
 
-function SurveyList({ teams, surveyData, ...props }: SurveyListProps) {
+function SurveyList({ teams, ...props }: SurveyListProps) {
   const router = useRouter();
   const { data: session } = useSession({
     required: true,
@@ -34,6 +34,10 @@ function SurveyList({ teams, surveyData, ...props }: SurveyListProps) {
   const team = useMemo(
     () => teams.find((t) => t.id === teamId),
     [teams, teamId]
+  );
+
+  const { data: surveyData } = useRetriever<TeamSurveySummary[]>(
+    `/teams/${teamId}/surveys`
   );
 
   return (
@@ -74,7 +78,7 @@ function SurveyList({ teams, surveyData, ...props }: SurveyListProps) {
           </Link>
         </div>
       </div>
-      <SurveyTable className="w-full mt-8" data={surveyData} />
+      <SurveyTable className="w-full mt-8" data={surveyData ?? []} />
     </section>
   );
 }
