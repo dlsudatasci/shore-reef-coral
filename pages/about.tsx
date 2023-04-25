@@ -4,15 +4,28 @@ import styles from '@styles/Home.module.css'
 import Mask from '@components/icons/mask'
 import Image from 'next/image'
 import ButterflyFish from '@components/icons/butterfly-fish'
+import cn from 'classnames'
+import { ParallaxBanner, ParallaxBannerLayer } from "react-scroll-parallax";
+import Waves from '@components/icons/waves'
+import Starfish from '@components/icons/starfish'
+import Cots from '@components/icons/cots'
+import Featherstar from '@components/icons/featherstar'
+import Clam from '@components/icons/clam'
+import Coral from '@components/icons/coral'
+
 
 const About: NextPage = () => {
 	return (
 		<div className={styles.home}>
-			<div className="relative main-height">
-				<Image src="/about-banner.jpg" alt="Diver taking pictures" layout="fill" objectFit="cover" objectPosition="top" />
+			<section className='relative !px-0 !py-0'>
+				<ParallaxBanner className="main-height w-full !mx-0 !max-w-full">
+					<ParallaxBannerLayer speed={-40}>
+						<Image src="/about_banner.jpg" alt="Diver taking pictures" layout="fill" objectFit="cover" objectPosition="top" />
+					</ParallaxBannerLayer>
+				</ParallaxBanner>
 				<WaveBG className="absolute -bottom-5 md:-bottom-8 lg:-bottom-10 xl:-bottom-16" />
-			</div>
-			<section>
+			</section>
+			<section className='relative !py-32'>
 				<div className="grid md:grid-cols-2 gap-8 !max-w-6xl items-center">
 					<Image src="/about-1.jpg" alt="Diver" layout="responsive" width={3} height={2} />
 					<div>
@@ -31,8 +44,8 @@ const About: NextPage = () => {
 						</p>
 					</div>
 				</div>
-				<div className="border-2 border-white p-8 mt-16 !max-w-4xl">
-					<p className="max-w-prose mx-auto text-center">
+				<div className="border-2 bg-secondary p-8 mt-16 !max-w-4xl">
+					<p className="max-w-prose mx-auto text-center text-primary">
 						ReefMo is a movement aimed at addressing this gap
 						through citizen science. It provides a means for ordinary
 						people to become citizen scientists, facilitates collaboration
@@ -41,11 +54,13 @@ const About: NextPage = () => {
 					</p>
 				</div>
 			</section>
-			<section className="min-h-[50vh] relative grid place-items-center">
-				<Image src="/about-2.jpg" alt="A picture of the Reef Mo Team" layout="fill" objectFit="cover" className="z-0" />
-				<div className="!max-w-3xl relative z-10 text-xl">
+			<ParallaxBanner className="min-h-[60vh] relative grid place-items-center">
+				<ParallaxBannerLayer speed={-35}>
+					<Image src="/about-2.jpg" alt="A picture of the Reef Mo Team" layout="fill" objectFit="cover" className="z-0" />
+				</ParallaxBannerLayer>
+				<div className="!max-w-3xl relative z-10 text-xl text-secondary">
 					<h1 className="mb-4">
-						Our <span className="block text-6xl -mt-2">Vision</span>
+						Our <span className="flex items-center text-6xl -mt-2">Vision <Waves className='fill-secondary w-14 ' /> </span>
 					</h1>
 					<p>
 						ReefMo aims to empower citizen scientists from all walks of life, especially
@@ -54,11 +69,29 @@ const About: NextPage = () => {
 						and communicate the importance of reefs to every Filipino.
 					</p>
 				</div>
-			</section>
-			<section className="bg-accent-1">
-				<div className="grid md:grid-cols-[1fr_2fr] gap-y-4 !max-w-5xl">
+			</ParallaxBanner>
+			<ParallaxBanner className="relative py-24">
+				<ParallaxBannerLayer speed={30}>
+					<Image
+						src="/bg4.png"
+						alt="Checkered background"
+						layout="fill"
+						objectFit="cover"
+						className="z-0"
+						quality={100}
+					/>
+				</ParallaxBannerLayer>
+				<div className="relative grid md:grid-cols-[1fr_2fr] gap-y-4 z-10 mx-auto text-secondary !max-w-5xl">
 					<div className="sm:w-56">
 						<h1>The Alwan Methods</h1>
+						<div className='flex gap-3'>
+							<ButterflyFish className='fill-primary' />
+							<Starfish className='fill-primary' />
+							<Cots className='fill-primary' />
+							<Featherstar className='fill-primary' />
+							<Clam className='fill-primary' />
+							<Coral className='fill-primary' />
+						</div>
 					</div>
 					<div className="space-y-4">
 						<p>
@@ -80,7 +113,7 @@ const About: NextPage = () => {
 						</p>
 					</div>
 				</div>
-			</section>
+			</ParallaxBanner>
 			<section>
 				<div className="grid md:grid-cols-2 gap-x-16 gap-y-4 items-center !max-w-3xl">
 					<div>
@@ -103,8 +136,16 @@ const About: NextPage = () => {
 					</div>
 				</div>
 			</section>
-			<section className={styles.secondary}>
-				<div className="grid !max-w-3xl">
+			<section className={cn(styles.secondary, "relative")}>
+				<Image
+					src="/bg2.png"
+					alt="Checkered background"
+					layout="fill"
+					objectFit="cover"
+					className="z-0"
+					quality={100}
+				/>
+				<div className="grid !max-w-3xl relative z-10">
 					<div className="bg-primary flex w-fit space-x-2 px-2 items-center mb-6">
 						<ButterflyFish className="w-4 aspect-square fill-secondary" />
 						<h6 className="text-secondary font-comic-cat inline">Alwan • Development</h6>

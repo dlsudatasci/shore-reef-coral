@@ -6,15 +6,14 @@ import SurveyForms from '@components/survey-form'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Mask from '@components/icons/mask'
+import { onUnauthenticated } from '@lib/utils'
 
 const Contribute: NextPage = () => {
 	const { page, nextPage, prevPage } = usePageStore()
 	const router = useRouter()
 	useSession({
 		required: true,
-		onUnauthenticated() {
-			router.replace('/login?from=/surveys/submit&error=Please login to continue.')
-		},
+		onUnauthenticated: onUnauthenticated(router)
 	})
 
 	function onSubmit() {

@@ -7,7 +7,7 @@ import { signOut, useSession } from "next-auth/react"
 import { LogoutIcon } from '@heroicons/react/outline'
 
 const menuItems = [
-	{ name: 'Account', path: '/dashboard/profile' },
+	{ name: 'Account', path: '/profile' },
 	{ name: 'Documentation', path: '/dashboard/documentation' },
 ] as const
 
@@ -18,10 +18,8 @@ function className(active: boolean) {
 const MyLink = forwardRef((props: { href: string, children: ReactNode, [key: string]: any }, ref: Ref<HTMLAnchorElement>) => {
 	let { href, children, ...rest } = props
 	return (
-		<Link href={href}>
-			<a ref={ref} {...rest}>
-				{children}
-			</a>
+		<Link href={href} ref={ref} {...rest}>
+			{children}
 		</Link>
 	)
 })
@@ -66,10 +64,10 @@ const ProfileMenu: FC = () => {
 					<p className="mt-3 pl-4 text-accent-1 text-sm">{data?.user.email}</p>
 					<Menu.Item>
 						{({ active }: { active: boolean }) => (
-							<a onClick={() => signOut({ callbackUrl: '/' })} className={cn('cursor-pointer', className(active))}>
+							<button onClick={() => signOut({ callbackUrl: '/' })} className={cn('cursor-pointer', className(active))}>
 								<LogoutIcon className="w-5 h-5 inline mr-1" />
 								<span className="translate-y-[0.75px]">Log out</span>
-							</a>
+							</button>
 						)}
 					</Menu.Item>
 				</Menu.Items>

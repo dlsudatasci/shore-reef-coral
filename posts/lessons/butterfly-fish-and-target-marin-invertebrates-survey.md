@@ -4,6 +4,8 @@ description: "Butterflyfish are one of the most easily recognizable fishes. Alon
 <br><br>
 Additional lectures and activities are also provided to help citizen scientists identify these indicators."
 url: https://www.youtube.com/embed/1NyjyhnkIFE
+resources: 
+  - Butterflyfish and Target Marine Invertebrates Survey: "https://drive.google.com/drive/folders/13GRPVuD65XoL4AtAzl5P8ghbsqTl53oK?usp=share_link"
 order: 5
 ---
 

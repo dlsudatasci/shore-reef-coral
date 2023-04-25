@@ -11,6 +11,7 @@ type LessonData = {
 	description: string
 	order: number
 	url: string
+	resources: Array<any>
 }
 
 export function getLessons() {

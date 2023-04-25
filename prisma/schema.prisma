@@ -24,7 +24,7 @@ model User {
 
 model Team {
   id              Int               @id @default(autoincrement())
-  name            String						@unique
+  name            String            @unique
   province        String
   town            String
   barangay        String
@@ -36,23 +36,36 @@ model Team {
 }
 
 model UsersOnTeams {
+  id          Int     @id @default(autoincrement())
   team        Team    @relation(fields: [teamId], references: [id])
   teamId      Int
   user        User    @relation(fields: [userId], references: [id])
   userId      Int
   isLeader    Boolean @default(false)
   isScientist Boolean @default(false)
-  status      String  @default("pending")
+  status      Status  @default(PENDING)
 
-  @@id([teamId, userId])
+  @@index([userId])
+  @@index([teamId])
   @@index([isLeader])
   @@index([status])
 }
 
+enum Status {
+	ACCEPTED
+	REJECTED
+	PENDING
+	INACTIVE
+}
+
 model PasswordRecovery {
-  userId Int    @id
+  id     Int    @id @default(autoincrement())
   user   User   @relation(fields: [userId], references: [id])
+  userId Int
   code   String
+
+  @@unique([userId])
+  @@index([userId])
 }
 
 model ManagementType {
@@ -66,7 +79,7 @@ model Survey {
   date             DateTime
   stationName      String
   startLongtitude  Float
-  startLatitue     Float
+  startLatitude    Float
   secondLongtitude Float
   secondLatitude   Float
   gpsDatum         String
@@ -87,6 +100,11 @@ model Survey {
   volunteer4       String?
   C30ImageSet      C30ImageSet?
   SurveyFile       SurveyFile?
+  dataType         String
+  status           String
+  verified         Boolean
+
+  @@index([teamId])
 }
 
 model C30ImageSet {

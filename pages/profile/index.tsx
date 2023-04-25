@@ -12,6 +12,7 @@ import { InferType } from 'yup'
 import userSchema from '@models/user'
 import { toastSuccessConfig } from '@lib/toast-defaults'
 import { NextPage } from 'next'
+import { onUnauthenticated } from '@lib/utils'
 
 const profileSchema = userSchema.pick(['firstName', 'lastName', 'affiliation', 'contactNumber'])
 type ProfileSchema = InferType<typeof profileSchema>
@@ -32,9 +33,7 @@ const Profile: NextPage = () => {
 	const router = useRouter()
 	const session = useSession({
 		required: true,
-		onUnauthenticated() {
-			router.replace('/login?from=/dashboard/profile&error=Please login to continue.')
-		},
+		onUnauthenticated: onUnauthenticated(router)
 	})
 	
 	const { data, mutate } = useProfile(session.data?.user.id)
