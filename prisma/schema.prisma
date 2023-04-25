@@ -43,13 +43,19 @@ model UsersOnTeams {
   userId      Int
   isLeader    Boolean @default(false)
   isScientist Boolean @default(false)
-  status      String  @default("pending")
+  status      Status  @default(PENDING)
 
-  @@unique([teamId, userId])
   @@index([userId])
   @@index([teamId])
   @@index([isLeader])
   @@index([status])
+}
+
+enum Status {
+	ACCEPTED
+	REJECTED
+	PENDING
+	INACTIVE
 }
 
 model PasswordRecovery {

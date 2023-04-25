@@ -7,17 +7,16 @@ import { useRouter } from 'next/router'
 import DashboardLayout from '@components/layouts/dashboard-layout'
 import SurveyList from '@components/survey-list'
 import Link from 'next/link'
-import Laptop from '@components/icons/laptop'
 import Camera from '@components/icons/camera'
 import { UserTeamsAPI } from '@pages/api/me/teams'
+import { onUnauthenticated } from '@lib/utils'
+import { DashboardHeader } from '@components/dashboard-header'
 
 const Dashboard: NextPage = () => {
 	const router = useRouter()
-	const { status, data } = useSession({
+	const { status } = useSession({
 		required: true,
-		onUnauthenticated() {
-			router.replace('/login?error=Please login to continue.')
-		},
+		onUnauthenticated: onUnauthenticated(router)
 	})
 	const { data: teams } = useRetriever<UserTeamsAPI[]>(`/me/teams`)
 
@@ -30,12 +29,7 @@ const Dashboard: NextPage = () => {
 			<Head>
 				<title>Reef Mo | Dashboard</title>
 			</Head>
-			<div className="grid place-items-center mt-20">
-				<div className="flex items-center border-secondary border py-4 px-2">
-					<h1 className="mr-4 font-comic-cat text-secondary">Dashboard</h1>
-					<Laptop className="w-14 fill-secondary" />
-				</div>
-			</div>
+			<DashboardHeader text="Dashboard" />
 			{teams?.length ?
 				<SurveyList className="mt-8" teams={teams} />
 				:

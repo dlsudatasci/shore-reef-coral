@@ -7,4 +7,8 @@ const app = axios.create({
 	},
 })
 
+export function fetcher<T>(url: string) {
+	return app.get<T>(url).then(res => res.data)
+}
+
 export default app

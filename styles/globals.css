@@ -41,7 +41,7 @@
 	[type='password'],
 	[type='tel'],
 	[type='datetime-local'] {
-		@apply rounded-lg w-full border-0 focus:outline-highlight focus:outline-1 focus:outline-offset-0 block text-black;
+		@apply rounded-lg w-full border-0 focus-visible:outline-primary focus-visible:outline-2 focus-visible:outline-offset-0 block text-black;
 	}
 }
 

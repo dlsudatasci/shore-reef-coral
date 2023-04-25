@@ -1,12 +1,22 @@
 import prisma from '@lib/prisma'
-import { Prisma } from '@prisma/client'
+import { Prisma, Status } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
+
+const selectLeader = Prisma.validator<Prisma.Team$UsersOnTeamArgs>()({
+	select: {
+		userId: true
+	},
+	where: {
+		isLeader: true
+	}
+})
 
 const userteams = Prisma.validator<Prisma.TeamArgs>()({
 	select: {
 		id: true,
-		name: true
+		name: true,
+		UsersOnTeam: selectLeader
 	}
 })
 
@@ -27,7 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						UsersOnTeam: {
 							some: {
 								userId: session.user.id,
-								status: 'approved'
+								status: Status.ACCEPTED
 							}
 						}
 					}

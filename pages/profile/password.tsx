@@ -8,6 +8,7 @@ import { toastErrorConfig, toastSuccessConfig } from '../../lib/toast-defaults'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { NextPage } from 'next'
+import { onUnauthenticated } from '@lib/utils'
 
 export interface IPasswordInputs {
 	oldPassword: string
@@ -26,9 +27,7 @@ const Profile: NextPage = () => {
 	const router = useRouter()
 	const session = useSession({
 		required: true,
-		onUnauthenticated() {
-			router.replace('/login?from=/dashboard/profile&error=Please login to continue.')
-		},
+		onUnauthenticated: onUnauthenticated(router)
 	})
 	const { register, handleSubmit, setError, reset, formState: { errors } } = useForm<IPasswordInputs>({
 		resolver: yupResolver(passwordSchema)
