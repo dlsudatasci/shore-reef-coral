@@ -17,14 +17,15 @@ import Coral from '@components/icons/coral'
 const About: NextPage = () => {
 	return (
 		<div className={styles.home}>
-			<ParallaxBanner className="relative main-height">
-				<ParallaxBannerLayer speed={-40}>
-					<Image src="/about_banner.jpg" alt="Diver taking pictures" layout="fill" objectFit="cover" objectPosition="top" />
-				</ParallaxBannerLayer>
-			</ParallaxBanner>
+			<section className='relative !px-0 !py-0'>
+				<ParallaxBanner className="main-height w-full !mx-0 !max-w-full">
+					<ParallaxBannerLayer speed={-40}>
+						<Image src="/about_banner.jpg" alt="Diver taking pictures" layout="fill" objectFit="cover" objectPosition="top" />
+					</ParallaxBannerLayer>
+				</ParallaxBanner>
+				<WaveBG className="absolute -bottom-5 md:-bottom-8 lg:-bottom-10 xl:-bottom-16" />
+			</section>
 			<section className='relative !py-32'>
-				<WaveBG className="absolute -top-12 md:-top-16 lg:-top-20 xl:-top-28 left-0 z-10" />
-
 				<div className="grid md:grid-cols-2 gap-8 !max-w-6xl items-center">
 					<Image src="/about-1.jpg" alt="Diver" layout="responsive" width={3} height={2} />
 					<div>
