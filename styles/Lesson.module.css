@@ -93,6 +93,10 @@
 	}
 }
 
+.lesson-list-wrapper > ul > li > a:hover > span > svg{
+	@apply fill-accent-1;
+}
+
 .resource-link:hover > svg, .resource-link:hover > span{
 	@apply fill-secondary border-secondary;
 } 

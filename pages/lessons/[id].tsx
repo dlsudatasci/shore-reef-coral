@@ -1,10 +1,10 @@
 import { useState } from "react";
 import cn from "classnames";
 import {
-	GetStaticPaths,
-	GetStaticPropsContext,
-	InferGetStaticPropsType,
-	NextPage,
+  GetStaticPaths,
+  GetStaticPropsContext,
+  InferGetStaticPropsType,
+  NextPage,
 } from "next";
 import { getLesson, getLessonIds, getLessons } from "@lib/lessons";
 import Link from "next/link";
@@ -14,8 +14,8 @@ import Waves from "@components/icons/waves";
 import Image from "next/image";
 
 const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-	lessons,
-	lessonData,
+  lessons,
+  lessonData,
 }) => {
   const [selected, setSelected] = useState<0 | 1>(0);
   const lessonNumber = (lessonData.order - 1).toString().padStart(2, "0");
@@ -46,16 +46,28 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                   )}
                   key={lesson.id}
                 >
-                  <Link href={`/lessons/${lesson.id}`} className={cn(
-											lesson.id === lessonData.id
-												? "text-primary"
-												: "text-secondary"
-										)}>
-										<span>
-											{(lesson.order - 1).toString().padStart(2, "0")}
-										</span>
-										<br />
-										{lesson.title}
+                  <Link
+                    href={`/lessons/${lesson.id}`}
+                    className={cn(
+                      lesson.id === lessonData.id
+                        ? "text-primary"
+                        : "text-secondary"
+                    )}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Waves
+                        className={cn(
+                          "w-6",
+                          lesson.id === lessonData.id
+                            ? "fill-primary"
+                            : "fill-secondary"
+                        )}
+                      />
+                      {(lesson.order - 1).toString().padStart(2, "0")}
+                    </span>
+                    <p className="pl-8">
+                      {lesson.title}
+                    </p>
                   </Link>
                 </li>
               ))}
@@ -71,9 +83,9 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         <Image
           src="/bg2.png"
           alt="Checkered background"
-          layout="fill"
           className="z-0 bg-repeat"
           quality={100}
+          fill
         />
         <div className="container mx-auto text-primary max-w-6xl px-4 relative z-10">
           <div className="outline-primary outline-2 outline w-min flex font-comic-cat mb-8">
@@ -117,10 +129,15 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                         href={link}
                         target="_blank"
                         rel="noreferrer"
-                        className={cn("text-primary border-primary border-2  hover:bg-primary  hover:text-secondary inline-flex items-center", styles['resource-link'])}
+                        className={cn(
+                          "text-primary border-primary border-2  hover:bg-primary  hover:text-secondary inline-flex items-center",
+                          styles["resource-link"]
+                        )}
                       >
                         <Waves className="fill-primary w-14 h-6" />
-                        <span className="border-l-2 border-primary p-2">{resourceName}</span>
+                        <span className="border-l-2 border-primary p-2">
+                          {resourceName}
+                        </span>
                       </a>
                     );
                   })}
@@ -141,22 +158,22 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 export default Lesson;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const paths = getLessonIds();
+  const paths = getLessonIds();
 
-	return {
-		paths,
-		fallback: false,
-	};
+  return {
+    paths,
+    fallback: false,
+  };
 };
 
 export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
-	const lessons = getLessons();
-	const lessonData = await getLesson((params?.id as string) ?? "");
+  const lessons = getLessons();
+  const lessonData = await getLesson((params?.id as string) ?? "");
 
-	return {
-		props: {
-			lessons,
-			lessonData,
-		},
-	};
+  return {
+    props: {
+      lessons,
+      lessonData,
+    },
+  };
 };
