@@ -1,7 +1,7 @@
 import NextAuth, { User } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import prisma from '@lib/prisma'
-import { matchPassword } from '../../../lib/password-util'
+import { matchPassword } from '@lib/password-util'
 
 export default NextAuth({
 	providers: [
@@ -17,7 +17,7 @@ export default NextAuth({
 
 				const user = await prisma.user.findFirst({ where: { email: credentials.email } })
 
-				if (!user) throw Error('Account with email does not exist. Please regsiter first.')
+				if (!user) throw Error('Account with email does not exist. Please register first.')
 				if (!matchPassword(credentials.password, user.password, user.salt)) throw Error('Invalid email and password combination.')
 
 				return {

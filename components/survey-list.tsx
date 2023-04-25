@@ -1,33 +1,63 @@
-import { FC } from 'react'
-import cn from 'classnames'
 import Link from 'next/link'
-import Mask from './icons/mask'
+import Waves from './icons/waves'
+import { HTMLAttributes, useMemo, useState } from 'react'
+import { UserTeamsAPI } from '@pages/api/me/teams'
+import { SurveyTable } from './survey-table'
+import { TeamSurveySummary } from '@pages/api/teams/[teamId]/surveys'
+import { useSession } from 'next-auth/react'
+import { onUnauthenticated } from '@lib/utils'
+import { useRouter } from 'next/router'
 
-const style = "border-secondary group-hover:border-primary border-r-4 group-hover:bg-secondary flex items-center py-1.5 px-4 col-span-7 sm:col-span-8"
+type SurveyListProps = {
+	teams: UserTeamsAPI[]
+} & HTMLAttributes<HTMLDivElement>
 
-const SurveyItem: FC = () => {
+const SampleData: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
+	id,
+	date: new Date(Date.now() - Math.random() * 1000000000),
+	stationName: 'Station name',
+	startLatitude: Math.random() * 100,
+	startLongtitude: Math.random() * 100,
+	dataType: 'Photos',
+	status: 'Completed',
+	verified: true,
+}))
+
+function SurveyList({ teams, ...props }: SurveyListProps) {
+	const router = useRouter()
+	const { data: session } = useSession({
+		required: true,
+		onUnauthenticated: onUnauthenticated(router)
+	})
+	const [teamId, setTeamId] = useState(teams[0].id)
+	const team = useMemo(() => teams.find(t => t.id === teamId), [teams, teamId])
+
 	return (
-		<Link href="/surveys/1">
-			<div className="outline-secondary hover:outline-primary outline grid grid-cols-9
-			 text-secondary hover:text-primary font-comic-cat text-xl cursor-pointer group hover:scale-105 transition-all">
-				<div className={cn(style, 'border-b-2')}><p>Station Name</p></div>
-				<div className="p-2 group-hover:bg-secondary row-span-2 col-span-2 sm:col-span-1 grid place-items-center">
-					<div className="relative w-full h-full">
-						<Mask className="fill-secondary group-hover:fill-primary" />
+		<section {...props}>
+			<div className="flex justify-between">
+				<div className="flex items-start space-x-4">
+					<Waves className="w-8 aspect-square fill-secondary" />
+					<div>
+						<select className="font-comic-cat w-auto" value={teamId} onChange={e => setTeamId(Number(e.target.value))}>
+							{teams.map(t =>
+								<option key={t.id} value={t.id}>{t.name}</option>
+							)}
+						</select>
+						<div className="h-6">
+							{
+								team?.UsersOnTeam[0].userId === session?.user.id &&
+								<Link className="text-white underline" href={`/teams/${teamId}`}>manage team</Link>
+							}
+						</div>
 					</div>
 				</div>
-				<div className={cn(style, 'border-t-2')}><p>00 / 00 / 0000</p></div>
+				<div className="flex space-x-4">
+					<Link className="btn highlight" href="/surveys/submit">SUBMIT A SURVEY</Link>
+					<Link className="btn primary" href="/reassess/submit">SUBMIT CORAL REASSESSMENT</Link>
+				</div>
 			</div>
-		</Link>
-	)
-}
-
-const SurveyList: FC<{ className?: string }> = ({ className }) => {
-	return (
-		<div className={cn('grid gap-y-6 max-w-3xl mx-auto', className)}>
-			<SurveyItem />
-			<SurveyItem />
-		</div>
+			<SurveyTable className="w-full mt-8" data={SampleData} />
+		</section>
 	)
 }
 

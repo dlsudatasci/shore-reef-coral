@@ -33,6 +33,8 @@ Point A is a live coral or HC, while point B is a white coral or WC. We then wri
 
 The most important organisms on the reef are corals, particularly hard corals. All live hard corals will be classified as HC. Corals can have many different shapes and sizes.
 
+&nbsp;
+
 _Branching corals_ are shaped like the branches of trees or plants. There are many kinds of branching corals. Some look like solitary bushes, and some can form “meadows” where individual coral colonies are difficult to distinguish.
 
 ![Branching coral 1](/images/lesson-7/hc/branching/1.jpg 'Branching coral 1')
