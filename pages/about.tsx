@@ -58,7 +58,7 @@ const About: NextPage = () => {
 					<Image src="/about-2.jpg" alt="A picture of the Reef Mo Team" layout="fill" objectFit="cover" className="z-0" />
 				</ParallaxBannerLayer>
 				<div className="!max-w-3xl relative z-10 text-xl text-secondary">
-					<h1 className="mb-4">
+					<h1 className="mb-8">
 						Our <span className="flex items-center text-6xl -mt-2">Vision <Waves className='fill-secondary w-14 ' /> </span>
 					</h1>
 					<p>

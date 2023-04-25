@@ -114,7 +114,7 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             <div>
               <div className="bg-primary p-2 inline-flex items-center gap-3 mb-5">
                 <ButterflyFish className="fill-secondary w-6" />
-                <h3 className="text-secondary text-xl">
+                <h3 className="text-secondary text-sm">
                   LESSON {lessonNumber}
                 </h3>
               </div>
