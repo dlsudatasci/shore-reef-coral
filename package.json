@@ -11,7 +11,8 @@
 		"prisma:prod": "dotenv -c production prisma",
     "migrate:dev": "yarn prisma:dev migrate dev & yarn prisma:dev generate",
 		"migrate:prod": "yarn prisma:prod migrate deploy & yarn prisma:prod generate",
-    "reset": "yarn prisma:dev migrate reset & yarn prisma:dev generate"
+    "reset": "yarn prisma:dev migrate reset & yarn prisma:dev generate",
+		"deploy": "yarn & yarn migrate:prod & yarn build"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
