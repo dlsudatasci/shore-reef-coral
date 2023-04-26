@@ -91,8 +91,8 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 				<div className="flex items-center space-x-4">
 					<label htmlFor="type" className="whitespace-nowrap text-white">Status</label>
 					<select id="type" className="lowercase"
-						value={table.getColumn('status').getFilterValue() as string}
-						onChange={e => table.getColumn('status').setFilterValue(e.target.value)}
+						value={table.getColumn('status')?.getFilterValue() as string}
+						onChange={e => table.getColumn('status')?.setFilterValue(e.target.value)}
 					>
 						<option value={Status.ACCEPTED}>{Status.ACCEPTED}</option>
 						<option value={Status.PENDING}>{Status.PENDING}</option>

@@ -45,7 +45,7 @@ const columns = [
 export function TeamsTable({ data }: TeamsTableProps) {
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 	const [id, setId] = useState<number>()
-	const teamProfile = useMemo(() => data.find(d => d.id == id), [id, data])
+	const teamProfile = useMemo(() => data.find(d => d.id === id), [id, data])
 	const leaderName = useMemo(() => {
 		const user = teamProfile?.UsersOnTeam[0].user
 		return `${user?.firstName} ${user?.lastName}`
@@ -66,7 +66,7 @@ export function TeamsTable({ data }: TeamsTableProps) {
 	})
 
 	async function onJoinClick() {
-		if (id == undefined) return
+		if (id === undefined) return
 
 		try {
 			await app.post(`/teams/${id}/members`)
@@ -83,24 +83,24 @@ export function TeamsTable({ data }: TeamsTableProps) {
 			{
 				createPortal(<ConfirmationModal
 					message={`Are you sure you want to join the team ${teamProfile?.name} created by ${leaderName}?`}
-					isOpen={id != undefined}
+					isOpen={id !== undefined}
 					close={() => setId(undefined)}
 					onAction={onJoinClick}
-				/>, document.querySelector('body')!)
+				/>, document.body)
 			}
 			<div className="grid gap-x-4 gap-y-1 grid-cols-2 mb-6 max-w-2xl">
 				<p className="col-span-full text-secondary font-comic-cat">filters</p>
 				<DebouncedInput
 					type="text"
 					placeholder="Team name"
-					value={table.getColumn('name').getFilterValue() as string}
-					onChange={value => table.getColumn('name').setFilterValue(value)}
+					value={table.getColumn('name')?.getFilterValue() as string}
+					onChange={value => table.getColumn('name')?.setFilterValue(value)}
 				/>
 				<DebouncedInput
 					type="text"
 					placeholder="Leader"
-					value={table.getColumn('leader').getFilterValue() as string}
-					onChange={value => table.getColumn('leader').setFilterValue(value)}
+					value={table.getColumn('leader')?.getFilterValue() as string}
+					onChange={value => table.getColumn('leader')?.setFilterValue(value)}
 				/>
 			</div>
 			<div className="space-y-1.5">

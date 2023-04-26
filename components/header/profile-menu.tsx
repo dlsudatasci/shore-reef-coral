@@ -16,7 +16,7 @@ function className(active: boolean) {
 }
 
 const MyLink = forwardRef((props: { href: string, children: ReactNode, [key: string]: any }, ref: Ref<HTMLAnchorElement>) => {
-	let { href, children, ...rest } = props
+	const { href, children, ...rest } = props
 	return (
 		<Link href={href} ref={ref} {...rest}>
 			{children}

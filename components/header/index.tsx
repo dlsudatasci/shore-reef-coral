@@ -30,7 +30,7 @@ const MobNavItem: FC<MobNavItemProp> = ({ text, path, onClick }) => {
 
 	return (
 		<Link href={path} onClick={onClick}
-			className='border-l-2 block px-3 py-2 text-base font-medium cursor-pointer' aria-current={pathname == path ? 'page' : undefined}>
+			className='border-l-2 block px-3 py-2 text-base font-medium cursor-pointer' aria-current={pathname === path ? 'page' : undefined}>
 			{text}
 		</Link>
 	)
@@ -72,7 +72,7 @@ const Header: FC = () => {
 								</div>
 								<div className="hidden lg:block absolute left-1/2 -translate-x-1/2">
 									<div className="flex space-x-4 items-center h-full">
-										{navItems.flatMap(nav => nav.status == undefined || nav.status == status ?
+										{navItems.flatMap(nav => nav.status === undefined || nav.status === status ?
 											<NavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome} /> : []
 										)}
 									</div>

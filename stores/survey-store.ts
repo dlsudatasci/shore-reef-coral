@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 import { ISurveyInformation } from '../models/survey'
 import { ITeam } from '../models/team'
 
