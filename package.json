@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma": "dotenv -c development prisma",
-    "migrate": "yarn prisma migrate dev & yarn prisma generate",
-    "reset": "yarn prisma migrate reset & yarn prisma generate"
+    "prisma:dev": "dotenv -c development prisma",
+		"prisma:prod": "dotenv -c production prisma",
+    "migrate:dev": "yarn prisma:dev migrate dev & yarn prisma:dev generate",
+		"migrate:prod": "yarn prisma:prod migrate deploy & yarn prisma:prod generate",
+    "reset": "yarn prisma:dev migrate reset & yarn prisma:dev generate"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
