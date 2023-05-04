@@ -12,6 +12,8 @@ import styles from "@styles/Lesson.module.css";
 import ButterflyFish from "@components/icons/butterfly-fish";
 import Waves from "@components/icons/waves";
 import Image from "next/image";
+import ReactMarkdown from "react-markdown";
+import { MarkdownImage } from "@components/markdown-image";
 
 const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   lessons,
@@ -65,9 +67,7 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                       />
                       {(lesson.order - 1).toString().padStart(2, "0")}
                     </span>
-                    <p className="pl-8">
-                      {lesson.title}
-                    </p>
+                    <p className="pl-8">{lesson.title}</p>
                   </Link>
                 </li>
               ))}
@@ -106,10 +106,16 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               Resources
             </button>
           </div>
-          <article
-            className={cn(styles.lesson, selected === 0 ? "grid" : "!hidden")}
-            dangerouslySetInnerHTML={{ __html: lessonData.contentHtml }}
-          />
+          <ReactMarkdown
+            className={cn(selected === 0 ? "block" : "!hidden")}
+            components={{
+              img: ({ node, ...props }) => (
+                <MarkdownImage src={props.src} alt={props.alt} />
+              ),
+            }}
+          >
+            {lessonData.content}
+          </ReactMarkdown>
           {selected === 1 && (
             <div>
               <div className="bg-primary p-2 inline-flex items-center gap-3 mb-5">

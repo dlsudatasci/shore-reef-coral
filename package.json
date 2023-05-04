@@ -8,11 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "prisma:dev": "dotenv -c development prisma",
-		"prisma:prod": "dotenv -c production prisma",
+    "prisma:prod": "dotenv -c production prisma",
     "migrate:dev": "yarn prisma:dev migrate dev & yarn prisma:dev generate",
-		"migrate:prod": "yarn prisma:prod migrate deploy & yarn prisma:prod generate",
+    "migrate:prod": "yarn prisma:prod migrate deploy & yarn prisma:prod generate",
     "reset": "yarn prisma:dev migrate reset & yarn prisma:dev generate",
-		"deploy": "yarn & yarn migrate:prod & yarn build"
+    "deploy": "yarn & yarn migrate:prod & yarn build"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
@@ -34,6 +34,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.32.0",
+    "react-markdown": "^8.0.7",
     "react-scroll-parallax": "^3.3.2",
     "react-toastify": "^9.0.4",
     "remark": "^14.0.2",
@@ -58,7 +59,7 @@
     "tailwindcss": "^3.1.2",
     "typescript": "4.7.3"
   },
-	"resolutions": {
-		"xml2js": "^0.5.0"
-	}
+  "resolutions": {
+    "xml2js": "^0.5.0"
+  }
 }

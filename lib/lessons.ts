@@ -62,6 +62,7 @@ export async function getLesson(id: string) {
 	return {
 		id,
 		contentHtml,
+		content: matterResult.content,
 		...matterResult.data as LessonData
 	}
 }
