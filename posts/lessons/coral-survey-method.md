@@ -124,9 +124,12 @@ To avoid confusion in backing up the image files, apart from the C30 photos, her
 
 The **Alwan Survey Guide** with details of the survey station and the citizen scientists.
 
+<div class="grid-layout-3">
+
 ![Index finger hand signal](/images/lesson-5/20.jpg 'Index finger hand signal')
 ![Peace sign hand symbol](/images/lesson-5/21.jpg 'Peace sign hand symbol')
 ![Circle hand symbol](/images/lesson-5/19.jpg 'Circle hand symbol')
+</div>
 
 **Hand signal ‘1’** to indicate the beginning of the photo series in the first half of the station.
 

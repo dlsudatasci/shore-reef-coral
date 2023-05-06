@@ -76,38 +76,59 @@ You conducted a survey in Talim Outer A, Barangay Luyahan, Lian, Batangas and yo
 
 The hard coral cover is 52%. Look for the letter grade this falls under. Since the hard coral cover is greater than 44%, ‘A’ is the proper letter grade to indicate on the scorecard.
 
+<div class="grid-layout-2">
+
 ![Coral category classification](/images/lesson-8/5.png 'Coral category classification')
 ![Coral grading sheet](/images/lesson-8/6.png 'Coral grading sheet')
+</div>
 
 The number of butterflyfish spotted during the survey was 60. Put ‘B’ next to Butterflyfish Abundance
 
+<div class="grid-layout-2">
+
 ![Butterflyfish abundance classification](/images/lesson-8/7.png 'Butterflyfish abundance classification')
 ![Butterflyfish abundance grading sheet](/images/lesson-8/8.png 'Butterflyfish abundance grading sheet')
+</div>
 
 The number of butterflyfish species spotted during the survey was 7. Put ‘B’ next to Butterflyfish richness.
 
+<div class="grid-layout-2">
+
 ![Butterflyfish species classification](/images/lesson-8/9.png 'Butterflyfish species classification')
 ![Butterflyfish species grading sheet](/images/lesson-8/10.png 'Butterflyfish species grading sheet')
+</div>
 
 No COTS were spotted in the survey station. ‘A’ is the letter grade in this case.
 
+<div class="grid-layout-2">
+
 ![COTS abundance classification](/images/lesson-8/11.png 'COTS abundance classification')
 ![COTS abundance grading sheet](/images/lesson-8/12.png 'COTS abundance grading sheet')
+</div>
 
 Only one giant clam was spotted. Place ‘D’ next to the Giant Clams criteria.
 
+<div class="grid-layout-2">
+
 ![Giant clam abundance classification](/images/lesson-8/13.png 'Giant clam abundance classification')
 ![Giant clam abundance grading sheet](/images/lesson-8/14.png 'Giant clam abundance grading sheet')
+</div>
 
 Only 20 feather stars were found in the station. ‘C’ is the letter grade in this case.
 
+<div class="grid-layout-2">
+
 ![Feather star abundance classification](/images/lesson-8/15.png 'Feather star abundance classification')
 ![Feather star abundance grading sheet](/images/lesson-8/16.png 'Feather star abundance grading sheet')
+</div>
 
 Only 6 Linckia were found in the station. ‘C’ is also the letter grade in this case.
 
+<div class="grid-layout-2">
+
 ![Linckia abundance classification](/images/lesson-8/17.png 'Linckia abundance classification')
 ![Linckia abundance grading sheet](/images/lesson-8/18.png 'Linckia abundance grading sheet')
+</div>
 
 If you’re conducting another survey in the same station, use the same scorecard. For example, if you were to conduct another survey in 2022, indicate the month and year and repeat the process.
 

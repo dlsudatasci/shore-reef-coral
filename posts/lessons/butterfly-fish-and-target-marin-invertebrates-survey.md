@@ -17,9 +17,12 @@ Our coral reefs are home to thousands of fish and various other marine creatures
 
 The abundance and diversity of butterflyfish in a reef are good signs of reef health as many are dependent on corals as food. Citizen scientists will be taught how to recognize and count these fish for the survey.
 
+<div class="grid-layout-3">
+
 ![Yellow butterflyfish 1](/images/lesson-4/1.jpg 'Yellow butterflyfish 1')
 ![Yellow butterflyfish 2](/images/lesson-4/2.jpg 'Yellow butterflyfish 2')
 ![Yellow butterflyfish 3](/images/lesson-4/3.jpg 'Yellow butterflyfish 3')
+</div>
 
 The following target marine invertebrates can help us find out why certain changes are happening in a reef:
 
