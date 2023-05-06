@@ -54,7 +54,7 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               {lessons.map((lesson, index) => (
                 <li
                   className={cn(
-                    "border-2  border-secondary px-2 py-1",
+                    "border-2  border-secondary px-2 py-1 hover:bg-secondary",
                     lesson.id === lessonData.id ? "bg-secondary" : "",
                     index === lessons.length - 1 ? "border-b-2" : "border-b-0"
                   )}
