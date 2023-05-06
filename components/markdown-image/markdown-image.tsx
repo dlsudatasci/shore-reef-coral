@@ -13,7 +13,7 @@ export const MarkdownImage = ({ src, alt }: Props) => {
   };
 
   return (
-    <span className="block relative w-full mb-5 aspect-video">
+    <div className="block relative w-full mb-5 aspect-video markdown-image">
       <Image
         src={src ?? ""}
         alt={alt ?? ""}
@@ -22,7 +22,7 @@ export const MarkdownImage = ({ src, alt }: Props) => {
         fill
       />
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" onClick={handleClick}>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 !col-span-2" onClick={handleClick}>
           <div className="relative bg-white p-4 rounded shadow-md aspect-video w-[60%]">
             <Image
               src={src ?? ""}
@@ -39,6 +39,6 @@ export const MarkdownImage = ({ src, alt }: Props) => {
           </div>
         </div>
       )}
-    </span>
+    </div>
   );
 };

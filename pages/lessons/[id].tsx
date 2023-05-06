@@ -14,6 +14,8 @@ import Waves from "@components/icons/waves";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { MarkdownImage } from "@components/markdown-image";
+import rehypeRaw from 'rehype-raw'
+import unwrapImages from "remark-unwrap-images";
 
 const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   lessons,
@@ -107,8 +109,16 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             </button>
           </div>
           <ReactMarkdown
-            className={cn(selected === 0 ? "block" : "!hidden")}
+            className={cn(styles.lesson,selected === 0 ? "block" : "!hidden")}
+            rehypePlugins={[rehypeRaw]}
+            remarkPlugins={[unwrapImages]}
             components={{
+              div: ({ node, ...props }) => {
+                if (props.className === "grid-layout-2") {
+                  return <div className="grid md:grid-cols-2 gap-5 mt-5">{props.children}</div>
+                }
+                return <div>{props.children}</div>
+              },
               img: ({ node, ...props }) => (
                 <MarkdownImage src={props.src} alt={props.alt} />
               ),

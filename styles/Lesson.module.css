@@ -2,25 +2,10 @@
 	@apply grid md:grid-cols-2
 }
 
-.lesson * {
+.lesson > * {
 	@apply col-span-2
 }
 
-.lesson p:has(img) {
-	@apply my-6 grid grid-cols-2 gap-4 w-fit mx-auto
-}
-
-.lesson img {
-	@apply place-self-center max-h-72
-}
-
-.lesson p img:nth-child(odd) {
-	@apply col-span-2
-}
-
-.lesson img:nth-child(odd):has(+ img), .lesson img+img {
-	@apply col-span-1
-}
 
 .lesson h1,
 .lesson h2,
