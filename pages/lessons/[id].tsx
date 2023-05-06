@@ -23,7 +23,6 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 }) => {
   const [selected, setSelected] = useState<0 | 1>(0);
   const lessonNumber = (lessonData.order - 1).toString().padStart(2, "0");
-
   return (
     <>
       <section className="bg-primary text-secondary px-4 py-10">
@@ -31,13 +30,24 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           <div>
             <h3 className="font-comic-cat">LESSON {lessonNumber}:</h3>
             <h1 className="font-comic-cat mb-4">{lessonData.title}</h1>
-            <iframe
-              className="w-full aspect-video"
-              src={lessonData.url}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+            {lessonData.url && (
+              <iframe
+                className="w-full aspect-video"
+                src={lessonData.url}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            )}
+            {lessonData.image && (
+              <Image
+                src={lessonData.image}
+                alt={lessonData.title}
+                width={600}
+                height={400}
+                className="w-full"
+              />
+            )}
           </div>
           <div className={cn(styles["lesson-list-wrapper"])}>
             <ul>
@@ -108,6 +118,10 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               Resources
             </button>
           </div>
+          <div className="bg-primary p-2 inline-flex items-center gap-3 mb-5">
+            <ButterflyFish className="fill-secondary w-6" />
+            <h3 className="text-secondary text-sm">LESSON {lessonNumber}</h3>
+          </div>
           <ReactMarkdown
             className={cn(styles.lesson, selected === 0 ? "block" : "!hidden")}
             rehypePlugins={[rehypeRaw]}
@@ -142,12 +156,6 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           </ReactMarkdown>
           {selected === 1 && (
             <div>
-              <div className="bg-primary p-2 inline-flex items-center gap-3 mb-5">
-                <ButterflyFish className="fill-secondary w-6" />
-                <h3 className="text-secondary text-sm">
-                  LESSON {lessonNumber}
-                </h3>
-              </div>
               {lessonData.resources ? (
                 <div>
                   {lessonData.resources.map((resource, index) => {

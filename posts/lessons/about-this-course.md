@@ -1,11 +1,9 @@
 ---
 title: About this course
 description:
-url: https://www.youtube.com/embed/pC8TjBMKsBo
+image: /images/lesson-0/1.jpg
 order: 1
 ---
-
-![Survey team certified after training](/images/lesson-0/1.jpg 'Survey team certified after training')
 
 ## About this course
 
