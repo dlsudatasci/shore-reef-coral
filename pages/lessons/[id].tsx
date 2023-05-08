@@ -16,6 +16,7 @@ import ReactMarkdown from "react-markdown";
 import { MarkdownImage } from "@components/markdown-image";
 import rehypeRaw from "rehype-raw";
 import unwrapImages from "remark-unwrap-images";
+import { MarkdownHeading } from "@components/markdown-heading";
 
 const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   lessons,
@@ -149,6 +150,9 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               },
               img: ({ node, ...props }) => (
                 <MarkdownImage src={props.src} alt={props.alt} />
+              ),
+              h1: ({ node, ...props }) => (
+                <MarkdownHeading icons={lessonData.icons}>{props.children}</MarkdownHeading>
               ),
             }}
           >

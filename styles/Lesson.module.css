@@ -33,12 +33,16 @@
 	@apply list-disc ml-12
 }
 
+.lesson ol li{
+	@apply mb-5;
+}
+
 .lesson li img {
 	@apply h-48 rounded-sm mb-4
 }
 
 .lesson h1 {
-	@apply text-4xl
+	@apply text-5xl
 }
 
 .lesson h2 {

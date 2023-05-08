@@ -7,9 +7,10 @@ url: https://www.youtube.com/embed/1NyjyhnkIFE
 resources: 
   - Butterflyfish and Target Marine Invertebrates Survey: "https://drive.google.com/drive/folders/13GRPVuD65XoL4AtAzl5P8ghbsqTl53oK?usp=share_link"
 order: 5
+icons: ['butterflyFish', 'starfish', 'cots', 'featherStar', 'clam']
 ---
 
-## Butterflyfish and Target Marine Invertebrates Survey
+# Butterflyfish and Target Marine Invertebrates Survey
 
 Our coral reefs are home to thousands of fish and various other marine creatures that come in all sorts of colors, shapes, and sizes. Luckily, citizen scientists don't need to recognize and count every single species. There is a fish group and some marine animals that can help us assess the conditions of our reefs—**butterflyfishes** and a few **target marine invertebrates**. Let’s go over them below.
 

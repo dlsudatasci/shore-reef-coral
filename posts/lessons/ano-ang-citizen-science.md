@@ -3,9 +3,10 @@ title: Ano ang Citizen Science
 description: This video describes the key concepts of the citizen science approach behind the Alwan methods of reef assessment.
 url: https://www.youtube.com/embed/apI5shqomPw
 order: 3
+icons: ['mask', 'fins', 'camera']
 ---
 
-## What is Citizen Science?
+# What is Citizen Science?
 
 If you want to help our environment, especially our coral reefs, citizen science is a great way to do it. But what exactly is citizen science, and how does it differ from participatory science, volunteerism, or community-based initiatives?
 

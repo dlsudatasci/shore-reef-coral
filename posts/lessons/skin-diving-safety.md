@@ -5,7 +5,7 @@ url: https://www.youtube.com/embed/gv6beiYcn9k
 order: 7
 ---
 
-## Skin Diving Safety
+# Skin Diving Safety
 
 To conduct the coral survey method, you need to know how to skin dive a depth of 5-6 meters. While skin diving is generally safe, doing it improperly can be dangerous. In order to prevent untoward incidents in the water, there are a few safety precautions you should implement.
 

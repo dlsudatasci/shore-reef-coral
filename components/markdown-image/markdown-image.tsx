@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useState } from "react";
+import { useState } from "react";
 
 type Props = {
   src?: string;

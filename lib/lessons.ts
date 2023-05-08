@@ -11,6 +11,7 @@ type LessonData = {
   url?: string;
   image?: string;
   resources: Array<any>;
+  icons?: string[];
 };
 
 export function getLessons() {

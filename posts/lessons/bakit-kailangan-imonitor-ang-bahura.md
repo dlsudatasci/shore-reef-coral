@@ -5,9 +5,10 @@ url: https://www.youtube.com/embed/qC4-8AZrGkM
 resources: 
   - Nationwide Reef Assessment: "https://philjournalsci.dost.gov.ph/images/pdf/pjs_pdf/vol146no2/initial_findings_of_the_nationwide_assessment_of_philippine_coral_reefs.pdf"
 order: 2
+icons: ['butterflyFish', 'starfish', 'coral']
 ---
 
-## Why Do We Need to Monitor Reefs?
+# Why Do We Need to Monitor Reefs?
 
 With over 27,000 square kilometers of reefs, the Philippines has the third largest coral reef area on earth. These reefs are home to thousands of marine species, including over 500 coral species and over 2000 fish species. But what is a coral reef, exactly?
 

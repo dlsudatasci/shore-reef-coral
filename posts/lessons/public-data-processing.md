@@ -5,9 +5,10 @@ url: https://www.youtube.com/embed/tMk7GVnirO0
 resources: 
    - Alwan Scorecard: "https://drive.google.com/drive/folders/1fc9-zwZ1s4kVxveAYOt_KgadU3Cu7K28?usp=share_link"
 order: 9
+icons: ['camera', 'laptop']
 ---
 
-## Public Data Processing
+# Public Data Processing
 
 One goal of citizen science is to positively shift people’s behaviors and perspectives. In order for this to happen, having citizen scientists collect the data isn’t enough. We also need to make sure that the results reach them. One way to do this is to make sure they are involved in processing the data so that they can immediately see how their reef is doing and discuss what they can do about it.
 

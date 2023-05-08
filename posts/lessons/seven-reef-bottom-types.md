@@ -5,9 +5,10 @@ description: "The composition of the reef bottom, including how much coral is pr
 Photos taken during Alwan surveys are used to measure the composition of the reef bottom. This video shows citizen scientists how to identify the seven reef bottom types used by the Alwan methods."
 url: https://www.youtube.com/embed/xdJ-E1YF4jk
 order: 8
+icons: ['camera', 'coral']
 ---
 
-## Seven Reef Bottom Types
+# Seven Reef Bottom Types
 
 Coral reefs are home to all sorts of marine creatures, like corals, fish, eels, octopuses, and so many more. There are also plants like seagrass and seaweed. Because corals build reefs, one of the best indicators of reef health is the abundance of coral. This is what we call Hard Coral Cover or HCC.
 
