@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Prisma, Status, Team } from '@prisma/client'
-import { getSession } from 'next-auth/react'
+import { getServerSession } from 'next-auth/next'
 import prisma from '@lib/prisma'
 import { TeamCreateSchema } from '@pages/teams/create'
 import locations from '@public/bgy-masterlist.json'
+import { authOptions } from '../auth/[...nextauth]'
 
 export type TeamProfileSummary = Prisma.TeamGetPayload<typeof selectTeamProfile>
 
@@ -39,7 +40,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			case 'GET': {
 				const query = req.query as { filter?: string }
 
-				const session = await getSession({ req })
+				const session = await getServerSession(req, res, authOptions)
 				if (!session) return res.status(401)
 
 				if (query.filter === 'joinable') {
@@ -60,7 +61,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 
 			case 'POST': {
-				const session = await getSession({ req })
+				const session = await getServerSession(req, res, authOptions)
 				if (!session) return res.status(401)
 
 				// validate location

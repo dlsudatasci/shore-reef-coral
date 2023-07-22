@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from 'next-auth/react'
+import { getServerSession } from 'next-auth/next'
 import prisma from '@lib/prisma'
 import { Prisma, Status } from '@prisma/client'
+import { authOptions } from '@pages/api/auth/[...nextauth]'
 
 const selectMembers = Prisma.validator<Prisma.Team$UsersOnTeamArgs>()({
 	select: {
@@ -37,7 +38,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		switch (method) {
 			case 'GET': {
-				const session = await getSession({ req })
+				const session = await getServerSession(req, res, authOptions)
 				if (!session) return res.status(401)
 
 				// Authenticate team leader
@@ -60,7 +61,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 
 			case 'POST': {
-				const session = await getSession({ req })
+				const session = await getServerSession(req, res, authOptions)
 				if (!session) return res.status(401)
 
 				const count = await prisma.usersOnTeams.count({
