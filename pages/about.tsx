@@ -1,18 +1,10 @@
 import WaveBG from '@components/wave-bg'
 import { NextPage } from 'next'
 import styles from '@styles/Home.module.css'
-import Mask from '@components/icons/mask'
 import Image from 'next/image'
-import ButterflyFish from '@components/icons/butterfly-fish'
 import cn from 'classnames'
 import { ParallaxBanner, ParallaxBannerLayer } from "react-scroll-parallax";
-import Waves from '@components/icons/waves'
-import Starfish from '@components/icons/starfish'
-import Cots from '@components/icons/cots'
-import Featherstar from '@components/icons/featherstar'
-import Clam from '@components/icons/clam'
-import Coral from '@components/icons/coral'
-
+import { Coral, Clam, Featherstar, Cots, Starfish, Waves, ButterflyFish, Mask } from '@components/icons'
 
 const About: NextPage = () => {
 	return (

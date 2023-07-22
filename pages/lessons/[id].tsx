@@ -9,8 +9,7 @@ import {
 import { getLesson, getLessonIds, getLessons } from "@lib/lessons";
 import Link from "next/link";
 import styles from "@styles/Lesson.module.css";
-import ButterflyFish from "@components/icons/butterfly-fish";
-import Waves from "@components/icons/waves";
+import { ButterflyFish, Waves } from "@components/icons";
 import Image from "next/image";
 
 const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({

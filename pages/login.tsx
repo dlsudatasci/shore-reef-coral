@@ -9,7 +9,7 @@ import Alert from '../components/alert'
 import Head from 'next/head'
 import { InferType } from 'yup'
 import { useEffect, useState } from 'react'
-import ButterflyFish from '@components/icons/butterfly-fish'
+import { ButterflyFish } from '@components/icons'
 
 const loginSchema = userSchema.pick(['email', 'password'])
 

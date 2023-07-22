@@ -1,4 +1,4 @@
-import Laptop from '@components/icons/laptop'
+import { Laptop } from '@components/icons'
 
 type DashboardHeaderProps = {
 	text: string

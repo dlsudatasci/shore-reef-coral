@@ -12,7 +12,7 @@ import Head from 'next/head'
 import { InferType } from 'yup'
 import Alert from '../components/alert'
 import { useState } from 'react'
-import Clam from '@components/icons/clam'
+import { Clam } from '@components/icons'
 
 const registerSchema = userSchema.pick(['email', 'password', 'firstName', 'lastName', 'affiliation'])
 type RegisterSchema = InferType<typeof registerSchema>

@@ -10,10 +10,7 @@ import { toast } from "react-toastify";
 import { toastErrorConfig, toastSuccessConfig } from "@lib/toast-defaults";
 import WaveBG from "@components/wave-bg";
 import GetInvolvedButton from "@components/get-involved-button";
-import Laptop from "@components/icons/laptop";
-import Mask from "@components/icons/mask";
-import Coral from "@components/icons/coral";
-import Camera from "@components/icons/camera";
+import { Laptop, Mask, Coral, Camera } from "@components/icons";
 import cn from "classnames";
 import { ParallaxBanner, ParallaxBannerLayer } from "react-scroll-parallax";
 

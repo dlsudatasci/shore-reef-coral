@@ -1,6 +1,6 @@
 import { SVGAttributes } from 'react'
 
-export default function Waves(props: SVGAttributes<SVGElement>) {
+export function Waves(props: SVGAttributes<SVGElement>) {
   return (
     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props}>
       <path opacity="1.000000" stroke="none"

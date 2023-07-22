@@ -5,7 +5,7 @@ import usePageStore from '@stores/page-store'
 import SurveyForms from '@components/survey-form'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import Mask from '@components/icons/mask'
+import { Mask } from '@components/icons'
 import { onUnauthenticated } from '@lib/utils'
 
 const Contribute: NextPage = () => {
