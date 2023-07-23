@@ -4,6 +4,7 @@ import AdminLayout from "@components/layouts/admin-layout";
 import { TeamsSummary } from "@pages/api/admin/teams";
 import { useState } from "react";
 import cn from "classnames";
+import TeamRequests from "@components/admin/team-requests/team-requests";
 
 const Teams = () => {
   const SAMPLE_DATA: TeamsSummary[] = Array.from({ length: 10 }, (_, id) => ({
@@ -57,20 +58,28 @@ const Teams = () => {
             TEAM REQUESTS (5)
           </button>
         </div>
-        <div className="mt-8 flex gap-6 w-[50%]">
-          <input type="text" placeholder="Team Name" />
-          <select name="location" id="location">
-            <option value="all">All Locations</option>
-            <option value="manila">Manila</option>
-          </select>
-          <button className="bg-primary text-secondary rounded-full px-4 py-2 w-72">Filter</button>
-        </div>
+        {selected === 0 && (
+          <div className="mt-8 flex gap-6 w-[50%]">
+            <input type="text" placeholder="Team Name" />
+            <select name="location" id="location">
+              <option value="all">All Locations</option>
+              <option value="manila">Manila</option>
+            </select>
+            <button className="bg-primary text-secondary rounded-full px-4 py-2 w-72">
+              Filter
+            </button>
+          </div>
+        )}
       </section>
       <section>
-        <TeamsTable
-          className="w-full mt-8"
-          data={SAMPLE_DATA.filter((team) => team.isVerified)}
-        />
+        {selected === 0 ? (
+          <TeamsTable
+            className="w-full mt-8"
+            data={SAMPLE_DATA.filter((team) => team.isVerified)}
+          />
+        ) : (
+          <TeamRequests data={SAMPLE_DATA.filter((team) => !team.isVerified)} />
+        )}
       </section>
     </AdminLayout>
   );
