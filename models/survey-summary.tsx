@@ -1,7 +1,7 @@
 import { ButterflyFish, Clam, Coral, Cots, Starfish } from "@components/icons"
 
 export interface ISubsection {
-	img: React.ReactNode
+	Img: typeof Clam
 	title: string
 	score: number
 	grade: string
@@ -18,19 +18,19 @@ export const sectionsTemplate: ISection[] = [
 		subsections: [
 			{
 				title: 'Hard Coral Cover',
-				img: <Coral />,
+				Img: Coral,
 				score: 0.0,
 				grade: 'D'
 			},
 			{
 				title: 'Butterflyfish Abundance',
-				img: <ButterflyFish />,
+				Img: ButterflyFish,
 				score: 0.0,
 				grade: 'C'
 			},
 			{
 				title: 'Butterflyfish Species Richness',
-				img: <ButterflyFish />,
+				Img: ButterflyFish,
 				score: 0.0,
 				grade: 'B'
 			}
@@ -41,7 +41,7 @@ export const sectionsTemplate: ISection[] = [
 		subsections: [
 			{
 				title: 'Crown-of-thorns Starfish Abundance',
-				img: <Cots />,
+				Img: Cots,
 				score: 0.0,
 				grade: 'A'
 			},
@@ -52,7 +52,7 @@ export const sectionsTemplate: ISection[] = [
 		subsections: [
 			{
 				title: 'Giant Clams Abundance',
-				img: <Clam />,
+				Img: Clam,
 				score: 0.0,
 				grade: 'B'
 			}
@@ -63,7 +63,7 @@ export const sectionsTemplate: ISection[] = [
 		subsections: [
 			{
 				title: 'Feather Star Abundance',
-				img: <Starfish />,
+				Img: Starfish,
 				score: 0.0,
 				grade: 'A',
 			}
@@ -74,7 +74,7 @@ export const sectionsTemplate: ISection[] = [
 		subsections: [
 			{
 				title: 'Blue Linckia Starfish Abundance',
-				img: <Starfish />,
+				Img: Starfish,
 				score: 0.0,
 				grade: 'C'
 			}

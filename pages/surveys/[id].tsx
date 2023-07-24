@@ -1,11 +1,11 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import SurveySection from '@components/survey-section'
 import { sectionsTemplate } from '@models/survey-summary'
 import styles from '@styles/survey-display.module.css'
 import { ChevronLeftIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
+import { Buoy, Mask } from '@components/icons'
 
 const Survey: NextPage = () => {
 	const router = useRouter()
@@ -33,7 +33,7 @@ const Survey: NextPage = () => {
 							<p className="text-center">Starting Corner Coordinates</p>
 						</div>
 						<div className="row-span-2 border-t-2 border-r-2 grid place-items-center">
-							<Image src="/buoy-dark.png" alt="Buoy Icon" height={30} width={30} />
+							<Buoy className="fill-primary" height={30} width={30} />
 						</div>
 						<div className="flex justify-between border-y-2 border-l-2 px-2">
 							<p>Longtitude</p>
@@ -45,7 +45,7 @@ const Survey: NextPage = () => {
 						</div>
 					</div>
 					<div className="border-l-2 border-4 place-items-center hidden md:grid">
-						<Image src="/mask-dark.png" alt="Mask Icon" height={50} width={50} />
+						<Mask className="fill-primary" height={50} width={50} />
 					</div>
 				</div>
 			</section>

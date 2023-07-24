@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Waves from './icons/waves'
+import { Waves } from './icons'
 import { HTMLAttributes, useMemo, useState } from 'react'
 import { UserTeamsAPI } from '@pages/api/me/teams'
 import { SurveyTable } from './survey-table'
