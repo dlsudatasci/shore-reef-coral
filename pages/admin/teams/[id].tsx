@@ -8,8 +8,11 @@ import { useState } from "react";
 import cn from "classnames";
 import TeamTabs from "@components/admin/team-tabs/team-tabs";
 import TeamInfoTab from "@components/admin/team-tabs/team-info-tab";
+import { MembersTable } from "@components/admin/members-table/members-table";
+import { useRetriever } from "@lib/useRetriever";
+import { UsersSummary } from "@pages/api/users";
 
-const SampleData: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
+const SAMPLE_SURVEY_DATA: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
   id,
   date: new Date(Date.now() - Math.random() * 1000000000),
   stationName: "Station name",
@@ -23,6 +26,8 @@ const SampleData: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
 const TeamInfo = () => {
   const router = useRouter();
   const [teamId, setTeamId] = useState(router.query.id);
+	const { data: users } = useRetriever<UsersSummary[]>('/users', [])
+  console.log(users);
   const PANEL_DATA = [
     {
       name: "Team Leader",
@@ -55,8 +60,8 @@ const TeamInfo = () => {
       </div>
       <section className="mt-5">
         <TeamTabs
-          tab1={<SurveyTableAdmin className="w-full mt-8" data={SampleData} />}
-          tab2={""}
+          tab1={<SurveyTableAdmin className="w-full mt-8" data={SAMPLE_SURVEY_DATA} />}
+          tab2={<MembersTable className="w-full mt-8" data={users} />}
           tab3={
             <TeamInfoTab data={PANEL_DATA} />
           }
