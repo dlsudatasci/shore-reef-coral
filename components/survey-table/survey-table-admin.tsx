@@ -1,3 +1,4 @@
+import { TeamSurveySummary } from "@pages/api/teams/[teamId]/surveys";
 import {
   SortingState,
   createColumnHelper,
@@ -8,49 +9,62 @@ import {
 } from "@tanstack/react-table";
 import { HTMLAttributes, useState } from "react";
 import Link from "next/link";
-import { TeamsSummary } from "@pages/api/admin/teams";
 
-const helper = createColumnHelper<TeamsSummary>();
+const helper = createColumnHelper<TeamSurveySummary>();
 
 const columns = [
-  helper.accessor("name", { header: "Team Name" }),
+  helper.accessor("date", {
+    header: "Survey Date and Time",
+    cell(props) {
+      return props
+        .getValue()
+        .toLocaleString("en-US", {
+          dateStyle: "long",
+          timeStyle: "short",
+        })
+        .replace("at", "");
+    },
+  }),
+  helper.accessor("stationName", { header: "Station Name" }),
+  helper.display({
+    id: "uploader",
+    header: "Uploader",
+    cell: () => <span>Uploader</span>,
+  }),
   helper.display({
     id: "leader",
-    header: "Team Leader",
-    cell: ({ row }) => <p>Team Leader Name</p>,
+    header: "Leader",
+    cell: () => <span>Leader</span>,
   }),
-  helper.accessor("town", {
-    header: "Location",
+  helper.accessor("dataType", { header: "Data Type" }),
+  helper.accessor("status", { header: "Status" }),
+  helper.accessor("verified", {
+    header: "Verified",
+    cell(props) {
+      return <p className="text-center">{props.getValue() ? "✓" : ""}</p>;
+    },
   }),
-  helper.display({
-    id: "numMembers",
-    header: "No. of members",
-    cell: ({ row }) => (
-      <p>{row.original.UsersOnTeam.length}</p>
-    ),
-  }),
-
   helper.display({
     id: "view",
     cell: ({ row }) => (
       <Link
         className="btn bg-highlight text-t-highlight px-2 rounded-md"
-        href={`/admin/teams/${row.id}`}
+        href={`/surveys/${row.id}`}
       >
-        View Details
+        View
       </Link>
     ),
   }),
 ];
 
-type TeamsTableProps = {
-  data: any[];
+type SurveyTableAdminProps = {
+  data: TeamSurveySummary[];
 } & HTMLAttributes<HTMLTableElement>;
 
-export function TeamsTable({ data, ...props }: TeamsTableProps) {
+export function SurveyTableAdmin({ data, ...props }: SurveyTableAdminProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const table = useReactTable<any>({
+  const table = useReactTable<TeamSurveySummary>({
     data,
     columns,
     state: {
