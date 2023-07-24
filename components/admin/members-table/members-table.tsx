@@ -12,10 +12,15 @@ import { UsersSummary } from "@pages/api/users";
 import { RemoveModalProps } from "../modals/remove";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
+import { MoveModalProps } from "@components/admin/modals/move";
 
 const helper = createColumnHelper<UsersSummary>();
 const RemoveModal = dynamic<RemoveModalProps>(() =>
   import("@components/admin/modals/remove").then((mod) => mod.RemoveModal)
+);
+
+const MoveModal = dynamic<MoveModalProps>(() =>
+  import("@components/admin/modals/move").then((mod) => mod.MoveModal)
 );
 
 type MembersTableProps = {
@@ -24,7 +29,10 @@ type MembersTableProps = {
 
 export function MembersTable({ data, ...props }: MembersTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [id, setId] = useState<number | string | undefined>(undefined);
+  const [removeId, setRemoveId] = useState<number | string | undefined>(
+    undefined
+  );
+  const [moveId, setMoveId] = useState<number | string | undefined>(undefined);
 
   const columns = [
     helper.accessor((row) => `${row.firstName} ${row.lastName}`, {
@@ -44,11 +52,14 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
         <div className="flex gap-5">
           <button
             className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
-            onClick={() => setId(Number(row.id))}
+            onClick={() => setRemoveId(Number(row.id))}
           >
             remove
           </button>
-          <button className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans">
+          <button
+            className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
+            onClick={() => setMoveId(Number(row.id))}
+          >
             move
           </button>
         </div>
@@ -71,6 +82,10 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
     console.log("Remove");
   }
 
+  async function onMoveClick() {
+    console.log("Move");
+  }
+
   return (
     <div>
       {createPortal(
@@ -87,9 +102,24 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
               .rows.find((row) => row.id)
               ?.getVisibleCells()[0].row._valuesCache.name
           } from the team?`}
-          isOpen={id !== undefined}
-          close={() => setId(undefined)}
+          isOpen={removeId !== undefined}
+          close={() => setRemoveId(undefined)}
           onAction={onRemoveClick}
+        />,
+        document.body
+      )}
+       {createPortal(
+        <MoveModal
+          title={`Move ${
+            table
+              .getRowModel()
+              .rows.find((row) => row.id)
+              ?.getVisibleCells()[0].row._valuesCache.name
+          } to which group?`}
+          teams={['Team 1', 'Team 2', 'Team 3']}
+          isOpen={moveId !== undefined}
+          close={() => setMoveId(undefined)}
+          onAction={onMoveClick}
         />,
         document.body
       )}
