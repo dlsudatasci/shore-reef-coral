@@ -18,7 +18,7 @@ const Survey: NextPage = () => {
 			<div className="max-w-3xl w-full text-primary mx-auto mt-8 mb-4">
 				<ChevronLeftIcon className="cursor-pointer w-8 hover:text-t-highlight" onClick={router.back} />
 			</div>
-			<SurveyInfo date={new Date().toDateString()} latitude='0.00' longitude='0.00' stationName='Station Name'  />
+			<SurveyInfo date={"July 24, 2023"} latitude='0.00' longitude='0.00' stationName='Station Name'  />
 
 			<section className="mb-20">
 				<div className="grid max-w-3xl mx-auto gap-y-8">
