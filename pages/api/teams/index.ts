@@ -55,6 +55,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 					return res.json(teams)
 				}
 
+				if (query.filter === 'leader') {
+					const teams = await prisma.team.findMany({
+						select: {
+							UsersOnTeam: selectLeaderName
+						},
+						where: {
+							UsersOnTeam: {
+								some: { userId: session.user.id }
+							}
+						}
+					})
+
+					const leaders = teams.map(t => {
+						const { user } = t.UsersOnTeam[0]
+						return `${user.firstName} ${user.lastName}`
+					})
+
+					return res.json(leaders)
+				}
+
 				const teams = await prisma.team.findMany({ ...selectTeamProfile })
 				res.json(teams)
 				break

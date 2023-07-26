@@ -1,14 +1,18 @@
-import { FC, FormEventHandler } from 'react'
+import { FC } from 'react'
 import { useForm } from 'react-hook-form'
-import { ITeam, teamInfoSchema } from '../../models/team'
+import { ITeam, teamInfoSchema } from '@models/team'
 import { yupResolver } from '@hookform/resolvers/yup'
-import useSurveyStore, { Survey } from '../../stores/survey-store'
+import useSurveyStore, { Survey } from '@stores/survey-store'
 import { shallow } from 'zustand/shallow'
+import useSWR from 'swr'
+import { fetcher } from '@lib/axios-config'
+import LoadingSpinner from '@components/loading-spinner'
 
 const storeSelector = (state: Survey) => [state.team, state.setTeam] as const
 
 const TeamInformation: FC<{ submitHandler: () => void, backHandler: () => void }> = ({ submitHandler, backHandler }) => {
 	const [team, setTeam] = useSurveyStore(storeSelector, shallow)
+	const { data: leaders, isLoading } = useSWR<string[]>('/teams?filter=leader', fetcher)
 	const { register, handleSubmit, formState: { errors }, getValues } = useForm<ITeam>({
 		resolver: yupResolver(teamInfoSchema),
 		defaultValues: team,
@@ -23,11 +27,17 @@ const TeamInformation: FC<{ submitHandler: () => void, backHandler: () => void }
 		}
 	)
 
+	if (isLoading) {
+		return <LoadingSpinner borderColor="border-highlight" />
+	}
+
 	return (
 		<form id="survey-form" onSubmit={onSubmit}>
 			<div className="control">
 				<label htmlFor="leader" className="text-secondary">team leader</label>
-				<input type="text" id="leader" {...register('leader')} />
+				<select id="leader" {...register('leader')}>
+					{leaders?.map((l, i) => <option key={i} value={l} defaultChecked={i === 0}>{l}</option>)}
+				</select>
 				<p className="error text-secondary">{errors.leader?.message}</p>
 			</div>
 			<div className="control">
