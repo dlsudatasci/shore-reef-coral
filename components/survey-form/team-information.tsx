@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { ITeam, teamInfoSchema } from '../../models/team'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useSurveyStore, { Survey } from '../../stores/survey-store'
-import shallow from 'zustand/shallow'
+import { shallow } from 'zustand/shallow'
 
 const storeSelector = (state: Survey) => [state.team, state.setTeam] as const
 
