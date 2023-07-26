@@ -14,7 +14,7 @@ const SurveyInformation: FC<{ submitHandler: () => void }> = ({ submitHandler })
 	const [surveyInfo, setSurveyInfo] = useSurveyStore(storeSelector, shallow)
 	const { data: locations, isLoading } = useSWRImmutable('/bgy-masterlist.json', url => axios.get(url).then(res => res.data))
 
-	const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<ISurveyInformation>({
+	const { register, handleSubmit, formState: { errors }, watch, setValue, getValues } = useForm<ISurveyInformation>({
 		resolver: yupResolver(surveyInfoSchema),
 		// @ts-ignore 
 		defaultValues: { ...surveyInfo, datetime: surveyInfo.datetime.toLocaleString('sv').slice(0, -3).replace(' ', 'T') },
@@ -24,13 +24,22 @@ const SurveyInformation: FC<{ submitHandler: () => void }> = ({ submitHandler })
 	const town = watch('town')
 
 	useEffect(() => {
-		setValue('town', '')
-		setValue('barangay', '')
-	}, [province])
+		if (!locations) return
+
+		if (!locations[2][province + getValues('town')]) {
+			setValue('town', '')
+			setValue('barangay', '')
+		}
+	}, [province, locations])
 
 	useEffect(() => {
-		setValue('barangay', '')
-	}, [town])
+		if (!locations) return
+
+		const brgy = getValues('barangay')
+		if (!locations[2][province + town]?.find((b: string) => b === brgy)) {
+			setValue('barangay', '')
+		}
+	}, [town, locations])
 
 	const onSubmit = handleSubmit(data => {
 		setSurveyInfo(data)
@@ -70,7 +79,7 @@ const SurveyInformation: FC<{ submitHandler: () => void }> = ({ submitHandler })
 			</div>
 			<div className="control">
 				<label htmlFor="province" className="text-secondary">province</label>
-				<select id="province" {...register('province')} defaultValue="">
+				<select id="province" {...register('province')}>
 					<option value="" disabled defaultChecked>-SELECT PROVINCE-</option>
 					{locations[0].map((l: string) => (
 						<option key={l} value={l}>{l}</option>
@@ -80,7 +89,7 @@ const SurveyInformation: FC<{ submitHandler: () => void }> = ({ submitHandler })
 			</div>
 			<div className="control">
 				<label htmlFor="town" className="text-secondary">town</label>
-				<select id="town" {...register('town')} disabled={!locations[1][province]} defaultValue="">
+				<select id="town" {...register('town')} disabled={!locations[1][province]}>
 					<option value="" disabled defaultChecked>-SELECT TOWN-</option>
 					{
 						locations[1][province]?.map((t: string) => (
@@ -92,7 +101,7 @@ const SurveyInformation: FC<{ submitHandler: () => void }> = ({ submitHandler })
 			</div>
 			<div className="control">
 				<label htmlFor="barangay" className="text-secondary">barangay</label>
-				<select id="barangay" {...register('barangay')} disabled={!locations[2][province + town]} defaultValue="">
+				<select id="barangay" {...register('barangay')} disabled={!locations[2][province + town]}>
 					<option value="" disabled defaultChecked>-SELECT BARANGAY-</option>
 					{
 						locations[2][province + town]?.map((b: string) => (
