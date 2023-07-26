@@ -137,7 +137,7 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 				</thead>
 				<tbody className="text-white [&_td]:py-3 [&_td]:px-4 [&>tr:nth-child(even)]:bg-accent-1">
 					{table.getRowModel().rows.map(row => (
-						<tr key={row.id}>
+						<tr key={row.id} className="h-16">
 							{row.getVisibleCells().map(cell => (
 								<td key={cell.id}>
 									{flexRender(cell.column.columnDef.cell, cell.getContext())}
