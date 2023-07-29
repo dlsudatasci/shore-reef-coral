@@ -12,7 +12,7 @@ import { MembersTable } from "@components/admin/members-table/members-table";
 import { useRetriever } from "@lib/useRetriever";
 import { UsersSummary } from "@pages/api/users";
 
-const SAMPLE_SURVEY_DATA: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
+export const SAMPLE_SURVEY_DATA: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
   id,
   date: new Date(Date.now() - Math.random() * 1000000000),
   stationName: "Station name",
