@@ -6,12 +6,14 @@ import { Disclosure, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { useSession } from "next-auth/react"
 import ProfileMenu from './profile-menu'
+import cn from 'classnames'
 
 interface NavItemProp {
 	text: string
 	path: string
 	isHome?: boolean
 	status?: 'authenticated' | 'unauthenticated'
+	isAdmin?: boolean
 }
 
 interface MobNavItemProp extends NavItemProp {
@@ -23,6 +25,8 @@ export const navItems: NavItemProp[] = [
 	{ path: '/surveys/submit', text: 'Submit a survey' },
 	{ path: '/lessons', text: 'Lessons' },
 	{ path: '/dashboard', text: 'Dashboard', status: 'authenticated' },
+	{ path: '/admin/teams', text: 'Teams', status: 'authenticated', isAdmin: true },
+	{ path: '/admin/surveys', text: 'Surveys', status: 'authenticated', isAdmin: true },
 ]
 
 const MobNavItem: FC<MobNavItemProp> = ({ text, path, onClick }) => {
@@ -36,22 +40,24 @@ const MobNavItem: FC<MobNavItemProp> = ({ text, path, onClick }) => {
 	)
 }
 
-const NavItem: FC<NavItemProp> = ({ text, path }) => {
+const NavItem: FC<NavItemProp> = ({ text, path, isAdmin }) => {
 	const { pathname } = useRouter()
 
 	return (
-		<Link href={path} className="font-comic-cat text-secondary text-xl h-full inline-flex justify-center items-center cursor-pointer">
+		<Link href={path} className={cn(!isAdmin ? "text-secondary": "text-primary", "font-comic-cat text-xl h-full inline-flex justify-center items-center cursor-pointer")}>
 			<p className="px-3 py-2" aria-current={path === pathname ? 'page' : undefined}>{text}</p>
 		</Link>
 	)
 }
 
 const Header: FC = () => {
-	const { status } = useSession()
+	const { status, data } = useSession()
+	const router = useRouter();
+	const isAdmin = router.asPath.includes("admin") //replace to data?.user?.isAdmin
 
 	return (
 		<header className="h-[6.25rem] relative z-50">
-			<Disclosure as="nav" className="bg-primary h-full">
+			<Disclosure as="nav" className={cn(!isAdmin ? "bg-primary" : "bg-secondary","h-full")}>
 				{({ open, close }) => (
 					<>
 						<div className="container mx-auto px-2 sm:px-6 lg:px-8 h-full">
@@ -72,14 +78,16 @@ const Header: FC = () => {
 								</div>
 								<div className="hidden lg:block absolute left-1/2 -translate-x-1/2">
 									<div className="flex space-x-4 items-center h-full">
-										{navItems.flatMap(nav => nav.status === undefined || nav.status === status ?
-											<NavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome} /> : []
-										)}
+										{/* TODO: refactor this */}
+										{!isAdmin ? navItems.flatMap(nav => nav.status === undefined || nav.status === status  ?
+											<NavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome}  /> : []
+										) : navItems.flatMap(nav => nav.isAdmin !== undefined || nav.isAdmin === isAdmin  ?
+											<NavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome} isAdmin={isAdmin}  /> : [] )}
 									</div>
 								</div>
 								<div className="absolute inset-y-0 right-0 flex items-center pr-2 lg:static lg:inset-auto lg:ml-6 lg:pr-0">
 									{status === 'authenticated' ?
-										<ProfileMenu />
+										<ProfileMenu isAdmin={isAdmin} />
 										:
 										<div className="hidden lg:contents">
 											<Link type="button" className="font-comic-cat mr-4 text-xl text-secondary" href="/login">
