@@ -14,7 +14,7 @@ const Surveys = () => {
           Filter
         </button>
       </div>
-      <SurveyTableAdmin data={SAMPLE_SURVEY_DATA} />
+      <SurveyTableAdmin className="w-full mt-8" data={SAMPLE_SURVEY_DATA} />
     </AdminLayout>
   );
 };
