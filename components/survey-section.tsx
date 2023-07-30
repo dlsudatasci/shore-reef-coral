@@ -1,10 +1,9 @@
 import cn from 'classnames'
-import Image from 'next/image'
 import { FC } from 'react'
 import styles from '../styles/survey-display.module.css'
 import type { ISubsection, ISection } from '../models/survey-summary'
 
-const SurveyRow: FC<ISubsection> = ({ imgSrc, title, score, grade }) => {
+const SurveyRow: FC<ISubsection> = ({ Img, title, score, grade }) => {
 	const className = cn({
 		'bg-[#C74C33]': grade == 'D', // red
 		'bg-[#D8AC3C]': grade == 'C', // yellow
@@ -15,7 +14,7 @@ const SurveyRow: FC<ISubsection> = ({ imgSrc, title, score, grade }) => {
 	return (
 		<div className={styles['section-row']}>
 			<div className="flex items-center">
-				<Image src={imgSrc} alt="Icon" height={30} width={30} />
+				<Img className="w-7 fill-primary" />
 				<span className="ml-4">{title}</span>
 			</div>
 			<div className="grid place-items-center">
@@ -34,7 +33,7 @@ const SurveySection: FC<ISection> = ({ title, subsections }) => {
 			<div className={styles['section-header']}><p>{title}</p></div>
 			<div className={cn(styles['section-header'], 'justify-center')}><p className="text-center">Score</p></div>
 			<div className={cn(styles['section-header'], 'justify-center')}><p className="text-center">Letter Grade</p></div>
-			{subsections.map(e => <SurveyRow key={e.title} title={e.title} imgSrc={e.imgSrc} score={e.score} grade={e.grade} />)}
+			{subsections.map(e => <SurveyRow key={e.title} title={e.title} Img={e.Img} score={e.score} grade={e.grade} />)}
 		</div>
 	)
 }

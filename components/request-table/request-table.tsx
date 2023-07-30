@@ -6,7 +6,7 @@ import { Status } from '@prisma/client'
 import { rankings } from '@tanstack/match-sorter-utils'
 import { ColumnFiltersState, createColumnHelper, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table'
 import { useSession } from 'next-auth/react'
-import { TableHTMLAttributes, useState } from 'react'
+import { TableHTMLAttributes, useEffect, useRef, useState } from 'react'
 import useSWR from 'swr'
 
 type RequestTableProps = {
@@ -21,8 +21,20 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 	const { data, mutate } = useSWR<MemberAPI>(`/teams/${teamId}/members`, fetcher)
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([{ id: 'status', value: Status.ACCEPTED }])
 	const session = useSession({ required: true })
+	const hasRedirected = useRef(false)
 
 	const users = data?.UsersOnTeam
+
+	useEffect(() => {
+		if (hasRedirected.current) return
+
+		if (!data) return
+
+		if (data.UsersOnTeam.find(d => d.status === Status.PENDING)) {
+			setColumnFilters([{ id: 'status', value: Status.PENDING }])
+			hasRedirected.current = true
+		}
+	})
 
 	const columns = [
 		helper.accessor(row => `${row.user.firstName} ${row.user.lastName}`, {
@@ -39,7 +51,7 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 
 				if (status === Status.ACCEPTED) {
 					if (user.id === session.data?.user.id) return <></>
-					
+
 					return (
 						<button className="btn highlight" onClick={() => handleAction(id, Status.INACTIVE)}>Remove</button>
 					)
@@ -125,7 +137,7 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 				</thead>
 				<tbody className="text-white [&_td]:py-3 [&_td]:px-4 [&>tr:nth-child(even)]:bg-accent-1">
 					{table.getRowModel().rows.map(row => (
-						<tr key={row.id}>
+						<tr key={row.id} className="h-16">
 							{row.getVisibleCells().map(cell => (
 								<td key={cell.id}>
 									{flexRender(cell.column.columnDef.cell, cell.getContext())}

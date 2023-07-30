@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { ISurveyInformation } from '../models/survey'
+import { ISurveyInformation, MANAGEMENT_TYPES } from '../models/survey'
 import { ITeam } from '../models/team'
 
 export type Survey = {
@@ -13,13 +13,13 @@ const useSurveyStore = create<Survey>(set => ({
 	surveyInfo: {
 		datetime: new Date(),
 		station: '',
-		startCorner: 0,
-		endCorner: 0,
+		startCorner: '',
+		endCorner: '',
 		gps: 'WGS84',
-		province: 'Manila',
-		town: 'Manila',
-		barangay: 'Manila',
-		management: 'Manila',
+		province: '',
+		town: '',
+		barangay: '',
+		management: MANAGEMENT_TYPES[0],
 		others: '',
 	},
 	team: {

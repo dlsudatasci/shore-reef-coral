@@ -46,8 +46,10 @@ const Contribute: NextPage = () => {
 					<h3 className="font-comic-cat text-secondary text-center text-3xl mb-4">{SURVEY_STEPS[page]}</h3>
 					{page == 0 && <SurveyForms.SurveyInformation submitHandler={onSubmit} />}
 					{page == 1 && <SurveyForms.TeamInformation submitHandler={onSubmit} backHandler={onBack} />}
-					{page != 0 && <input type="submit" form="survey-form" className="btn primary border-secondary border-2 mr-6" value="BACK" />}
-					<input className="btn secondary" form="survey-form" type="submit" value={page == SURVEY_STEPS.length - 1 ? 'SUBMIT' : 'NEXT'} />
+					<div className="flex space-x-4">
+						{page != 0 && <input type="submit" form="survey-form" className="btn primary border-secondary border-2" value="BACK" />}
+						<input className="btn secondary" form="survey-form" type="submit" value={page == SURVEY_STEPS.length - 1 ? 'SUBMIT' : 'NEXT'} />
+					</div>
 				</div>
 			</div>
 		</>

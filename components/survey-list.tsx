@@ -1,12 +1,12 @@
-import Link from "next/link";
-import { Waves } from "./icons/waves";
-import { HTMLAttributes, useMemo, useState } from "react";
-import { UserTeamsAPI } from "@pages/api/me/teams";
-import { SurveyTable } from "./survey-table";
-import { TeamSurveySummary } from "@pages/api/teams/[teamId]/surveys";
-import { useSession } from "next-auth/react";
-import { onUnauthenticated } from "@lib/utils";
-import { useRouter } from "next/router";
+import Link from 'next/link'
+import { Waves } from './icons'
+import { HTMLAttributes, useMemo, useState } from 'react'
+import { UserTeamsAPI } from '@pages/api/me/teams'
+import { SurveyTable } from './survey-table'
+import { TeamSurveySummary } from '@pages/api/teams/[teamId]/surveys'
+import { useSession } from 'next-auth/react'
+import { onUnauthenticated } from '@lib/utils'
+import { useRouter } from 'next/router'
 
 type SurveyListProps = {
   teams: UserTeamsAPI[];

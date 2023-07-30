@@ -1,6 +1,5 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import SurveySection from '@components/survey-section'
 import { sectionsTemplate } from '@models/survey-summary'
 import { ChevronLeftIcon } from '@heroicons/react/solid'
@@ -8,6 +7,7 @@ import { useRouter } from 'next/router'
 import SurveyInfo from '@components/survey-info'
 import { useSession } from 'next-auth/react'
 import { onUnauthenticated } from '@lib/utils'
+import { Buoy, Mask } from '@components/icons'
 
 const Survey: NextPage = () => {
 	const router = useRouter()
