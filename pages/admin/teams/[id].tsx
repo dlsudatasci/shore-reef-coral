@@ -11,6 +11,7 @@ import TeamInfoTab from "@components/admin/team-tabs/team-info-tab";
 import { MembersTable } from "@components/admin/members-table/members-table";
 import { useRetriever } from "@lib/useRetriever";
 import { UsersSummary } from "@pages/api/users";
+import useAdminAccess from "@lib/useAdminAccess";
 
 export const SAMPLE_SURVEY_DATA: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
   id,
@@ -27,6 +28,8 @@ const TeamInfo = () => {
   const router = useRouter();
   const [teamId, setTeamId] = useState(router.query.id);
 	const { data: users } = useRetriever<UsersSummary[]>('/users', [])
+  useAdminAccess();
+
   console.log(users);
   const PANEL_DATA = [
     {

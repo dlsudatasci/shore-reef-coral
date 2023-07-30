@@ -52,8 +52,7 @@ const NavItem: FC<NavItemProp> = ({ text, path, isAdmin }) => {
 
 const Header: FC = () => {
 	const { status, data } = useSession()
-	const router = useRouter();
-	const isAdmin = router.asPath.includes("admin") //replace to data?.user?.isAdmin
+	const isAdmin = data?.user?.isAdmin
 
 	return (
 		<header className="h-[6.25rem] relative z-50">

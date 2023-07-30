@@ -1,8 +1,12 @@
 import { SurveyTableAdmin } from "@components/survey-table";
 import { SAMPLE_SURVEY_DATA } from "../teams/[id]";
 import AdminLayout from "@components/layouts/admin-layout";
+import useAdminAccess from "@lib/useAdminAccess";
 
 const Surveys = () => {
+  
+  useAdminAccess();
+  
   return (
     <AdminLayout>
       <div className="flex justify-between mt-8">

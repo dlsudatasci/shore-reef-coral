@@ -5,6 +5,7 @@ import { TeamsSummary } from "@pages/api/admin/teams";
 import { useState } from "react";
 import cn from "classnames";
 import TeamRequests from "@components/admin/team-requests/team-requests";
+import useAdminAccess from "@lib/useAdminAccess";
 
 const Teams = () => {
   const SAMPLE_DATA: TeamsSummary[] = Array.from({ length: 10 }, (_, id) => ({
@@ -29,6 +30,8 @@ const Teams = () => {
   const handlePageSelect = (page: 0 | 1) => {
     setSelected(page);
   };
+  useAdminAccess();
+
 
   return (
     <AdminLayout>
