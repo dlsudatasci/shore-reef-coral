@@ -11,30 +11,33 @@ import TeamInfoTab from "@components/admin/team-tabs/team-info-tab";
 import { MembersTable } from "@components/admin/members-table/members-table";
 import { useRetriever } from "@lib/useRetriever";
 import { UsersSummary } from "@pages/api/users";
-import useAdminAccess from "@lib/useAdminAccess";
+import { useAdminAccess } from "@lib/useRoleAccess";
 
-export const SAMPLE_SURVEY_DATA: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
-  id,
-  date: new Date(Date.now() - Math.random() * 1000000000),
-  stationName: "Station name",
-  startLatitude: Math.random() * 100,
-  startLongtitude: Math.random() * 100,
-  dataType: "Photos",
-  status: "Completed",
-  verified: true,
-}));
+export const SAMPLE_SURVEY_DATA: TeamSurveySummary[] = Array.from(
+  { length: 10 },
+  (_, id) => ({
+    id,
+    date: new Date(Date.now() - Math.random() * 1000000000),
+    stationName: "Station name",
+    startLatitude: Math.random() * 100,
+    startLongtitude: Math.random() * 100,
+    dataType: "Photos",
+    status: "Completed",
+    verified: true,
+  })
+);
 
 const TeamInfo = () => {
   const router = useRouter();
   const [teamId, setTeamId] = useState(router.query.id);
-	const { data: users } = useRetriever<UsersSummary[]>('/users', [])
+  const { data: users } = useRetriever<UsersSummary[]>("/users", []);
   useAdminAccess();
 
   console.log(users);
   const PANEL_DATA = [
     {
       name: "Team Leader",
-      value: "Juan Dela Cruz"
+      value: "Juan Dela Cruz",
     },
     {
       name: "Affiliation",
@@ -63,11 +66,14 @@ const TeamInfo = () => {
       </div>
       <section className="mt-5">
         <TeamTabs
-          tab1={<SurveyTableAdmin className="w-full mt-8" data={SAMPLE_SURVEY_DATA} />}
-          tab2={<MembersTable className="w-full mt-8" data={users} />}
-          tab3={
-            <TeamInfoTab data={PANEL_DATA} />
+          tab1={
+            <SurveyTableAdmin
+              className="w-full mt-8"
+              data={SAMPLE_SURVEY_DATA}
+            />
           }
+          tab2={<MembersTable className="w-full mt-8" data={users} />}
+          tab3={<TeamInfoTab data={PANEL_DATA} />}
         />
       </section>
     </AdminLayout>
