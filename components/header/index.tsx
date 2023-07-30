@@ -78,7 +78,7 @@ const Header: FC = () => {
 								<div className="hidden lg:block absolute left-1/2 -translate-x-1/2">
 									<div className="flex space-x-4 items-center h-full">
 										{/* TODO: refactor this */}
-										{!isAdmin ? navItems.flatMap(nav => nav.status === undefined || nav.status === status  ?
+										{!isAdmin ? navItems.flatMap(nav => nav.status === undefined || nav.status === status && !nav.isAdmin  ?
 											<NavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome}  /> : []
 										) : navItems.flatMap(nav => nav.isAdmin !== undefined || nav.isAdmin === isAdmin  ?
 											<NavItem key={nav.text} text={nav.text} path={nav.path} isHome={nav.isHome} isAdmin={isAdmin}  /> : [] )}
