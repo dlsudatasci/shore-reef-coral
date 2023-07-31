@@ -11,6 +11,7 @@ import { Camera } from '@components/icons'
 import { UserTeamsAPI } from '@pages/api/me/teams'
 import { onUnauthenticated } from '@lib/utils'
 import { DashboardHeader } from '@components/dashboard-header'
+import { useUserOnlyAccess } from '@lib/useRoleAccess'
 
 const Dashboard: NextPage = () => {
 	const router = useRouter()
@@ -19,6 +20,8 @@ const Dashboard: NextPage = () => {
 		onUnauthenticated: onUnauthenticated(router)
 	})
 	const { data: teams } = useRetriever<UserTeamsAPI[]>(`/me/teams`)
+
+	useUserOnlyAccess()
 
 	if (status == 'loading') {
 		return <DashboardLayout><LoadingSpinner className="main-height" borderColor="border-secondary" /></DashboardLayout>

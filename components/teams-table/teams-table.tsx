@@ -82,6 +82,7 @@ export function TeamsTable({ data }: TeamsTableProps) {
 		<div>
 			{
 				createPortal(<ConfirmationModal
+					title="Join team"
 					message={`Are you sure you want to join the team ${teamProfile?.name} created by ${leaderName}?`}
 					isOpen={id !== undefined}
 					close={() => setId(undefined)}

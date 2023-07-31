@@ -1,6 +1,6 @@
 import app, { fetcher } from '@lib/axios-config'
 import { generateFuzzyFilter } from '@lib/global-filter'
-import { onUnauthenticated, toastAxiosError } from '@lib/utils'
+import { toastAxiosError } from '@lib/utils'
 import { MemberAPI } from '@pages/api/teams/[teamId]/members'
 import { Status } from '@prisma/client'
 import { rankings } from '@tanstack/match-sorter-utils'

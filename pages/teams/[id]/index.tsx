@@ -1,6 +1,7 @@
 import { DashboardHeader } from '@components/dashboard-header'
 import DashboardLayout from '@components/layouts/dashboard-layout'
 import { RequestTable } from '@components/request-table'
+import { useUserOnlyAccess } from '@lib/useRoleAccess'
 import { onUnauthenticated } from '@lib/utils'
 import { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
@@ -13,6 +14,8 @@ const Page: NextPage = () => {
 		required: true,
 		onUnauthenticated: onUnauthenticated(router)
 	})
+	useUserOnlyAccess()
+
 
 	return (
 		<DashboardLayout>

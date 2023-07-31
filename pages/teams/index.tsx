@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useRetriever } from '@lib/useRetriever'
 import { TeamsTable } from '@components/teams-table'
 import { TeamProfileSummary } from '@pages/api/teams'
+import { useUserOnlyAccess } from '@lib/useRoleAccess'
 
 const TeamsPage: NextPage = () => {
 	const router = useRouter()
@@ -18,6 +19,8 @@ const TeamsPage: NextPage = () => {
 			router.replace('/login?from=/teams')
 		},
 	})
+	useUserOnlyAccess()
+
 
 	return (
 		<DashboardLayout>

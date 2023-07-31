@@ -1,5 +1,5 @@
 .panel {
-	@apply relative inline-block align-bottom w-full bg-white rounded-lg 
+	@apply relative inline-block align-bottom w-full bg-notif rounded-lg 
 	text-left overflow-hidden shadow-xl transition-all transform-none
 	sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full
 }
@@ -21,11 +21,11 @@
 }
 
 .confirmation-body {
-	@apply grid place-items-center py-10 gap-y-6 px-2
+	@apply grid place-items-center py-10 gap-y-6 px-8
 }
 
 .confirmation-body .btn-group {
-	@apply flex justify-center space-x-4
+	@apply flex justify-center space-x-4 pt-2
 }
 
 .footer {
@@ -34,10 +34,6 @@
 
 .delete-btn {
 	@apply px-4 py-1 rounded-md text-sm
-}
-
-.btn {
-	@apply px-4 py-2 rounded-md shadow-sm font-medium sm:w-auto sm:text-sm
 }
 
 .keyed-container p:first-child {

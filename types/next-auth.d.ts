@@ -5,7 +5,8 @@ interface IDetails {
 	id: number
 	email: string
 	firstName: string
-	lastName: string
+	lastName: string,
+	isAdmin: boolean
 }
 
 declare module 'next-auth' {
@@ -18,6 +19,7 @@ declare module 'next-auth' {
 		email: string
 		firstName: string
 		lastName: string
+		isAdmin: boolean
 	}
 }
 

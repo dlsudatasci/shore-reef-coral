@@ -5,10 +5,10 @@ import type { ISubsection, ISection } from '../models/survey-summary'
 
 const SurveyRow: FC<ISubsection> = ({ Img, title, score, grade }) => {
 	const className = cn({
-		'bg-[#C74C33]': grade == 'D', // red
-		'bg-[#D8AC3C]': grade == 'C', // yellow
-		'bg-[#34B5CB]': grade == 'B', // blue
-		'bg-[#7EC142]': grade == 'A', // green
+		'bg-[#C74C33]': grade === 'D', // red
+		'bg-[#D8AC3C]': grade === 'C', // yellow
+		'bg-[#34B5CB]': grade === 'B', // blue
+		'bg-[#7EC142]': grade === 'A', // green
 	}, 'rounded-full w-8 h-8 text-secondary grid place-items-center')
 
 	return (
