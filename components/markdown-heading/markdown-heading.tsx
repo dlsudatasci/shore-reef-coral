@@ -1,15 +1,4 @@
-import Buoy from "@components/icons/buoy";
-import ButterflyFish from "@components/icons/butterfly-fish";
-import Camera from "@components/icons/camera";
-import Clam from "@components/icons/clam";
-import Coral from "@components/icons/coral";
-import Cots from "@components/icons/cots";
-import Featherstar from "@components/icons/featherstar";
-import Fins from "@components/icons/fins";
-import Laptop from "@components/icons/laptop";
-import Mask from "@components/icons/mask";
-import Starfish from "@components/icons/starfish";
-import Waves from "@components/icons/waves";
+import { Buoy, ButterflyFish, Camera, Clam, Coral, Cots, Featherstar, Fins, Laptop, Mask, Starfish, Waves } from "@components/icons";
 import { FC, PropsWithChildren, createElement } from "react";
 
 const ICON_LIST = {
