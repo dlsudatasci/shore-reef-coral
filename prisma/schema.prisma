@@ -20,6 +20,7 @@ model User {
   PasswordRecovery PasswordRecovery?
   Survey           Survey[]
   CoralAssessment  CoralAssessment[]
+  isAdmin          Boolean           @default(false)
 }
 
 model Team {
@@ -52,10 +53,10 @@ model UsersOnTeams {
 }
 
 enum Status {
-	ACCEPTED
-	REJECTED
-	PENDING
-	INACTIVE
+  ACCEPTED
+  REJECTED
+  PENDING
+  INACTIVE
 }
 
 model PasswordRecovery {

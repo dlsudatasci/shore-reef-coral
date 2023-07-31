@@ -11,6 +11,7 @@ import useSWRImmutable from 'swr/immutable'
 import axios from 'axios'
 import LoadingSpinner from '@components/loading-spinner'
 import { useEffect } from 'react'
+import { useUserOnlyAccess } from '@lib/useRoleAccess'
 
 const teamCreateSchema = object({
 	name: string().trim().required('Team name is required.'),
@@ -31,6 +32,7 @@ const CreateTeam: NextPage = () => {
 
 	const province = watch('province')
 	const town = watch('town')
+	useUserOnlyAccess()
 
 	useEffect(() => {
 		setValue('town', '')

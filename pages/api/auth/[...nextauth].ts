@@ -25,6 +25,7 @@ export const authOptions: NextAuthOptions = {
 					email: user.email,
 					firstName: user.firstName,
 					lastName: user.lastName,
+					isAdmin: user.isAdmin,
 				} as User
 			},
 		}),
@@ -36,6 +37,7 @@ export const authOptions: NextAuthOptions = {
 				token.email = user.email
 				token.firstName = user.firstName
 				token.lastName = user.lastName
+				token.isAdmin = user.isAdmin
 			}
 			return token
 		},
@@ -43,6 +45,7 @@ export const authOptions: NextAuthOptions = {
 			session.user.firstName = token.firstName
 			session.user.lastName = token.lastName
 			session.user.id = token.id
+			session.user.isAdmin = token.isAdmin
 			return session
 		},
 	},
