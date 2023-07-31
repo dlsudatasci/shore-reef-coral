@@ -5,7 +5,7 @@ url: https://www.youtube.com/embed/gv6beiYcn9k
 order: 7
 ---
 
-## Skin Diving Safety
+# Skin Diving Safety
 
 To conduct the coral survey method, you need to know how to skin dive a depth of 5-6 meters. While skin diving is generally safe, doing it improperly can be dangerous. In order to prevent untoward incidents in the water, there are a few safety precautions you should implement.
 
@@ -71,8 +71,11 @@ All the citizen scientists’ designated roles and responsibilities should be cl
 
 ### Have a floatation device ready
 
+<div class="grid-layout-2">
+
 ![Survey station layout](/images/lesson-6/10.jpg 'Survey station layout')
 ![Orange floatation device](/images/lesson-6/11.jpg 'Orange floatation device')
+</div>
 
 - A floatation device such as a life jacket or freediving buoy provides a way for tired citizen scientists to rest. Another option is to rent a small boat that can assist tired citizen scientists.
 - You can place the floatation device in the center of the station so that there is a designated resting spot.

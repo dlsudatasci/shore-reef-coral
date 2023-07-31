@@ -5,9 +5,10 @@ url: https://www.youtube.com/embed/ov2mNlT82bw
 resources: 
   - Coral Survey Guide: "https://drive.google.com/drive/folders/1jf7Qb04A94eS8fsudcI4hwmtt4H1Uqb0?usp=share_link"
 order: 6
+icons: ['mask', 'coral', 'camera']
 ---
 
-## Coral Survey Method
+# Coral Survey Method
 
 Reefs are made up of thousands of corals. They are probably the first animals you would spot in a reef—without them, no reefs could be formed. Hence, the health of a reef is dependent on its corals.
 
@@ -124,9 +125,12 @@ To avoid confusion in backing up the image files, apart from the C30 photos, her
 
 The **Alwan Survey Guide** with details of the survey station and the citizen scientists.
 
+<div class="grid-layout-3">
+
 ![Index finger hand signal](/images/lesson-5/20.jpg 'Index finger hand signal')
 ![Peace sign hand symbol](/images/lesson-5/21.jpg 'Peace sign hand symbol')
 ![Circle hand symbol](/images/lesson-5/19.jpg 'Circle hand symbol')
+</div>
 
 **Hand signal ‘1’** to indicate the beginning of the photo series in the first half of the station.
 

@@ -7,9 +7,10 @@ url: https://www.youtube.com/embed/1NyjyhnkIFE
 resources: 
   - Butterflyfish and Target Marine Invertebrates Survey: "https://drive.google.com/drive/folders/13GRPVuD65XoL4AtAzl5P8ghbsqTl53oK?usp=share_link"
 order: 5
+icons: ['butterflyFish', 'starfish', 'cots', 'featherStar', 'clam']
 ---
 
-## Butterflyfish and Target Marine Invertebrates Survey
+# Butterflyfish and Target Marine Invertebrates Survey
 
 Our coral reefs are home to thousands of fish and various other marine creatures that come in all sorts of colors, shapes, and sizes. Luckily, citizen scientists don't need to recognize and count every single species. There is a fish group and some marine animals that can help us assess the conditions of our reefs—**butterflyfishes** and a few **target marine invertebrates**. Let’s go over them below.
 
@@ -17,9 +18,12 @@ Our coral reefs are home to thousands of fish and various other marine creatures
 
 The abundance and diversity of butterflyfish in a reef are good signs of reef health as many are dependent on corals as food. Citizen scientists will be taught how to recognize and count these fish for the survey.
 
+<div class="grid-layout-3">
+
 ![Yellow butterflyfish 1](/images/lesson-4/1.jpg 'Yellow butterflyfish 1')
 ![Yellow butterflyfish 2](/images/lesson-4/2.jpg 'Yellow butterflyfish 2')
 ![Yellow butterflyfish 3](/images/lesson-4/3.jpg 'Yellow butterflyfish 3')
+</div>
 
 The following target marine invertebrates can help us find out why certain changes are happening in a reef:
 
