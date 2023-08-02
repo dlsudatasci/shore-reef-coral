@@ -8,7 +8,7 @@ type TeamRequestsProps = {
 };
 const TeamRequests: FC<TeamRequestsProps> = ({ data }) => {
   return (
-    <div>
+    <div className="mb-20">
       <div className="flex w-full px-4 py-2 text-primary">
         <span className="basis-1/2">
           <Buoy className="fill-primary w-5 inline-block mr-2" />
