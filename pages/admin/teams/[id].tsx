@@ -12,6 +12,7 @@ import { MembersTable } from "@components/admin/members-table/members-table";
 import { useRetriever } from "@lib/useRetriever";
 import { UsersSummary } from "@pages/api/users";
 import { useAdminAccess } from "@lib/useRoleAccess";
+import Breadcrumbs from "@components/breadcrumbs";
 
 export const SAMPLE_SURVEY_DATA: TeamSurveySummary[] = Array.from(
   { length: 10 },
@@ -58,6 +59,7 @@ const TeamInfo = () => {
   ];
   return (
     <AdminLayout>
+      <Breadcrumbs items={[{ label: "All teams", path: "/admin/teams" }, { label: "Team name", path: "/" }]} />
       <div className="flex justify-between mt-8">
         <div className="flex items-start space-x-4">
           <Waves className="w-8 aspect-square fill-t-highlight" />
@@ -68,7 +70,7 @@ const TeamInfo = () => {
         <TeamTabs
           tab1={
             <SurveyTableAdmin
-              className="w-full mt-8"
+              className="w-full mt-8 mb-20"
               data={SAMPLE_SURVEY_DATA}
             />
           }
