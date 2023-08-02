@@ -64,7 +64,7 @@ export function TeamsTable({ data, ...props }: TeamsTableProps) {
   return (
     <table {...props}>
       <thead>
-        <tr className="bg-secondary text-primary font-comic-cat text-xl text-left">
+        <tr className="bg-primary text-white font-comic-cat text-xl text-left">
           {table.getFlatHeaders().map((header) => (
             <th key={header.id} className="font-normal py-3 px-4">
               {header.isPlaceholder ? null : (
@@ -92,7 +92,7 @@ export function TeamsTable({ data, ...props }: TeamsTableProps) {
           ))}
         </tr>
       </thead>
-      <tbody className="text-t-highlight [&_td]:py-3 [&_td]:px-4 [&>tr:nth-child(even)]:bg-accent-1">
+      <tbody className="text-t-highlight [&_td]:py-3 [&_td]:px-4 [&>tr:nth-child(even)]:bg-[#B4BEBA]">
         {table.getRowModel().rows.map((row) => (
           <tr key={row.id}>
             {row.getVisibleCells().map((cell) => (
