@@ -1,22 +1,23 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { surveyInfoSchema, ISurveyInformation, MANAGEMENT_TYPES } from '../../models/survey'
-import useSurveyStore, { Survey } from '../../stores/survey-store'
+import { surveyInfoSchema, ISurveyInformation, MANAGEMENT_TYPES } from '@models/survey'
+import { Survey, useSurveyStore } from '@stores/survey-store'
 import { shallow } from 'zustand/shallow'
 import useSWRImmutable from 'swr/immutable'
 import axios from 'axios'
 import LoadingSpinner from '@components/loading-spinner'
+import { SurveyFormProps } from '.'
 
 const storeSelector = (state: Survey) => [state.surveyInfo, state.setSurveyInfo] as const
 
-const SurveyInformation: FC<{ submitHandler: () => void }> = ({ submitHandler }) => {
+export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 	const [surveyInfo, setSurveyInfo] = useSurveyStore(storeSelector, shallow)
 	const { data: locations, isLoading } = useSWRImmutable('/bgy-masterlist.json', url => axios.get(url).then(res => res.data))
 
 	const { register, handleSubmit, formState: { errors }, watch, setValue, getValues } = useForm<ISurveyInformation>({
 		resolver: yupResolver(surveyInfoSchema),
-		// @ts-ignore 
+		// @ts-ignore
 		defaultValues: { ...surveyInfo, datetime: surveyInfo.datetime.toLocaleString('sv').slice(0, -3).replace(' ', 'T') },
 	})
 
@@ -126,5 +127,3 @@ const SurveyInformation: FC<{ submitHandler: () => void }> = ({ submitHandler })
 		</form>
 	)
 }
-
-export default SurveyInformation

@@ -1,16 +1,16 @@
-import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { ITeam, teamInfoSchema } from '@models/team'
 import { yupResolver } from '@hookform/resolvers/yup'
-import useSurveyStore, { Survey } from '@stores/survey-store'
+import { Survey, useSurveyStore } from '@stores/survey-store'
 import { shallow } from 'zustand/shallow'
 import useSWR from 'swr'
 import { fetcher } from '@lib/axios-config'
 import LoadingSpinner from '@components/loading-spinner'
+import { SurveyFormProps } from '.'
 
 const storeSelector = (state: Survey) => [state.team, state.setTeam] as const
 
-const TeamInformation: FC<{ submitHandler: () => void, backHandler: () => void }> = ({ submitHandler, backHandler }) => {
+export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps) {
 	const [team, setTeam] = useSurveyStore(storeSelector, shallow)
 	const { data: leaders, isLoading } = useSWR<string[]>('/teams?filter=leader', fetcher)
 	const { register, handleSubmit, formState: { errors }, getValues } = useForm<ITeam>({
@@ -68,5 +68,3 @@ const TeamInformation: FC<{ submitHandler: () => void, backHandler: () => void }
 		</form>
 	)
 }
-
-export default TeamInformation
