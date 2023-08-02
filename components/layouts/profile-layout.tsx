@@ -5,7 +5,7 @@ import DashboardLayout from './dashboard-layout'
 const navItems = [
 	{ name: 'Profile', path: '/profile' },
 	{ name: 'Change password', path: '/profile/password' },
-	{ name: 'Team information', path: '/teams' },
+	{ name: 'Team information', path: '/profile/teams' },
 ] as const
 
 const ProfileLayout: FC<{ children: ReactNode }> = ({ children }) => {

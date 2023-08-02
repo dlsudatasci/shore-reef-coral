@@ -18,7 +18,7 @@ export const useUserOnlyAccess = () => {
   const { data: session } = useSession();
   const router = useRouter();
   useEffect(() => {
-    if (!session?.user || session.user.isAdmin) {
+    if (session?.user?.isAdmin) {
       router.push("/admin/teams");
     }
   }, [session, router]);
