@@ -17,11 +17,11 @@ const SurveyInfo: FC<SurveyInfoProps> = ({stationName, date, latitude, longitude
     >
       <div className="grid md:grid-cols-[4fr_3fr_60px] max-w-3xl mx-auto gap-y-8">
         <div className="grid border-4 md:border-r-2">
-          <div className="border-b-2">
+          <div className="border-b-2 pl-3">
             <p>Survey Date &amp; Time</p>
             <p>{date}</p>
           </div>
-          <div className="border-t-2">
+          <div className="border-t-2 pl-3">
             <p>Station Name</p>
             <p>{stationName}</p>
           </div>
