@@ -6,7 +6,7 @@ export const useAdminAccess = () => {
   const { data: session } = useSession();
   const router = useRouter();
   useEffect(() => {
-    if (!session?.user || !session.user.isAdmin) {
+    if (session && !session.user.isAdmin) {
       router.push("/");
     }
   }, [session, router]);
@@ -24,4 +24,4 @@ export const useUserOnlyAccess = () => {
   }, [session, router]);
 
   return session?.user;
-}
+};
