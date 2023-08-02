@@ -75,6 +75,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 					return res.json(leaders)
 				}
 
+				if(query.filter === 'joined') {
+					const teams = await prisma.team.findMany({
+						...selectTeamProfile,
+						where: {
+							UsersOnTeam: {
+								some: { userId: session.user.id }
+							}
+						}
+					})
+					return res.json(teams)
+				}
+
 				const teams = await prisma.team.findMany({ ...selectTeamProfile })
 				res.json(teams)
 				break

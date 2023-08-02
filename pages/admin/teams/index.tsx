@@ -76,7 +76,7 @@ const Teams = () => {
       <section>
         {selected === 0 ? (
           <TeamsTable
-            className="w-full mt-8"
+            className="w-full mt-8 mb-20"
             data={SAMPLE_DATA.filter((team) => team.isVerified)}
           />
         ) : (
