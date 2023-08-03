@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import SURVEY_STEPS from '@lib/survey-steps'
 import Steps from '@components/steps'
 import usePageStore from '@stores/page-store'
-import { SurveyInformation } from '@components/survey-form'
+import { SurveyFormProps, SurveyInformation } from '@components/survey-form'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { Mask } from '@components/icons'
@@ -10,8 +10,8 @@ import { onUnauthenticated } from '@lib/utils'
 import dynamic from 'next/dynamic'
 import app from '@lib/axios-config'
 
-const TeamInformation = dynamic(() => import('@components/survey-form').then(m => m.TeamInformation))
-const Uploads = dynamic(() => import('@components/survey-form').then(m => m.Uploads))
+const TeamInformation = dynamic<SurveyFormProps>(() => import('@components/survey-form').then(m => m.TeamInformation))
+const Uploads = dynamic<SurveyFormProps>(() => import('@components/survey-form').then(m => m.Uploads))
 
 const Contribute: NextPage = () => {
 	const { page, nextPage, prevPage } = usePageStore()
