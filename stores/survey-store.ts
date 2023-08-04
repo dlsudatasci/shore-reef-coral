@@ -23,11 +23,11 @@ export const useSurveyStore = create<Survey>(set => ({
 		province: 'Zambales',
 		town: 'Botolan',
 		barangay: 'Bangan',
-		management: 1,
+		managementTypeId: 1,
 		additionalInfo: '',
 	},
 	team: {
-		leader: 1,
+		leaderId: 1,
 		scientist: 'Jared',
 		volunteer1: 'Jared',
 		volunteer2: 'Jared',
@@ -35,7 +35,7 @@ export const useSurveyStore = create<Survey>(set => ({
 		volunteer4: '',
 	},
 	uploads: {
-		mode: UPLOAD_MODES[0],
+		dataType: UPLOAD_MODES[0],
 		zip: undefined,
 		alwanDataForm: '',
 		coralDataSheet: '',

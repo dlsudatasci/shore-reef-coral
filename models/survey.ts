@@ -11,6 +11,6 @@ export const surveyInfoSchema = object({
 	province: string().required('Province is required.'),
 	town: string().required('Town is required.'),
 	barangay: string().required('Barangay is required.'),
-	management: number().required('Management is required.'),
+	managementTypeId: number().required('Management is required.'),
 	additionalInfo: string().optional(),
 }).required()

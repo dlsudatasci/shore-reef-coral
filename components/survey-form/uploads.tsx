@@ -15,7 +15,7 @@ export function Uploads({ submitHandler, backHandler }: SurveyFormProps) {
 		defaultValues: uploads
 	})
 
-	const mode = watch('mode')
+	const mode = watch('dataType')
 
 	const onSubmit = handleSubmit(
 		data => {
@@ -41,12 +41,12 @@ export function Uploads({ submitHandler, backHandler }: SurveyFormProps) {
 				<div className="space-y-1 ml-2">
 					{UPLOAD_MODES.map(mode =>
 						<label key={mode} htmlFor={mode} className="cursor-pointer flex items-center space-x-2">
-							<input type="radio" id={mode} {...register('mode')} value={mode} />
+							<input type="radio" id={mode} {...register('dataType')} value={mode} />
 							<span className="translate-y-0.5">{mode}</span>
 						</label>
 					)}
 				</div>
-				<p className="error text-error">{errors.mode?.message?.toString()}</p>
+				<p className="error text-error">{errors.dataType?.message?.toString()}</p>
 			</div>
 			{mode === 'CPCE' &&
 				<div className="control text-secondary">

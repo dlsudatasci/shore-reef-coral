@@ -2,7 +2,7 @@ import * as yup from 'yup'
 import { UPLOAD_MODES } from "@lib/upload-modes"
 
 export const fileUploadSchema = yup.object({
-	mode: yup.mixed<typeof UPLOAD_MODES[number]>().oneOf([...UPLOAD_MODES], 'Invalid option!').required(),
+	dataType: yup.mixed<typeof UPLOAD_MODES[number]>().oneOf([...UPLOAD_MODES], 'Invalid option!').required(),
 	zip: yup
 		.mixed<FileList>()
 		.test('required', 'File is required', f => {
