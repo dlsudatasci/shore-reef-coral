@@ -71,7 +71,7 @@ model PasswordRecovery {
 
 model ManagementType {
   id     Int      @id @default(autoincrement())
-  type   String
+  type   String		@unique
   Survey Survey[]
 }
 
