@@ -1,24 +1,27 @@
 import { useEffect } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import { surveyInfoSchema, ISurveyInformation, MANAGEMENT_TYPES } from '@models/survey'
+import { surveyInfoSchema, ISurveyInformation } from '@models/survey'
 import { Survey, useSurveyStore } from '@stores/survey-store'
 import { shallow } from 'zustand/shallow'
 import useSWRImmutable from 'swr/immutable'
 import axios from 'axios'
 import LoadingSpinner from '@components/loading-spinner'
 import { SurveyFormProps } from '.'
+import { fetcher } from '@lib/axios-config'
+import { ManagementType } from '@prisma/client'
 
 const storeSelector = (state: Survey) => [state.surveyInfo, state.setSurveyInfo] as const
 
 export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 	const [surveyInfo, setSurveyInfo] = useSurveyStore(storeSelector, shallow)
 	const { data: locations, isLoading } = useSWRImmutable('/bgy-masterlist.json', url => axios.get(url).then(res => res.data))
+	const { data: mngmt, isLoading: mngmtTypesLoading } = useSWRImmutable<ManagementType[]>('/management-types', fetcher)
 
 	const { register, handleSubmit, formState: { errors }, watch, setValue, getValues } = useForm<ISurveyInformation>({
 		resolver: yupResolver(surveyInfoSchema),
 		// @ts-ignore
-		defaultValues: { ...surveyInfo, datetime: surveyInfo.datetime.toLocaleString('sv').slice(0, -3).replace(' ', 'T') },
+		defaultValues: { ...surveyInfo, date: surveyInfo.date.toLocaleString('sv').slice(0, -3).replace(' ', 'T') },
 	})
 
 	const province = watch('province')
@@ -47,21 +50,21 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 		submitHandler()
 	})
 
-	if (isLoading) {
+	if (isLoading || mngmtTypesLoading) {
 		return <LoadingSpinner borderColor="border-highlight" />
 	}
 
 	return (
 		<form id="survey-form" onSubmit={onSubmit}>
 			<div className="control">
-				<label htmlFor="datetime" className="text-secondary">survey date and time</label>
-				<input type="datetime-local" id="datetime" {...register('datetime')} />
-				<p className="error text-secondary">{errors.datetime?.message}</p>
+				<label htmlFor="date" className="text-secondary">survey date and time</label>
+				<input type="datetime-local" id="date" {...register('date')} />
+				<p className="error text-secondary">{errors.date?.message}</p>
 			</div>
 			<div className="control">
 				<label htmlFor="station" className="text-secondary">station name</label>
-				<input type="text" id="station" {...register('station')} />
-				<p className="error text-secondary">{errors.station?.message}</p>
+				<input type="text" id="station" {...register('stationName')} />
+				<p className="error text-secondary">{errors.stationName?.message}</p>
 			</div>
 			<div className="control">
 				<label htmlFor="start-coordinates" className="text-secondary">starting corner coordinates</label>
@@ -75,8 +78,8 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 			</div>
 			<div className="control">
 				<label htmlFor="gps" className="text-secondary">gps datum</label>
-				<input type="text" id="gps" {...register('gps')} placeholder="WGS84" />
-				<p className="error text-secondary">{errors.gps?.message}</p>
+				<input type="text" id="gps" {...register('gpsDatum')} placeholder="WGS84" />
+				<p className="error text-secondary">{errors.gpsDatum?.message}</p>
 			</div>
 			<div className="control">
 				<label htmlFor="province" className="text-secondary">province</label>
@@ -115,14 +118,14 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 			<div className="control">
 				<label htmlFor="management" className="text-secondary">type of management</label>
 				<select id="management" {...register('management')}>
-					{MANAGEMENT_TYPES.map(d => <option key={d} value={d}>{d}</option>)}
+					{mngmt?.map(d => <option key={d.id} value={d.id}>{d.type}</option>)}
 				</select>
 				<p className="error text-secondary">{errors.management?.message}</p>
 			</div>
 			<div className="control">
 				<label htmlFor="others" className="text-secondary">additional information</label>
-				<textarea id="others" {...register('others')} rows={3} />
-				<p className="error text-secondary">{errors.others?.message}</p>
+				<textarea id="others" {...register('additionalInfo')} rows={3} />
+				<p className="error text-secondary">{errors.additionalInfo?.message}</p>
 			</div>
 		</form>
 	)

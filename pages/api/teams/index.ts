@@ -11,11 +11,13 @@ export type TeamProfileSummary = Prisma.TeamGetPayload<typeof selectTeamProfile>
 const selectLeaderName = Prisma.validator<Prisma.Team$UsersOnTeamArgs>()({
 	select: {
 		user: {
-			select: { firstName: true, lastName: true, }
+			select: { id: true, firstName: true, lastName: true, }
 		},
 	},
 	where: { isLeader: true }
 })
+
+export type LeaderNamePayload = Prisma.UsersOnTeamsGetPayload<typeof selectLeaderName>
 
 const selectTeamProfile = Prisma.validator<Prisma.TeamArgs>()({
 	select: {
@@ -67,15 +69,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						}
 					})
 
-					const leaders = teams.map(t => {
-						const { user } = t.UsersOnTeam[0]
-						return `${user.firstName} ${user.lastName}`
-					})
-
-					return res.json(leaders)
+					return res.json(teams.map(t => t.UsersOnTeam[0]))
 				}
 
-				if(query.filter === 'joined') {
+				if (query.filter === 'joined') {
 					const teams = await prisma.team.findMany({
 						...selectTeamProfile,
 						where: {

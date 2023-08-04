@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { ISurveyInformation, MANAGEMENT_TYPES } from '../models/survey'
+import { ISurveyInformation } from '../models/survey'
 import { ITeam } from '../models/team'
 import { IFileUploads } from '@components/survey-form/file-upload-schema'
 import { UPLOAD_MODES } from '@lib/upload-modes'
@@ -15,24 +15,24 @@ export type Survey = {
 
 export const useSurveyStore = create<Survey>(set => ({
 	surveyInfo: {
-		datetime: new Date(),
-		station: 'Testing',
+		date: new Date(),
+		stationName: 'Testing',
 		startCorner: '12.455, 7.8292',
 		endCorner: '12.455, 7.8292',
-		gps: 'WGS84',
+		gpsDatum: 'WGS84',
 		province: 'Zambales',
 		town: 'Botolan',
 		barangay: 'Bangan',
-		management: MANAGEMENT_TYPES[0],
-		others: '',
+		management: 1,
+		additionalInfo: '',
 	},
 	team: {
-		leader: 'Jared Blase Sy',
+		leader: 1,
 		scientist: 'Jared',
-		member1: 'Jared',
-		member2: 'Jared',
-		member3: 'Jared',
-		member4: '',
+		volunteer1: 'Jared',
+		volunteer2: 'Jared',
+		volunteer3: 'Jared',
+		volunteer4: '',
 	},
 	uploads: {
 		mode: UPLOAD_MODES[0],

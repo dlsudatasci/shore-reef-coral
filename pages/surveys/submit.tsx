@@ -6,9 +6,11 @@ import { SurveyFormProps, SurveyInformation } from '@components/survey-form'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { Mask } from '@components/icons'
-import { onUnauthenticated } from '@lib/utils'
+import { objectToFormData, onUnauthenticated } from '@lib/utils'
 import dynamic from 'next/dynamic'
 import app from '@lib/axios-config'
+import { useSurveyStore } from '@stores/survey-store'
+import { FormEvent } from 'react'
 
 const TeamInformation = dynamic<SurveyFormProps>(() => import('@components/survey-form').then(m => m.TeamInformation))
 const Uploads = dynamic<SurveyFormProps>(() => import('@components/survey-form').then(m => m.Uploads))
@@ -23,7 +25,8 @@ const Contribute: NextPage = () => {
 
 	function onSubmit() {
 		if (page == SURVEY_STEPS.length - 1) {
-			app.post('/surveys')
+			const { team, surveyInfo, uploads } = useSurveyStore.getState()
+			app.post('/surveys', objectToFormData({ team, surveyInfo, uploads }))
 		} else {
 			nextPage()
 		}

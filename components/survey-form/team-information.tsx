@@ -7,24 +7,25 @@ import useSWR from 'swr'
 import { fetcher } from '@lib/axios-config'
 import LoadingSpinner from '@components/loading-spinner'
 import { SurveyFormProps } from '.'
+import { LeaderNamePayload } from '@pages/api/teams'
 
 const storeSelector = (state: Survey) => [state.team, state.setTeam] as const
 
 export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps) {
 	const [team, setTeam] = useSurveyStore(storeSelector, shallow)
-	const { data: leaders, isLoading } = useSWR<string[]>('/teams?filter=leader', fetcher)
-	const { register, handleSubmit, formState: { errors }, getValues } = useForm<ITeam>({
+	const { data: leaders, isLoading } = useSWR<LeaderNamePayload[]>('/teams?filter=leader', fetcher)
+	const { register, handleSubmit, formState: { errors } } = useForm<ITeam>({
 		resolver: yupResolver(teamInfoSchema),
 		defaultValues: team,
 	})
 	const onSubmit = handleSubmit(
-		data => { setTeam(data); submitHandler() },
-		() => {
+		data => {
+			setTeam(data)
 			if ((document.activeElement as HTMLInputElement)?.value == 'BACK') {
-				setTeam(getValues())
-				backHandler()
+				return backHandler()
 			}
-		}
+			submitHandler()
+		},
 	)
 
 	if (isLoading) {
@@ -36,7 +37,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
 			<div className="control">
 				<label htmlFor="leader" className="text-secondary">team leader</label>
 				<select id="leader" {...register('leader')}>
-					{leaders?.map((l, i) => <option key={i} value={l} defaultChecked={i === 0}>{l}</option>)}
+					{leaders?.map(({ user }, i) => <option key={user.id} value={user.id} defaultChecked={!i}>{user.firstName} {user.lastName}</option>)}
 				</select>
 				<p className="error text-secondary">{errors.leader?.message}</p>
 			</div>
@@ -47,23 +48,23 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
 			</div>
 			<div className="control">
 				<label htmlFor="member-1" className="text-secondary">volunteer member 1</label>
-				<input type="text" id="member-1" {...register('member1')} />
-				<p className="error text-secondary">{errors.member1?.message}</p>
+				<input type="text" id="member-1" {...register('volunteer1')} />
+				<p className="error text-secondary">{errors.volunteer1?.message}</p>
 			</div>
 			<div className="control">
 				<label htmlFor="member-2" className="text-secondary">volunteer member 2</label>
-				<input type="text" id="member-2" {...register('member2')} />
-				<p className="error text-secondary">{errors.member2?.message}</p>
+				<input type="text" id="member-2" {...register('volunteer2')} />
+				<p className="error text-secondary">{errors.volunteer2?.message}</p>
 			</div>
 			<div className="control">
 				<label htmlFor="member-3" className="text-secondary">volunteer member 3</label>
-				<input type="text" id="member-3" {...register('member3')} />
-				<p className="error text-secondary">{errors.member3?.message}</p>
+				<input type="text" id="member-3" {...register('volunteer3')} />
+				<p className="error text-secondary">{errors.volunteer3?.message}</p>
 			</div>
 			<div className="control">
 				<label htmlFor="member-4" className="text-secondary">volunteer member 4</label>
-				<input type="text" id="member-4" {...register('member4')} />
-				<p className="error text-secondary">{errors.member4?.message}</p>
+				<input type="text" id="member-4" {...register('volunteer4')} />
+				<p className="error text-secondary">{errors.volunteer4?.message}</p>
 			</div>
 		</form>
 	)
