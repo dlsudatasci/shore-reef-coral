@@ -87,7 +87,7 @@ model Survey {
   barangay         String
   town             String
   province         String
-  additionalInfo   String
+  additionalInfo   String					@default("")
   managementTypeId Int
   managementType   ManagementType @relation(fields: [managementTypeId], references: [id])
   teamId           Int
@@ -99,11 +99,11 @@ model Survey {
   volunteer2       String
   volunteer3       String
   volunteer4       String?
+  volunteer5       String?
+  volunteer6       String?
   C30ImageSet      C30ImageSet?
-  SurveyFile       SurveyFile?
   dataType         String
-  status           String
-  verified         Boolean
+  status           String					@default("PENDING")
 
   @@index([teamId])
 }
@@ -138,6 +138,8 @@ model CoralAssessment {
   volunteer2 String
   volunteer3 String
   volunteer4 String?
+	volunteer5 String?
+	volunteer6 String?
   CoralInfo  CoralInfo[]
 }
 
@@ -157,12 +159,4 @@ model CoralInfo {
   point8            String
   point9            String
   point10           String
-}
-
-model SurveyFile {
-  id            Int    @id @default(autoincrement())
-  surveyId      Int    @unique
-  survey        Survey @relation(fields: [surveyId], references: [id])
-  excelFilePath String
-  cpceFilePath  String
 }
