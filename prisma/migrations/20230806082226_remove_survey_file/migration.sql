@@ -6,18 +6,18 @@
 
 */
 -- DropForeignKey
-ALTER TABLE `surveyfile` DROP FOREIGN KEY `SurveyFile_surveyId_fkey`;
+ALTER TABLE `SurveyFile` DROP FOREIGN KEY `SurveyFile_surveyId_fkey`;
 
 -- AlterTable
-ALTER TABLE `coralassessment` ADD COLUMN `volunteer5` VARCHAR(191) NULL,
+ALTER TABLE `CoralAssessment` ADD COLUMN `volunteer5` VARCHAR(191) NULL,
     ADD COLUMN `volunteer6` VARCHAR(191) NULL;
 
 -- AlterTable
-ALTER TABLE `survey` DROP COLUMN `verified`,
+ALTER TABLE `Survey` DROP COLUMN `verified`,
     ADD COLUMN `volunteer5` VARCHAR(191) NULL,
     ADD COLUMN `volunteer6` VARCHAR(191) NULL,
     MODIFY `additionalInfo` VARCHAR(191) NOT NULL DEFAULT '',
     MODIFY `status` VARCHAR(191) NOT NULL DEFAULT 'PENDING';
 
 -- DropTable
-DROP TABLE `surveyfile`;
+DROP TABLE `SurveyFile`;
