@@ -26,7 +26,7 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   return (
     <>
       <section className="bg-primary text-secondary px-4 py-10">
-        <div className="grid gap-6 sm:grid-cols-[1fr_220px] max-w-6xl mx-auto items-end">
+        <div className="grid gap-6 sm:grid-cols-[1fr_220px] max-w-6xl mx-auto items-start">
           <div>
             <h3 className="font-comic-cat">LESSON {lessonNumber}:</h3>
             <h1 className="font-comic-cat mb-4">{lessonData.title}</h1>
@@ -48,6 +48,10 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 className="w-full"
               />
             )}
+            <p
+            className="mt-7"
+            dangerouslySetInnerHTML={{ __html: lessonData.description }}
+          />
           </div>
           <div className={cn(styles["lesson-list-wrapper"])}>
             <ul>
@@ -85,10 +89,7 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               ))}
             </ul>
           </div>
-          <p
-            className="max-w-prose sm:col-span-2"
-            dangerouslySetInnerHTML={{ __html: lessonData.description }}
-          />
+          
         </div>
       </section>
       <section className="py-24 relative">
