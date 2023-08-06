@@ -121,43 +121,50 @@ const Lesson: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           </div>
           <div className="bg-primary p-2 inline-flex items-center gap-3 mb-5">
             <ButterflyFish className="fill-secondary w-6" />
-            <h3 className="text-secondary text-sm">LESSON {lessonNumber}</h3>
+            <h3 className="text-secondary text-sm font-comic-cat">LESSON {lessonNumber}</h3>
           </div>
-          <ReactMarkdown
-            className={cn(styles.lesson, selected === 0 ? "block" : "!hidden")}
-            rehypePlugins={[rehypeRaw]}
-            remarkPlugins={[unwrapImages]}
-            components={{
-              div: ({ node, ...props }) => {
-                switch (props.className) {
-                  case "grid-layout-2":
-                    return (
-                      <div className="grid md:grid-cols-2 mt-5">
-                        {props.children}
-                      </div>
-                    );
+          <div className="grid gap-6 sm:grid-cols-[1fr_220px] max-w-6xl mx-auto items-start">
+            <ReactMarkdown
+              className={cn(styles.lesson, selected === 0 ? "block" : "!hidden")}
+              rehypePlugins={[rehypeRaw]}
+              remarkPlugins={[unwrapImages]}
+              components={{
+                div: ({ node, ...props }) => {
+                  switch (props.className) {
+                    case "grid-layout-2":
+                      return (
+                        <div className="grid md:grid-cols-2 mt-5">
+                          {props.children}
+                        </div>
+                      );
 
-                  case "grid-layout-3":
-                    return (
-                      <div className="grid md:grid-cols-3 mt-5">
-                        {props.children}
-                      </div>
-                    );
+                    case "grid-layout-3":
+                      return (
+                        <div className="grid md:grid-cols-3 mt-5">
+                          {props.children}
+                        </div>
+                      );
 
-                  default:
-                    return <div>{props.children}</div>;
-                }
-              },
-              img: ({ node, ...props }) => (
-                <MarkdownImage src={props.src} alt={props.alt} />
-              ),
-              h1: ({ node, ...props }) => (
-                <MarkdownHeading icons={lessonData.icons}>{props.children}</MarkdownHeading>
-              ),
-            }}
-          >
-            {lessonData.content}
-          </ReactMarkdown>
+                    default:
+                      return <div>{props.children}</div>;
+                  }
+                },
+                img: ({ node, ...props }) => (
+                  <MarkdownImage src={props.src} alt={props.alt} />
+                ),
+                h1: ({ node, ...props }) => (
+                  <MarkdownHeading icons={lessonData.icons}>{props.children}</MarkdownHeading>
+                ),
+                p: ({ node, ...props }) => (
+                  <p className="mb-4" {...props}>
+                    {props.children}
+                  </p>
+                ),
+              }}
+            >
+              {lessonData.content}
+            </ReactMarkdown>
+          </div>
           {selected === 1 && (
             <div>
               {lessonData.resources ? (
