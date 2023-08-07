@@ -36,10 +36,10 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
 		<form id="survey-form" onSubmit={onSubmit}>
 			<div className="control">
 				<label htmlFor="leader" className="text-secondary">team leader</label>
-				<select id="leader" {...register('leader')}>
+				<select id="leader" {...register('leaderId')}>
 					{leaders?.map(({ user }, i) => <option key={user.id} value={user.id} defaultChecked={!i}>{user.firstName} {user.lastName}</option>)}
 				</select>
-				<p className="error text-secondary">{errors.leader?.message}</p>
+				<p className="error text-secondary">{errors.leaderId?.message}</p>
 			</div>
 			<div className="control">
 				<label htmlFor="scientist" className="text-secondary">team scientist</label>
@@ -65,6 +65,16 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
 				<label htmlFor="member-4" className="text-secondary">volunteer member 4</label>
 				<input type="text" id="member-4" {...register('volunteer4')} />
 				<p className="error text-secondary">{errors.volunteer4?.message}</p>
+			</div>
+			<div className="control">
+				<label htmlFor="member-5" className="text-secondary">volunteer member 5</label>
+				<input type="text" id="member-5" {...register('volunteer5')} />
+				<p className="error text-secondary">{errors.volunteer5?.message}</p>
+			</div>
+			<div className="control">
+				<label htmlFor="member-6" className="text-secondary">volunteer member 6</label>
+				<input type="text" id="member-6" {...register('volunteer6')} />
+				<p className="error text-secondary">{errors.volunteer6?.message}</p>
 			</div>
 		</form>
 	)

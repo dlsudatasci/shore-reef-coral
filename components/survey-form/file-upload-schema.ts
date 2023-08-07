@@ -1,8 +1,10 @@
+import { SubmissionType } from '@prisma/client'
 import * as yup from 'yup'
-import { UPLOAD_MODES } from "@lib/upload-modes"
+
+const SUBMISSION_TYPES = Object.values(SubmissionType)
 
 export const fileUploadSchema = yup.object({
-	dataType: yup.mixed<typeof UPLOAD_MODES[number]>().oneOf([...UPLOAD_MODES], 'Invalid option!').required(),
+	submissionType: yup.mixed<typeof SUBMISSION_TYPES[number]>().oneOf([...SUBMISSION_TYPES], 'Invalid option!').required(),
 	zip: yup
 		.mixed<FileList>()
 		.test('required', 'File is required', f => {

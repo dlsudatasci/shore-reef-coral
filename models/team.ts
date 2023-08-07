@@ -9,4 +9,6 @@ export const teamInfoSchema = object({
 	volunteer2: string().required('2nd member is required.'),
 	volunteer3: string().required('3rd member is required.'),
 	volunteer4: string().optional(),
+	volunteer5: string().optional(),
+	volunteer6: string().optional(),
 }).required()

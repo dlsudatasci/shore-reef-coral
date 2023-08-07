@@ -1,10 +1,10 @@
-import { UPLOAD_MODES } from "@lib/upload-modes"
 import { SurveyFormProps } from "."
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { shallow } from "zustand/shallow"
 import { Survey, useSurveyStore } from "@stores/survey-store"
 import { IFileUploads, fileUploadSchema } from "./file-upload-schema"
+import { SubmissionType } from "@prisma/client"
 
 const storeSelector = (state: Survey) => [state.uploads, state.setUploads] as const
 
@@ -15,7 +15,7 @@ export function Uploads({ submitHandler, backHandler }: SurveyFormProps) {
 		defaultValues: uploads
 	})
 
-	const mode = watch('dataType')
+	const mode = watch('submissionType')
 
 	const onSubmit = handleSubmit(
 		data => {
@@ -39,14 +39,14 @@ export function Uploads({ submitHandler, backHandler }: SurveyFormProps) {
 			<div className="control text-secondary">
 				<p className="label required mb-1">What are you uploading?</p>
 				<div className="space-y-1 ml-2">
-					{UPLOAD_MODES.map(mode =>
+					{Object.keys(SubmissionType).map(mode =>
 						<label key={mode} htmlFor={mode} className="cursor-pointer flex items-center space-x-2">
-							<input type="radio" id={mode} {...register('dataType')} value={mode} />
+							<input type="radio" id={mode} {...register('submissionType')} value={mode} />
 							<span className="translate-y-0.5">{mode}</span>
 						</label>
 					)}
 				</div>
-				<p className="error text-error">{errors.dataType?.message?.toString()}</p>
+				<p className="error text-error">{errors.submissionType?.message?.toString()}</p>
 			</div>
 			{mode === 'CPCE' &&
 				<div className="control text-secondary">

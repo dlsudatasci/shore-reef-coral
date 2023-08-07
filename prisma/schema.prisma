@@ -71,7 +71,7 @@ model PasswordRecovery {
 
 model ManagementType {
   id     Int      @id @default(autoincrement())
-  type   String		@unique
+  type   String   @unique
   Survey Survey[]
 }
 
@@ -87,7 +87,7 @@ model Survey {
   barangay         String
   town             String
   province         String
-  additionalInfo   String					@default("")
+  additionalInfo   String         @default("")
   managementTypeId Int
   managementType   ManagementType @relation(fields: [managementTypeId], references: [id])
   teamId           Int
@@ -103,7 +103,8 @@ model Survey {
   volunteer6       String?
   C30ImageSet      C30ImageSet?
   dataType         String
-  status           String					@default("PENDING")
+  status           String         @default("PENDING")
+  submissionType   SubmissionType
 
   @@index([teamId])
 }
@@ -138,8 +139,8 @@ model CoralAssessment {
   volunteer2 String
   volunteer3 String
   volunteer4 String?
-	volunteer5 String?
-	volunteer6 String?
+  volunteer5 String?
+  volunteer6 String?
   CoralInfo  CoralInfo[]
 }
 
@@ -159,4 +160,10 @@ model CoralInfo {
   point8            String
   point9            String
   point10           String
+}
+
+enum SubmissionType {
+  CPCE
+  ALWAN
+  MANUAL
 }
