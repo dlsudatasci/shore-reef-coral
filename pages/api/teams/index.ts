@@ -98,9 +98,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				// validate location
 				const barangayList = (locations[2] as unknown as Record<string, string[]>)[body.province + body.town]
 
-				if (!barangayList.includes(body.barangay)) {
+				if (!barangayList) {
 					return res.status(400).json({
-						barangay: 'Invalid location'
+						town: 'Invalid location'
 					} as Partial<TeamCreateSchema>)
 				}
 

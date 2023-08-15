@@ -15,7 +15,6 @@ import { useUserOnlyAccess } from '@lib/useRoleAccess'
 
 const teamCreateSchema = object({
 	name: string().trim().required('Team name is required.'),
-	barangay: string().trim().required('Barangay is required.'),
 	town: string().trim().required('Town is required.'),
 	province: string().trim().required('Province is required.'),
 	affiliation: string().trim().optional(),
@@ -31,16 +30,11 @@ const CreateTeam: NextPage = () => {
 	const { push } = useRouter()
 
 	const province = watch('province')
-	const town = watch('town')
 	useUserOnlyAccess()
 
 	useEffect(() => {
 		setValue('town', '')
 	}, [province])
-
-	useEffect(() => {
-		setValue('barangay', '')
-	}, [town])
 
 	async function onSubmit(data: TeamCreateSchema) {
 		try {
@@ -91,18 +85,6 @@ const CreateTeam: NextPage = () => {
 						}
 					</select>
 					<p className="error">{errors.town?.message}</p>
-				</div>
-				<div className="control">
-					<label htmlFor="barangay" className="text-secondary required">Barangay</label>
-					<select id="barangay" {...register('barangay')} disabled={!locations[2][province + town]} defaultValue="">
-						<option value="" disabled defaultChecked>-SELECT BARANGAY-</option>
-						{
-							locations[2][province + town]?.map((b: string) => (
-								<option key={b} value={b}>{b}</option>
-							))
-						}
-					</select>
-					<p className="error">{errors.barangay?.message}</p>
 				</div>
 				<div className="control">
 					<label htmlFor="affiliation" className="text-secondary">Affiliation</label>
