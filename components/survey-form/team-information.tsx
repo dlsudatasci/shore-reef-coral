@@ -11,10 +11,15 @@ import { LeaderNamePayload } from '@pages/api/teams'
 
 const storeSelector = (state: Survey) => [state.team, state.setTeam] as const
 
+type Payload = {
+	id: number
+	name: string
+} & LeaderNamePayload
+
 export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps) {
 	const [team, setTeam] = useSurveyStore(storeSelector, shallow)
-	const { data: leaders, isLoading } = useSWR<LeaderNamePayload[]>('/teams?filter=leader', fetcher)
-	const { register, handleSubmit, formState: { errors } } = useForm<ITeam>({
+	const { data: leaders, isLoading } = useSWR<Payload[]>('/teams?filter=leader', fetcher)
+	const { register, handleSubmit, formState: { errors }, setValue } = useForm<ITeam>({
 		resolver: yupResolver(teamInfoSchema),
 		defaultValues: team,
 	})
@@ -36,8 +41,14 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
 		<form id="survey-form" onSubmit={onSubmit}>
 			<div className="control">
 				<label htmlFor="leader" className="text-secondary">team leader</label>
-				<select id="leader" {...register('leaderId')}>
-					{leaders?.map(({ user }, i) => <option key={user.id} value={user.id} defaultChecked={!i}>{user.firstName} {user.lastName}</option>)}
+				<select id="leader" onChange={(e) => {
+					const [userId, teamId] = e.target.value.split('-')
+					setValue('leaderId', parseInt(userId))
+					setValue('teamId', parseInt(teamId))
+				}}>
+					{leaders?.map(({ id, name, user }, i) =>
+						<option key={user.id} value={`${user.id}-${id}`} defaultChecked={!i}>{user.firstName} {user.lastName} ({name})</option>)
+					}
 				</select>
 				<p className="error text-secondary">{errors.leaderId?.message}</p>
 			</div>

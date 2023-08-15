@@ -117,10 +117,10 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 			</div>
 			<div className="control">
 				<label htmlFor="management" className="text-secondary">type of management</label>
-				<select id="management" {...register('management')}>
+				<select id="management" {...register('managementTypeId')}>
 					{mngmt?.map(d => <option key={d.id} value={d.id}>{d.type}</option>)}
 				</select>
-				<p className="error text-secondary">{errors.management?.message}</p>
+				<p className="error text-secondary">{errors.managementTypeId?.message}</p>
 			</div>
 			<div className="control">
 				<label htmlFor="others" className="text-secondary">additional information</label>
