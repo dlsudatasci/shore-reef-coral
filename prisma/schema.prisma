@@ -28,7 +28,6 @@ model Team {
   name            String            @unique
   province        String
   town            String
-  barangay        String
   affiliation     String?
   isVerified      Boolean           @default(false)
   UsersOnTeam     UsersOnTeams[]

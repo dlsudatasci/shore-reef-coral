@@ -15,7 +15,6 @@ const teamSurveys = Prisma.validator<Prisma.SurveyArgs>()({
 		startLatitude: true,
 		dataType: true,
 		status: true,
-		verified: true
 	}
 })
 

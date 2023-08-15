@@ -35,7 +35,7 @@ export function objectToFormData(data: Record<any, any>, formData = new FormData
 
 			if (value instanceof File) {
 				formData.append(formKey, value);
-			} else if (value instanceof Blob) {
+			} else if (value instanceof File) {
 				formData.append(formKey, value, value.name);
 			} else if (value instanceof Date) {
 				formData.append(formKey, value.toISOString());

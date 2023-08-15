@@ -38,10 +38,10 @@ const columns = [
   }),
   helper.accessor("dataType", { header: "Data Type" }),
   helper.accessor("status", { header: "Status" }),
-  helper.accessor("verified", {
+  helper.accessor("status", {
     header: "Verified",
     cell(props) {
-      return <p className="text-center">{props.getValue() ? "✓" : ""}</p>;
+      return <p className="text-center">{props.getValue() === "COMPLETE" ? "✓" : ""}</p>;
     },
   }),
   helper.display({

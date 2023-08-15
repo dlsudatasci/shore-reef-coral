@@ -19,8 +19,7 @@ const SampleData: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
   startLatitude: Math.random() * 100,
   startLongtitude: Math.random() * 100,
   dataType: "Photos",
-  status: "Completed",
-  verified: true,
+  status: "COMPLETE",
 }));
 
 function SurveyList({ teams, ...props }: SurveyListProps) {
