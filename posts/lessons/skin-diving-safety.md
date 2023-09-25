@@ -3,6 +3,7 @@ title: Mge Patakaran sa Pagsisid nang Ligtas
 description: All activities conducted in the water have a certain level of risk. This video provides safety guidelines for the preparation and conduct of Alwan surveys to help ensure the safety of citizen scientists.
 url: https://www.youtube.com/embed/gv6beiYcn9k
 order: 7
+icons: ['mask', 'fins']
 ---
 
 # Skin Diving Safety

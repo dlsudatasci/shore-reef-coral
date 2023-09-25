@@ -13,7 +13,7 @@ export const MarkdownImage = ({ src, alt }: Props) => {
   };
 
   return (
-    <div className="block relative w-[90%] mx-auto mb-5 aspect-video markdown-image">
+    <div className="block relative w-[90%] mx-auto mb-7 mt-5 aspect-video markdown-image">
       <Image
         src={src ?? ""}
         alt={alt ?? ""}
