@@ -1,19 +1,15 @@
-import * as yup from 'yup'
+import { number, string, InferType, object } from 'yup'
 
-export interface ITeam {
-	leader: string
-	scientist: string
-	member1: string
-	member2: string
-	member3: string
-	member4?: string
-}
+export type ITeam = InferType<typeof teamInfoSchema>
 
-export const teamInfoSchema = yup.object({
-	leader: yup.string().required('Team leader is required'),
-	scientist: yup.string().required('Scientist is required.'),
-	member1: yup.string().required('1st member is required.'),
-	member2: yup.string().required('2nd member is required.'),
-	member3: yup.string().required('3rd member is required.'),
-	member4: yup.string().optional(),
+export const teamInfoSchema = object({
+	leaderId: number().required('Team leader is required'),
+	teamId: number().required('Team is required'),
+	scientist: string().required('Scientist is required.'),
+	volunteer1: string().required('1st member is required.'),
+	volunteer2: string().required('2nd member is required.'),
+	volunteer3: string().required('3rd member is required.'),
+	volunteer4: string().optional(),
+	volunteer5: string().optional(),
+	volunteer6: string().optional(),
 }).required()

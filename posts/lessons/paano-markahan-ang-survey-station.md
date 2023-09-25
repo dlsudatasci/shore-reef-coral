@@ -3,15 +3,18 @@ title: Paano Markahan ang Survey Station
 description: Coral reefs are huge geological structures which cannot be surveyed in their entirety. This video shows how to mark a smaller study area on the reef, called the survey station, where the Alwan surveys will be conducted.
 url: https://www.youtube.com/embed/gboWpQ5fAko
 order: 4
+icons: ['mask', 'fins', 'buoy']
 ---
 
-## Marking the Survey Station Boundaries
+# Marking the Survey Station Boundaries
 
 Coral reefs are huge geological structures that can grow over hundreds of kilometers. It’s not feasible to survey an entire reef, so instead we survey a portion of the reef which we call the survey station. The approximate location of the survey station should be chosen in advance by the team scientist. The survey team then marks the boundaries of the survey station to ensure that all of the Alwan surveys are conducted in the same area.
 
 ![Image of a jeep](/images/lesson-3/1.jpg 'Image of a jeep')
 
 ## Materials
+
+![Image of things to bring](/images/lesson-3/2.jpg 'Image of things to bring')
 
 A team of at least three citizen scientists is recommended to mark the survey station boundaries. This team will need the following materials:
 
@@ -21,8 +24,6 @@ A team of at least three citizen scientists is recommended to mark the survey st
    1. These are ropes with floats that are half a meter apart from each other. Each float line has a connector or tuna clip on one end and a float and loop on the other end.
 1. One navigational marker.
    1. The navigational marker is made of PVC pipe, fishing weights, a floater, and a rope marked at five and six meters.
-
-![Image of things to bring](/images/lesson-3/2.jpg 'Image of things to bring')
 
 Make sure that these materials are ready before traveling to the survey station.
 
@@ -67,8 +68,11 @@ In order to ensure that the activity goes smoothly, each team member and the boa
    ![Location of starting corner](/images/lesson-3/6.jpg 'Location of starting corner')
 1. **CS3**: Deploy the orange starting corner buoys by swimming to the point where the navigational marker was placed and skin diving to tie the buoys to either a rock or dead coral on the reef bottom. Make sure the rope is straight and attached securely. Return to the boat to retrieve one float line, one set of orange buoys, and one buoy.
 
+<div class="grid-layout-2">
+
 ![Location of starting corner](/images/lesson-3/7.jpg 'Location of starting corner')
 ![Location of starting corner](/images/lesson-3/8.jpg 'Location of starting corner')
+</div>
 
 5. **CS1 and CS3**: Swim parallel to the shore until three float lines from the boat are deployed.
    ![Location of starting corner](/images/lesson-3/9.jpg 'Location of starting corner')

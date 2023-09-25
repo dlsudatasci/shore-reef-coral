@@ -1,22 +1,25 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Prisma, Status, Team } from '@prisma/client'
-import { getSession } from 'next-auth/react'
+import { getServerSession } from 'next-auth/next'
 import prisma from '@lib/prisma'
 import { TeamCreateSchema } from '@pages/teams/create'
 import locations from '@public/bgy-masterlist.json'
+import { authOptions } from '../auth/[...nextauth]'
 
 export type TeamProfileSummary = Prisma.TeamGetPayload<typeof selectTeamProfile>
 
 const selectLeaderName = Prisma.validator<Prisma.Team$UsersOnTeamArgs>()({
 	select: {
 		user: {
-			select: { firstName: true, lastName: true, }
+			select: { id: true, firstName: true, lastName: true, }
 		},
 	},
 	where: { isLeader: true }
 })
 
-const selectTeamProfile = Prisma.validator<Prisma.TeamArgs>()({
+export type LeaderNamePayload = Prisma.UsersOnTeamsGetPayload<typeof selectLeaderName>
+
+const selectTeamProfile = Prisma.validator<Prisma.TeamDefaultArgs>()({
 	select: {
 		id: true,
 		town: true,
@@ -39,7 +42,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			case 'GET': {
 				const query = req.query as { filter?: string }
 
-				const session = await getSession({ req })
+				const session = await getServerSession(req, res, authOptions)
 				if (!session) return res.status(401)
 
 				if (query.filter === 'joinable') {
@@ -54,21 +57,50 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 					return res.json(teams)
 				}
 
+				if (query.filter === 'leader') {
+					const teams = await prisma.team.findMany({
+						select: {
+							id: true,
+							name: true,
+							UsersOnTeam: selectLeaderName
+						},
+						where: {
+							UsersOnTeam: {
+								some: { userId: session.user.id }
+							}
+						}
+					})
+
+					return res.json(teams.map(t => ({ id: t.id, name: t.name, ...t.UsersOnTeam[0] })))
+				}
+
+				if (query.filter === 'joined') {
+					const teams = await prisma.team.findMany({
+						...selectTeamProfile,
+						where: {
+							UsersOnTeam: {
+								some: { userId: session.user.id }
+							}
+						}
+					})
+					return res.json(teams)
+				}
+
 				const teams = await prisma.team.findMany({ ...selectTeamProfile })
 				res.json(teams)
 				break
 			}
 
 			case 'POST': {
-				const session = await getSession({ req })
+				const session = await getServerSession(req, res, authOptions)
 				if (!session) return res.status(401)
 
 				// validate location
 				const barangayList = (locations[2] as unknown as Record<string, string[]>)[body.province + body.town]
 
-				if (!barangayList.includes(body.barangay)) {
+				if (!barangayList) {
 					return res.status(400).json({
-						barangay: 'Invalid location'
+						town: 'Invalid location'
 					} as Partial<TeamCreateSchema>)
 				}
 

@@ -1,9 +1,9 @@
-import NextAuth, { User } from 'next-auth'
+import NextAuth, { NextAuthOptions, User } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import prisma from '@lib/prisma'
 import { matchPassword } from '@lib/password-util'
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
 	providers: [
 		CredentialsProvider({
 			name: 'Credentials',
@@ -25,6 +25,7 @@ export default NextAuth({
 					email: user.email,
 					firstName: user.firstName,
 					lastName: user.lastName,
+					isAdmin: user.isAdmin,
 				} as User
 			},
 		}),
@@ -36,14 +37,18 @@ export default NextAuth({
 				token.email = user.email
 				token.firstName = user.firstName
 				token.lastName = user.lastName
+				token.isAdmin = user.isAdmin
 			}
-			return token;
+			return token
 		},
 		async session({ session, token }) {
 			session.user.firstName = token.firstName
 			session.user.lastName = token.lastName
 			session.user.id = token.id
+			session.user.isAdmin = token.isAdmin
 			return session
 		},
 	},
-});
+}
+
+export default NextAuth(authOptions)

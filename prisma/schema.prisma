@@ -20,6 +20,7 @@ model User {
   PasswordRecovery PasswordRecovery?
   Survey           Survey[]
   CoralAssessment  CoralAssessment[]
+  isAdmin          Boolean           @default(false)
 }
 
 model Team {
@@ -27,7 +28,6 @@ model Team {
   name            String            @unique
   province        String
   town            String
-  barangay        String
   affiliation     String?
   isVerified      Boolean           @default(false)
   UsersOnTeam     UsersOnTeams[]
@@ -52,10 +52,10 @@ model UsersOnTeams {
 }
 
 enum Status {
-	ACCEPTED
-	REJECTED
-	PENDING
-	INACTIVE
+  ACCEPTED
+  REJECTED
+  PENDING
+  INACTIVE
 }
 
 model PasswordRecovery {
@@ -70,7 +70,7 @@ model PasswordRecovery {
 
 model ManagementType {
   id     Int      @id @default(autoincrement())
-  type   String
+  type   String   @unique
   Survey Survey[]
 }
 
@@ -86,7 +86,7 @@ model Survey {
   barangay         String
   town             String
   province         String
-  additionalInfo   String
+  additionalInfo   String         @default("")
   managementTypeId Int
   managementType   ManagementType @relation(fields: [managementTypeId], references: [id])
   teamId           Int
@@ -98,11 +98,12 @@ model Survey {
   volunteer2       String
   volunteer3       String
   volunteer4       String?
+  volunteer5       String?
+  volunteer6       String?
   C30ImageSet      C30ImageSet?
-  SurveyFile       SurveyFile?
   dataType         String
-  status           String
-  verified         Boolean
+  status           String         @default("PENDING")
+  submissionType   SubmissionType
 
   @@index([teamId])
 }
@@ -137,6 +138,8 @@ model CoralAssessment {
   volunteer2 String
   volunteer3 String
   volunteer4 String?
+  volunteer5 String?
+  volunteer6 String?
   CoralInfo  CoralInfo[]
 }
 
@@ -158,10 +161,8 @@ model CoralInfo {
   point10           String
 }
 
-model SurveyFile {
-  id            Int    @id @default(autoincrement())
-  surveyId      Int    @unique
-  survey        Survey @relation(fields: [surveyId], references: [id])
-  excelFilePath String
-  cpceFilePath  String
+enum SubmissionType {
+  CPCE
+  ALWAN
+  MANUAL
 }

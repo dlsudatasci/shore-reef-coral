@@ -1,13 +1,11 @@
 ---
 title: About this course
 description:
-url: https://www.youtube.com/embed/pC8TjBMKsBo
+image: /images/lesson-0/1.jpg
 order: 1
 ---
 
 ## About this course
-
-![Survey team certified after training](/images/lesson-0/1.jpg 'Survey team certified after training')
 
 This learning course will teach you how to conduct reef surveys using the Alwan citizen science methods. It includes basic background information about coral reefs and citizen science, detailed instructions on how to carry out the butterflyfish, target marine invertebrates, and coral surveys, and how to process the survey images.
 

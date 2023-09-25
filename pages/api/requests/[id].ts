@@ -1,7 +1,8 @@
 import prisma from '@lib/prisma'
 import { Prisma, Status } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from 'next-auth/react'
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from '../auth/[...nextauth]'
 
 const selectLeader = Prisma.validator<Prisma.Team$UsersOnTeamArgs>()({
 	select: {
@@ -30,7 +31,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method } = req
 	const id = Number(req.query.id)
 
-	const session = await getSession({ req })
+	const session = await getServerSession(req, res, authOptions)
 	if (!session) return res.status(401)
 
 	try {

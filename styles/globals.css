@@ -25,11 +25,11 @@
     @apply text-4xl
   }
 
-	label {
+	label, .label {
 		@apply block
 	}
 
-	label.required {
+	label.required, .label.required {
 		@apply after:content-['_*']
 	}
 

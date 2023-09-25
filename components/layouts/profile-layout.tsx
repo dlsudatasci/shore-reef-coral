@@ -3,9 +3,9 @@ import { FC, ReactNode } from 'react'
 import DashboardLayout from './dashboard-layout'
 
 const navItems = [
-	{ name: 'Profile', path: '/dashboard/profile' },
-	{ name: 'Change password', path: '/dashboard/password' },
-	{ name: 'Team information', path: '/dashboard/team' },
+	{ name: 'Profile', path: '/profile' },
+	{ name: 'Change password', path: '/profile/password' },
+	{ name: 'Team information', path: '/profile/teams' },
 ] as const
 
 const ProfileLayout: FC<{ children: ReactNode }> = ({ children }) => {

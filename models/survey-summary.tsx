@@ -1,5 +1,7 @@
+import { ButterflyFish, Clam, Coral, Cots, Starfish } from "@components/icons"
+
 export interface ISubsection {
-	imgSrc: string
+	Img: typeof Clam
 	title: string
 	score: number
 	grade: string
@@ -10,25 +12,25 @@ export interface ISection {
 	subsections: ISubsection[]
 }
 
-const sectionsTemplate: ISection[] = [
+export const sectionsTemplate: ISection[] = [
 	{
 		title: 'Reef Quality',
 		subsections: [
 			{
 				title: 'Hard Coral Cover',
-				imgSrc: '/coral-dark.png',
+				Img: Coral,
 				score: 0.0,
 				grade: 'D'
 			},
 			{
 				title: 'Butterflyfish Abundance',
-				imgSrc: '/butterfly-fish-dark.png',
+				Img: ButterflyFish,
 				score: 0.0,
 				grade: 'C'
 			},
 			{
 				title: 'Butterflyfish Species Richness',
-				imgSrc: '/butterfly-fish-dark.png',
+				Img: ButterflyFish,
 				score: 0.0,
 				grade: 'B'
 			}
@@ -39,7 +41,7 @@ const sectionsTemplate: ISection[] = [
 		subsections: [
 			{
 				title: 'Crown-of-thorns Starfish Abundance',
-				imgSrc: '/cots-dark.png',
+				Img: Cots,
 				score: 0.0,
 				grade: 'A'
 			},
@@ -50,7 +52,7 @@ const sectionsTemplate: ISection[] = [
 		subsections: [
 			{
 				title: 'Giant Clams Abundance',
-				imgSrc: '/clam-dark.png',
+				Img: Clam,
 				score: 0.0,
 				grade: 'B'
 			}
@@ -61,7 +63,7 @@ const sectionsTemplate: ISection[] = [
 		subsections: [
 			{
 				title: 'Feather Star Abundance',
-				imgSrc: '/starfish-dark.png',
+				Img: Starfish,
 				score: 0.0,
 				grade: 'A',
 			}
@@ -72,12 +74,10 @@ const sectionsTemplate: ISection[] = [
 		subsections: [
 			{
 				title: 'Blue Linckia Starfish Abundance',
-				imgSrc: '/starfish-dark.png',
+				Img: Starfish,
 				score: 0.0,
 				grade: 'C'
 			}
 		]
 	}
 ]
-
-export default sectionsTemplate

@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Prisma } from '@prisma/client'
-import { getSession } from 'next-auth/react'
+import { getServerSession } from 'next-auth/next'
 import prisma from '@lib/prisma'
+import { authOptions } from '@pages/api/auth/[...nextauth]'
 
 export type TeamSurveySummary = Prisma.SurveyGetPayload<typeof teamSurveys>
 
@@ -14,7 +15,6 @@ const teamSurveys = Prisma.validator<Prisma.SurveyArgs>()({
 		startLatitude: true,
 		dataType: true,
 		status: true,
-		verified: true
 	}
 })
 
@@ -35,7 +35,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 
 			case 'POST': {
-				const session = await getSession({ req })
+				const session = await getServerSession(req, res, authOptions)
 				if (!session) return res.status(401)
 
 				break

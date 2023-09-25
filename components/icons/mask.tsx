@@ -1,6 +1,6 @@
 import { SVGAttributes } from 'react'
 
-export default function Mask(props: SVGAttributes<SVGElement>) {
+export function Mask(props: SVGAttributes<SVGElement>) {
 	return (
 		<svg viewBox="0 0 500 500" version="1.1" xmlns="http://www.w3.org/2000/svg" {...props}>
 			<g>

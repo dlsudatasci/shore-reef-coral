@@ -16,6 +16,7 @@ module.exports = {
         highlight: "#E3AD58",
 				't-highlight': '#254F60',
 				error: '#F28270',
+				notif: '#E5E7EB',
       },
 			fontFamily: {
 				'sans': ['Josefin Sans', ...defaultTheme.fontFamily.sans],

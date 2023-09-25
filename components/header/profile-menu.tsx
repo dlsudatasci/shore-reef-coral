@@ -16,7 +16,7 @@ function className(active: boolean) {
 }
 
 const MyLink = forwardRef((props: { href: string, children: ReactNode, [key: string]: any }, ref: Ref<HTMLAnchorElement>) => {
-	let { href, children, ...rest } = props
+	const { href, children, ...rest } = props
 	return (
 		<Link href={href} ref={ref} {...rest}>
 			{children}
@@ -25,7 +25,11 @@ const MyLink = forwardRef((props: { href: string, children: ReactNode, [key: str
 })
 MyLink.displayName = 'MyLink'
 
-const ProfileMenu: FC = () => {
+type ProfileMenuProps = {
+	isAdmin?: boolean
+}
+
+const ProfileMenu: FC<ProfileMenuProps> = ({ isAdmin }) => {
 	const { data } = useSession()
 
 	return (
@@ -33,10 +37,10 @@ const ProfileMenu: FC = () => {
 			<div>
 				<Menu.Button className="flex items-center">
 					<span className="sr-only">Open user menu</span>
-					<div className="bg-secondary p-1.5 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-white">
-						<UserIcon className="w-7 h-7 text-primary" />
+					<div className={cn(!isAdmin ? "bg-secondary" : "bg-primary", "p-1.5 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-white")}>
+						<UserIcon className={cn(!isAdmin ? "text-primary": "text-secondary","w-7 h-7")} />
 					</div>
-					<ChevronDownIcon className="w-4 h-4 text-secondary" />
+					<ChevronDownIcon className={cn(!isAdmin ? "text-secondary": "text-primary", "w-4 h-4")} />
 				</Menu.Button>
 			</div>
 			<Transition

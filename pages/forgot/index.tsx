@@ -9,7 +9,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import userSchema from '@models/user'
 import { InferType } from 'yup'
-import ButterflyFish from '@components/icons/butterfly-fish'
+import { ButterflyFish } from '@components/icons'
 
 const forgotSchema = userSchema.pick(['email'])
 

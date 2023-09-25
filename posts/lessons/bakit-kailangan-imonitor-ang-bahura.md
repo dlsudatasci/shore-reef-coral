@@ -5,9 +5,10 @@ url: https://www.youtube.com/embed/qC4-8AZrGkM
 resources: 
   - Nationwide Reef Assessment: "https://philjournalsci.dost.gov.ph/images/pdf/pjs_pdf/vol146no2/initial_findings_of_the_nationwide_assessment_of_philippine_coral_reefs.pdf"
 order: 2
+icons: ['butterflyFish', 'starfish', 'coral']
 ---
 
-## Why Do We Need to Monitor Reefs?
+# Why Do We Need to Monitor Reefs?
 
 With over 27,000 square kilometers of reefs, the Philippines has the third largest coral reef area on earth. These reefs are home to thousands of marine species, including over 500 coral species and over 2000 fish species. But what is a coral reef, exactly?
 
@@ -15,8 +16,12 @@ With over 27,000 square kilometers of reefs, the Philippines has the third large
 
 Coral reefs aren’t just places where corals grow. They are huge geological structures that are built by corals over thousands of years. Corals are animals, and they eat, breathe, and reproduce just like any other animal. They also produce skeletons made of calcium carbonate, the same material that you can find in eggshells and your own teeth.
 
+<div class="grid-layout-2">
+
 ![Parts of a coral](/images/lesson-1/1.png 'Parts of a coral')
 ![Reef geological structure](/images/lesson-1/2.jpg 'Reef geological structure')
+
+</div>
 
 Over time, the reef is built as new corals grow over the skeletons of dead corals. This accumulation of coral skeletons produces a solid calcium carbonate substrate which acts as the reef bottom. Without corals, reefs cannot grow.
 
@@ -36,8 +41,11 @@ Reefs are also an important source of medicine. One example is National Scientis
 
 Despite their importance, the very existence of reefs is threatened by human-induced climate change and direct human impacts, such as destructive fishing practices. According to the most recent [nationwide reef assessment](https://philjournalsci.dost.gov.ph/images/pdf/pjs_pdf/vol146no2/initial_findings_of_the_nationwide_assessment_of_philippine_coral_reefs.pdf), we have lost a third of our corals in the last decade. The average hard coral cover of reefs in our country is now 22.8%.
 
+<div class="grid-layout-2">
+
 ![Degrading corals](/images/lesson-1/5.jpg 'Degrading corals')
 ![Picture showing that hard coral cover is now 22.8%](/images/lesson-1/6.jpg 'Picture showing that hard coral cover is now 22.8%')
+</div>
 
 Our reefs are in dire need of protection. But we cannot protect what we cannot understand, and there are not enough scientists to study all of our reefs.
 
@@ -47,10 +55,13 @@ We need citizen scientists to help us study our reefs. Reef monitoring will allo
 
 With the Alwan Methods, anyone who can swim and skin dive can help monitor reefs. You just need to learn how to identify butterflyfish species, target marine invertebrates, and corals.
 
+<div class="grid-layout-2">
+
 ![Picture of lively corals 1](/images/lesson-1/7.jpg 'Picture of lively corals 1')
 ![Picture of lively corals 2](/images/lesson-1/8.jpg 'Picture of lively corals 2')
 ![Picture of lively corals 3](/images/lesson-1/9.jpg 'Picture of lively corals 3')
 ![Picture of lively corals 4](/images/lesson-1/10.jpg 'Picture of lively corals 4')
+</div>
 
 The amount of hard coral on a reef is the most important indicator of reef health. Remember, without hard corals reefs cannot continue to exist.
 

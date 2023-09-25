@@ -8,7 +8,7 @@ import { toastErrorConfig, toastSuccessConfig } from '@lib/toast-defaults'
 import { useEffect } from 'react'
 import app from '@lib/axios-config'
 import { useSession } from 'next-auth/react'
-import ButterflyFish from '@components/icons/butterfly-fish'
+import { ButterflyFish } from '@components/icons'
 
 interface IReset {
 	password: string

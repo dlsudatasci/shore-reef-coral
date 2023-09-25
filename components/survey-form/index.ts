@@ -1,9 +1,8 @@
-import SurveyInformation from './survey-information'
-import TeamInformation from './team-information'
+export type SurveyFormProps = {
+	submitHandler: () => void,
+	backHandler: () => void
+}
 
-const SurveyForms = {
-	SurveyInformation,
-	TeamInformation,
-} as const
-
-export default SurveyForms
+export * from './survey-information'
+export * from './team-information'
+export * from './uploads'
