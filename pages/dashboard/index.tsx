@@ -37,7 +37,7 @@ const Dashboard: NextPage = () => {
 				<SurveyList className="mt-8 mb-20" teams={teams} />
 				:
 				<div className="rounded-md bg-highlight flex items-center px-6 py-3 mt-8">
-					<Camera className="fill-primary w-12 hidden sm:block" />
+					<Camera className="fill-primary w-12 hidden sm:block mr-5" />
 					<h3 className="flex-1 text-t-highlight md:text-2xl text-base font-comic-cat">You are not yet in a volunteer team!</h3>
 					<Link className="btn primary" href="/teams">Join a Team</Link>
 				</div>
