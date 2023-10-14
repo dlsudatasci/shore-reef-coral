@@ -158,7 +158,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
                       <p>{row.getValue("count")}</p>
                     </div>
                   </div>
-                  {!filter || filter === 'joinable'  && (
+                  {(!filter || filter === 'joinable') && (
                     <button
                       className="mx-auto block btn primary mt-8"
                       onClick={() => setId(row.getValue("id"))}
