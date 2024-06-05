@@ -5,10 +5,11 @@ The backend is built with [Prisma](https://www.prisma.io/) with a MySQL flavor.
 ## Prerequisites
 - [NodeJS](https://nodejs.org/en/)
 - [MySQL Server](https://dev.mysql.com/downloads/mysql/)
+- [yarn](https://yarnpkg.com/getting-started/install)
 
 ## Getting Started
 
-First, install all dependencies:
+1.) Install all dependencies:
 
 ```bash
 npm install
@@ -16,15 +17,22 @@ npm install
 yarn install
 ```
 
-Second, run all the database migrations to build the backend:
+2.) Get the .env file from the ALTDSI discord channel in the pinned messages
+
+3.) Replace the username and password of your MySQL server to the DB_URL variable in the .env file
+
+- Format: DB_URL=mysql://[username]:[password]@localhost:3306/shore
+- Example: DB_URL=mysql://root:1234@localhost:3306/shore
+
+4.) Run all the database migrations to build the backend:
 
 ```bash
-npm run migrate
+npm run migrate:dev
 # or
-yarn migrate
+yarn migrate:dev
 ```
 
-Lastly, run the development server:
+5.) Lastly, run the development server:
 
 ```bash
 npm run dev
