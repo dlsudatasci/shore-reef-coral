@@ -33,7 +33,7 @@ const columnHelper = createColumnHelper<TeamProfileSummary>();
 const ConfirmationModal = dynamic<ConfirmationModalProps>(() =>
   import("@components/confirmation-modal").then((mod) => mod.ConfirmationModal)
 );
-
+ 
 const columns = [
   columnHelper.accessor("id", {}),
   columnHelper.accessor("name", {}),
