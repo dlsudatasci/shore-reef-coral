@@ -40,5 +40,5 @@ const ChangeHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 		res.end()
 	}
 }
-
+ 
 export default ChangeHandler
