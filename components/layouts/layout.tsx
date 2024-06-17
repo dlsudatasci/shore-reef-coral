@@ -10,7 +10,8 @@ import { useSession } from 'next-auth/react'
 export const siteTitle = 'Reef Mo'
 
 const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
-	const { status } = useSession()
+	const { status, data } = useSession()
+	const isAdmin = data?.user?.isAdmin
 
 	return (
 		<>
@@ -40,10 +41,10 @@ const Layout: FC<{ children: React.ReactNode }> = ({ children }) => {
 					<div className="grid grid-flow-col gap-x-4">
 						<div className="grid pr-2 self-start">
 							{navItems.flatMap(nav => (
-								nav.status == undefined || nav.status == status ?
+								(nav.status === undefined || nav.status === status) && 
+								(!nav.isAdmin || (nav.isAdmin && isAdmin)) ? (
 									<Link key={nav.path} href={nav.path}>{nav.text}</Link>
-									:
-									[]
+								) : null
 							))}
 						</div>
 						<div className="text-secondary pl-4 border-l-2 border-secondary max-w-md">
