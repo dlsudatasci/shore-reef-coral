@@ -8,24 +8,10 @@ import TeamRequests from "@components/admin/team-requests/team-requests";
 import { useAdminAccess } from "@lib/useRoleAccess";
 
 const Teams = () => {
-  const SAMPLE_DATA: TeamsSummary[] = Array.from({ length: 10 }, (_, id) => ({
-    id,
-    affiliation: "Affiliation",
-    isVerified: id % 2 === 0,
-    name: "Team name",
-    province: "Metro Manila",
-    town: "Makati",
-    UsersOnTeam: [
-      {
-        isLeader: id % 2 === 0,
-        userId: 1,
-      },
-      {
-        isLeader: id % 2 === 1,
-        userId: 2,
-      },
-    ],
-  }));
+  const { data: teams } = useRetriever<TeamsSummary[]>('/admin/teams', [])
+  const approvedTeams = teams.filter((team) => team.isVerified);
+  const pendingTeams = teams.filter((team) => !team.isVerified);
+
   const [selected, setSelected] = useState<0 | 1>(0);
   const handlePageSelect = (page: 0 | 1) => {
     setSelected(page);
