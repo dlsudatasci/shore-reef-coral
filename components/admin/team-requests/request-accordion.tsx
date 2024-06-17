@@ -5,24 +5,8 @@ type RequestAccordionProps = {
   teamInfo: any;
 };
 const RequestAccordion: FC<RequestAccordionProps> = ({ teamInfo }) => {
-  const PANEL_DATA = [
-    {
-      name: "Barangay",
-      value: "209",
-    },
-    {
-      name: "Town",
-      value: "Makati",
-    },
-    {
-      name: "Province",
-      value: "Metro Manila",
-    },
-    {
-      name: "Affiliation",
-      value: "De La Salle University",
-    },
-  ];
+  const teamLeader = teamInfo.UsersOnTeam.find((user: any) => user.isLeader).user;
+
   return (
     <Disclosure>
       {({ open }) => (
