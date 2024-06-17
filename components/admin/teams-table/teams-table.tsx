@@ -17,7 +17,12 @@ const columns = [
   helper.display({
     id: "leader",
     header: "Team Leader",
-    cell: ({ row }) => <p>Team Leader Name</p>,
+    cell: ({ row }) => {
+      const leader = row.original.UsersOnTeam.find((user) => user.isLeader);
+      return (
+        <p>{leader?.user.firstName} {leader?.user.lastName}</p>
+      )
+    },
   }),
   helper.accessor("town", {
     header: "Location",

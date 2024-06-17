@@ -6,6 +6,7 @@ import { Mask } from '@components/icons/mask';
 type TeamRequestsProps = {
   data: any[];
 };
+
 const TeamRequests: FC<TeamRequestsProps> = ({ data }) => {
   return (
     <div className="mb-20">
