@@ -24,3 +24,30 @@ const teamsSummary = Prisma.validator<Prisma.TeamDefaultArgs>()({
     }
 	}
 })
+
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { method } = req
+
+  try {
+    switch (method) {
+      case 'GET': {
+        const teams = await prisma.team.findMany({
+          ...teamsSummary,
+        })
+        res.json(teams)
+        break
+      }
+
+      default:
+        res.setHeader('Allow', ['GET'])
+        res.status(405).end(`Method ${method} Not Allowed`)
+    }
+  } catch (err) {
+    console.error(err)
+    res.status(500)
+  } finally {
+    res.end()
+  }
+}
+
+export default handler
