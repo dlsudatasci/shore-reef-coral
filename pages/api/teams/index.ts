@@ -22,7 +22,7 @@ export type LeaderNamePayload = Prisma.UsersOnTeamsGetPayload<typeof selectLeade
 const selectTeamProfile = Prisma.validator<Prisma.TeamDefaultArgs>()({
 	select: {
 		id: true,
-		town: true,
+		town: true, 
 		name: true,
 		province: true,
 		isVerified: true,

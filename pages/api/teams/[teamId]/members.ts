@@ -8,7 +8,7 @@ const selectMembers = Prisma.validator<Prisma.Team$UsersOnTeamArgs>()({
 	select: {
 		id: true,
 		user: {
-			select: {
+			select: { 
 				id: true,
 				firstName: true,
 				lastName: true,

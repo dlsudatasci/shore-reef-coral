@@ -14,7 +14,7 @@ const TeamsPage: NextPage = () => {
 	const { data: teams } = useRetriever<TeamProfileSummary[]>('/teams?filter=joinable', [])
 
 	useSession({
-		required: true,
+		required: true, 
 		onUnauthenticated() {
 			router.replace('/login?from=/teams')
 		},
