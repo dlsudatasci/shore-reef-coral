@@ -29,10 +29,18 @@ model Team {
   province        String
   town            String
   affiliation     String?
+  status          TeamStatus        @default(PENDING)
+  rejectionReason String?
   isVerified      Boolean           @default(false)
   UsersOnTeam     UsersOnTeams[]
   Survey          Survey[]
   CoralAssessment CoralAssessment[]
+}
+
+enum TeamStatus {
+  ACCEPTED
+  REJECTED
+  PENDING
 }
 
 model UsersOnTeams {
