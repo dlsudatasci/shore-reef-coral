@@ -17,7 +17,7 @@ const TeamsPage: NextPage = () => {
 		required: true,
 		onUnauthenticated() {
 			router.replace('/login?from=/teams')
-		},
+		}, 
 	})
 	useUserOnlyAccess()
 
