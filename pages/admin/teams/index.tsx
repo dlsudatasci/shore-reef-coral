@@ -1,11 +1,16 @@
+//* Hooks
+import { useState } from "react";
+import { useAdminAccess } from "@lib/useRoleAccess";
+import { useRetriever } from '@lib/useRetriever'
+
+//* Components
 import { TeamsTable } from "@components/admin/teams-table/teams-table";
-import { Waves } from "@components/icons";
+import TeamRequests from "@components/admin/team-requests/team-requests";
 import AdminLayout from "@components/layouts/admin-layout";
 import { TeamsSummary } from "@pages/api/admin/teams";
-import { useState } from "react";
+
+//* Utils
 import cn from "classnames";
-import TeamRequests from "@components/admin/team-requests/team-requests";
-import { useAdminAccess } from "@lib/useRoleAccess";
 
 const Teams = () => {
   const { data: teams } = useRetriever<TeamsSummary[]>('/admin/teams', [])
@@ -43,7 +48,7 @@ const Teams = () => {
             )}
             onClick={() => handlePageSelect(1)}
           >
-            TEAM REQUESTS (5)
+            TEAM REQUESTS ({pendingTeams.length})
           </button>
         </div>
         {selected === 0 && (
@@ -63,10 +68,10 @@ const Teams = () => {
         {selected === 0 ? (
           <TeamsTable
             className="w-full mt-8 mb-20"
-            data={SAMPLE_DATA.filter((team) => team.isVerified)}
+            data={approvedTeams}
           />
         ) : (
-          <TeamRequests data={SAMPLE_DATA.filter((team) => !team.isVerified)} />
+          <TeamRequests data={pendingTeams} />
         )}
       </section>
     </AdminLayout>
