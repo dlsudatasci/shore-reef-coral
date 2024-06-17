@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 
 export type TeamsSummary = Prisma.TeamGetPayload<typeof teams>
 
-const teams = Prisma.validator<Prisma.TeamArgs>()({
+const teamsSummary = Prisma.validator<Prisma.TeamDefaultArgs>()({
 	select: {
     id: true,
     name: true,
