@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import { Prisma } from "@prisma/client";
 
 export type TeamsSummary = Prisma.TeamGetPayload<typeof teamsSummary>
