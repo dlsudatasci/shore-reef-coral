@@ -106,7 +106,6 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
         document.body
       )}
       <div className="grid gap-x-4 gap-y-1 grid-cols-2 mb-6 max-w-2xl">
-        <p className="col-span-full text-secondary font-comic-cat">filters</p>
         <DebouncedInput
           type="text"
           placeholder="Team name"

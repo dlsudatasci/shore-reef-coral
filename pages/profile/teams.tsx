@@ -36,7 +36,10 @@ const TeamsPage: NextPage = () => {
 					teams.length == 0 ?
 						<p className="text-center text-primary text-4xl mt-24">No teams available.</p>
 						:
+						<>
+						<p className="col-span-full text-secondary font-comic-cat" style={{ color: 'black' }}>filters</p>
 						<TeamsTable data={teams} filter={'joined'} />
+						</>
 				}
 			</div>
 		</ProfileLayout>
