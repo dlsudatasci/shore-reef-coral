@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-export type TeamsSummary = Prisma.TeamGetPayload<typeof teams>
+export type TeamsSummary = Prisma.TeamGetPayload<typeof teamsSummary>
 
 const teamsSummary = Prisma.validator<Prisma.TeamDefaultArgs>()({
 	select: {
@@ -14,6 +14,12 @@ const teamsSummary = Prisma.validator<Prisma.TeamDefaultArgs>()({
       select: {
         userId: true,
         isLeader: true,  
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+          }
+        }
       }
     }
 	}
