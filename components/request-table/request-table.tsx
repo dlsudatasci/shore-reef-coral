@@ -34,7 +34,7 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 			setColumnFilters([{ id: 'status', value: Status.PENDING }])
 			hasRedirected.current = true
 		}
-	})
+	}, [data])
 
 	const columns = [
 		helper.accessor(row => `${row.user.firstName} ${row.user.lastName}`, {
