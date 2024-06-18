@@ -19,7 +19,7 @@ const Teams = () => {
     name: '',
     town: '',
     province: '',
-    status: ''
+    status: 'APPROVED'
   });
 
   const [selected, setSelected] = useState<0 | 1>(0);
@@ -27,7 +27,7 @@ const Teams = () => {
     setSelected(page);
   };
 
-  const [queryString, setQueryString] = useState('');
+  const [queryString, setQueryString] = useState('?status=APPROVED');
   const { data: teams, mutate } = useRetriever<TeamsSummary[]>(`/admin/teams${queryString}`, []);
   const approvedTeams = teams.filter((team) => team.status === "APPROVED" || team.status === "REJECTED");
   const pendingTeams = teams.filter((team) => team.status === "PENDING");
@@ -108,6 +108,7 @@ const Teams = () => {
               value={filters.status}
               onChange={handleFilterChange}
             >
+              <option value="">All Status</option>
               <option value="APPROVED">Approved</option>
               <option value="REJECTED">Rejected</option>
             </select>
