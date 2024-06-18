@@ -108,7 +108,6 @@ const Teams = () => {
               value={filters.status}
               onChange={handleFilterChange}
             >
-              <option value="">All Status</option>
               <option value="APPROVED">Approved</option>
               <option value="REJECTED">Rejected</option>
             </select>
