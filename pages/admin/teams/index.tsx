@@ -1,5 +1,5 @@
 //* Hooks
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useAdminAccess } from "@lib/useRoleAccess";
 import { useRetriever } from '@lib/useRetriever'
 
@@ -13,14 +13,43 @@ import { TeamsSummary } from "@pages/api/admin/teams";
 import cn from "classnames";
 
 const Teams = () => {
-  const { data: teams } = useRetriever<TeamsSummary[]>('/admin/teams', [])
-  const approvedTeams = teams.filter((team) => team.isVerified);
-  const pendingTeams = teams.filter((team) => !team.isVerified);
+  const [filters, setFilters] = useState<{
+    [key: string]: string;
+  }>({
+    name: '',
+    town: '',
+    province: '',
+    status: ''
+  });
 
   const [selected, setSelected] = useState<0 | 1>(0);
   const handlePageSelect = (page: 0 | 1) => {
     setSelected(page);
   };
+
+  const [queryString, setQueryString] = useState('');
+  const { data: teams, mutate } = useRetriever<TeamsSummary[]>(`/admin/teams${queryString}`, []);
+  const approvedTeams = teams.filter((team) => team.status === "APPROVED" || team.status === "REJECTED");
+  const pendingTeams = teams.filter((team) => team.status === "PENDING");
+
+  const handleFilterChange = (e: { target: { name: any; value: any; }; }) => {
+    const { name, value } = e.target;
+    setFilters({
+      ...filters,
+      [name]: value
+    });
+  };
+  const applyFilters = useCallback(() => {
+    let query = '?';
+    Object.keys(filters).forEach((key) => {
+      if (filters[key]) {
+        query += `${key}=${encodeURIComponent(filters[key])}&`;
+      }
+    });
+    setQueryString(query.slice(0, -1)); // Remove the trailing '&'
+    mutate(); // Re-fetch data with new filters
+  }, [filters, mutate]);
+
   useAdminAccess();
 
   return (
@@ -53,12 +82,40 @@ const Teams = () => {
         </div>
         {selected === 0 && (
           <div className="mt-8 flex gap-6 w-[50%]">
-            <input type="text" placeholder="Team Name" />
-            <select name="location" id="location">
-              <option value="all">All Locations</option>
-              <option value="manila">Manila</option>
+            <input 
+              type="text" 
+              name="name"
+              value={filters.name}
+              onChange={handleFilterChange}
+              placeholder="Team Name" 
+            />
+            <input 
+              type="text" 
+              name="town"
+              value={filters.town}
+              onChange={handleFilterChange}
+              placeholder="Town" 
+            />
+            <input 
+              type="text" 
+              name="province"
+              value={filters.province}
+              onChange={handleFilterChange}
+              placeholder="Province" 
+            />
+            <select 
+              name="status" 
+              value={filters.status}
+              onChange={handleFilterChange}
+            >
+              <option value="">All Status</option>
+              <option value="APPROVED">Approved</option>
+              <option value="REJECTED">Rejected</option>
             </select>
-            <button className="bg-primary text-secondary rounded-full px-4 py-2 w-72">
+            <button 
+              className="bg-primary text-secondary rounded-full px-4 py-2 w-72"
+              onClick={applyFilters}
+            >
               Filter
             </button>
           </div>
