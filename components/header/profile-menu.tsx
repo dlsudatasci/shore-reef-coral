@@ -8,7 +8,6 @@ import { LogoutIcon } from '@heroicons/react/outline'
 
 const menuItems = [
 	{ name: 'Account', path: '/profile' },
-	{ name: 'Documentation', path: '/dashboard/documentation' },
 ] as const
 
 function className(active: boolean) {
@@ -65,7 +64,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ isAdmin }) => {
 						</Menu.Item>
 					))}
 					<hr className="border-highlight mx-2 my-1" />
-					<p className="mt-3 pl-4 text-accent-1 text-sm">{data?.user.email}</p>
+					<p className="mt-3 px-4 text-accent-1 text-sm" style={{ wordBreak: 'break-all' }}>{data?.user.email}</p>
 					<Menu.Item>
 						{({ active }: { active: boolean }) => (
 							<button onClick={() => signOut({ callbackUrl: '/' })} className={cn('cursor-pointer', className(active))}>
