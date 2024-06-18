@@ -36,7 +36,7 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 				hasRedirected.current = true
 			}
 		}
-	})
+	}, [data])
 
 	const columns = [
 		helper.accessor(row => `${row.user.firstName} ${row.user.lastName}`, {
