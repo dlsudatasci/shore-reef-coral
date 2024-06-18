@@ -25,7 +25,10 @@ const columns = [
     },
   }),
   helper.accessor("town", {
-    header: "Location",
+    header: "Town",
+  }),
+  helper.accessor("province", {
+    header: "Province",
   }),
   helper.display({
     id: "numMembers",
@@ -34,7 +37,6 @@ const columns = [
       <p>{row.original.UsersOnTeam.length}</p>
     ),
   }),
-
   helper.display({
     id: "view",
     cell: ({ row }) => (
