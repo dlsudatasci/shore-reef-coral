@@ -27,7 +27,12 @@ const selectTeamProfile = Prisma.validator<Prisma.TeamDefaultArgs>()({
 		province: true,
 		isVerified: true,
 		_count: {
-			select: { UsersOnTeam: true }
+			select: { UsersOnTeam: {
+					where: {
+						status: 'ACCEPTED'
+					}
+				}
+			}
 		},
 		UsersOnTeam: selectLeaderName
 	}

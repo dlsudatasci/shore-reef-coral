@@ -30,9 +30,11 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 
 		if (!data) return
 
-		if (data.UsersOnTeam.find(d => d.status === Status.PENDING)) {
-			setColumnFilters([{ id: 'status', value: Status.PENDING }])
-			hasRedirected.current = true
+		if (data.UsersOnTeam) {
+			if (data.UsersOnTeam.find(d => d.status === Status.PENDING)) {
+				setColumnFilters([{ id: 'status', value: Status.PENDING }])
+				hasRedirected.current = true
+			}
 		}
 	})
 
