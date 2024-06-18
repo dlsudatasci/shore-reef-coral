@@ -5,7 +5,7 @@ import { useRetriever } from '@lib/useRetriever'
 
 //* Components
 import { TeamsTable } from "@components/admin/teams-table/teams-table";
-import TeamRequests from "@components/admin/team-requests/team-requests";
+import { TeamRequests } from "@components/admin/team-requests/team-requests";
 import AdminLayout from "@components/layouts/admin-layout";
 import { TeamsSummary } from "@pages/api/admin/teams";
 
@@ -28,9 +28,8 @@ const Teams = () => {
   };
 
   const [queryString, setQueryString] = useState('?status=APPROVED');
-  const { data: teams, mutate } = useRetriever<TeamsSummary[]>(`/admin/teams${queryString}`, []);
-  const approvedTeams = teams.filter((team) => team.status === "APPROVED" || team.status === "REJECTED");
-  const pendingTeams = teams.filter((team) => team.status === "PENDING");
+  const { data: existingTeams, mutate } = useRetriever<TeamsSummary[]>(`/admin/teams${queryString}`, []);
+  const { data: pendingTeams } = useRetriever<TeamsSummary[]>('/admin/teams?status=PENDING', []);
 
   const handleFilterChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
@@ -125,10 +124,13 @@ const Teams = () => {
         {selected === 0 ? (
           <TeamsTable
             className="w-full mt-8 mb-20"
-            data={approvedTeams}
+            data={existingTeams}
           />
         ) : (
-          <TeamRequests data={pendingTeams} />
+          <TeamRequests
+            className="w-full mt-8 mb-20"
+            data={pendingTeams}
+          />
         )}
       </section>
     </AdminLayout>

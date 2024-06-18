@@ -45,6 +45,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (province) where.province = { equals: String(province) };
         if (town) where.town = { contains: String(town) };
         if (status) where.status = { equals: status as TeamStatus };
+        if (!status) where.status = { not: 'PENDING' };
 
         // Execute the query with the built where clause
         const teams = await prisma.team.findMany({
