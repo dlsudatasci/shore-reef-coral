@@ -38,7 +38,7 @@ model Team {
 }
 
 enum TeamStatus {
-  ACCEPTED
+  APPROVED
   REJECTED
   PENDING
 }
