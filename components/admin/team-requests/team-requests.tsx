@@ -38,13 +38,24 @@ const columns = [
     ),
   }),
   helper.display({
-    id: "view",
+    id: "approve",
     cell: ({ row }) => (
       <Link
         className="btn bg-highlight text-t-highlight px-2 rounded-md"
         href={`#`}
       >
         Approve
+      </Link>
+    ),
+  }),
+  helper.display({
+    id: "reject",
+    cell: ({ row }) => (
+      <Link
+        className="btn bg-highlight text-t-highlight px-2 rounded-md"
+        href={`#`}
+      >
+        Reject
       </Link>
     ),
   }),
