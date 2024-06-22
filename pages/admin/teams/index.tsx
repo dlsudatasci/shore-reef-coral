@@ -29,7 +29,7 @@ const Teams = () => {
 
   const [queryString, setQueryString] = useState('?status=APPROVED');
   const { data: existingTeams, mutate } = useRetriever<TeamsSummary[]>(`/admin/teams${queryString}`, []);
-  const { data: pendingTeams } = useRetriever<TeamsSummary[]>('/admin/teams?status=PENDING', []);
+  const { data: pendingTeams, mutate: mutatePendingTeams } = useRetriever<TeamsSummary[]>('/admin/teams?status=PENDING', []);
 
   const handleFilterChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
@@ -48,6 +48,11 @@ const Teams = () => {
     setQueryString(query.slice(0, -1)); // Remove the trailing '&'
     mutate(); // Re-fetch data with new filters
   }, [filters, mutate]);
+
+  const updateTeams = useCallback(() => {
+    mutatePendingTeams();
+    mutate();
+  }, [mutatePendingTeams, mutate]);
 
   useAdminAccess();
 
@@ -130,6 +135,7 @@ const Teams = () => {
           <TeamRequests
             className="w-full mt-8 mb-20"
             data={pendingTeams}
+            updateTeams={updateTeams}
           />
         )}
       </section>
