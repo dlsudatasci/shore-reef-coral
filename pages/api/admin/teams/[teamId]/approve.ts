@@ -14,13 +14,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 if (!session) return res.status(401)
 
                 // Authenticate admin
-                const admin = await prisma.user.findFirst({
+                const count = await prisma.user.count({
                     where: {
                         id: session.user.id,
                         isAdmin: true
                     }
                 })
-                if (!admin) return res.status(401)
+                if (!count) return res.status(401)
 
                 await prisma.team.update({
                     where: { id: teamId },
