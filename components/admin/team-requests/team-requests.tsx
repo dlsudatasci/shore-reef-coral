@@ -19,10 +19,14 @@ import { toastSuccessConfig } from "@lib/toast-defaults";
 //Confirmation Modal
 import { createPortal } from "react-dom";
 import { ConfirmationModalProps } from "@components/confirmation-modal";
+import { ConfirmationTextModalProps } from "@components/confirmation-text-modal";
 import dynamic from "next/dynamic";
 
 const ConfirmationModal = dynamic<ConfirmationModalProps>(() =>
   import("@components/confirmation-modal").then((mod) => mod.ConfirmationModal)
+);
+const ConfirmationTextModal = dynamic<ConfirmationTextModalProps>(() =>
+  import("@components/confirmation-text-modal").then((mod) => mod.ConfirmationTextModal)
 );
 
 type TeamsTableProps = {
@@ -34,6 +38,7 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [teamId, setTeamId] = useState<number>();
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const teamProfile = useMemo(() => data.find((d) => { 
     console.log('id and teamId:', d.id, teamId)
     return d.id === teamId
@@ -84,12 +89,15 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
     helper.display({
       id: "reject",
       cell: ({ row }) => (
-        <Link
+        <button
           className="btn bg-highlight text-t-highlight px-2 rounded-md"
-          href={`#`}
+          onClick={() => {
+            setTeamId(Number(row.original.id))
+            setIsRejectModalOpen(true)
+          }}
         >
           Reject
-        </Link>
+        </button>
       ),
     }),
   ];
@@ -122,6 +130,23 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
     }
   }
 
+  async function onRejectClick(reason: String) {
+    if(teamId === undefined) return;
+
+    try {
+      await app.post(`/admin/teams/${teamId}/reject`, { reason });
+      updateTeams();
+      setIsRejectModalOpen(false);
+      setTimeout(() => setTeamId(undefined), 300);
+      toast(
+        `Team has been rejected!`,
+        toastSuccessConfig
+      );
+    } catch (err) {
+      toastAxiosError(err);
+    }
+  }
+
   return (
     <>
       {createPortal(
@@ -134,6 +159,20 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
             setTimeout(() => setTeamId(undefined), 300);
           }}
           onAction={onApproveClick}
+        />,
+        document.body
+      )}
+      {createPortal(
+        <ConfirmationTextModal
+          title="Reject team"
+          message={`Are you sure you want to reject the team ${teamProfile?.name}?`}
+          isOpen={isRejectModalOpen}
+          close={() => {
+            setIsRejectModalOpen(false);
+            setTimeout(() => setTeamId(undefined), 300);
+          }}
+          onAction={onRejectClick}
+          maxCharacters={480}
         />,
         document.body
       )}
