@@ -24,11 +24,11 @@ const columns = [
       )
     },
   }),
-  helper.accessor("town", {
-    header: "Town",
-  }),
   helper.accessor("province", {
     header: "Province",
+  }),
+  helper.accessor("town", {
+    header: "Town",
   }),
   helper.display({
     id: "numMembers",

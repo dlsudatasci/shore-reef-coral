@@ -95,17 +95,17 @@ const Teams = () => {
             />
             <input 
               type="text" 
-              name="town"
-              value={filters.town}
-              onChange={handleFilterChange}
-              placeholder="Town" 
-            />
-            <input 
-              type="text" 
               name="province"
               value={filters.province}
               onChange={handleFilterChange}
               placeholder="Province" 
+            />
+            <input 
+              type="text" 
+              name="town"
+              value={filters.town}
+              onChange={handleFilterChange}
+              placeholder="Town" 
             />
             <select 
               name="status" 
