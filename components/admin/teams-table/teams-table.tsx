@@ -55,7 +55,9 @@ type TeamsTableProps = {
 } & HTMLAttributes<HTMLTableElement>;
 
 export function TeamsTable({ data, ...props }: TeamsTableProps) {
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'name', desc: false }
+  ]);
 
   const table = useReactTable<any>({
     data,
