@@ -55,7 +55,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						...selectTeamProfile,
 						where: {
 							UsersOnTeam: {
-								none: { userId: session.user.id }
+								none: { 
+									userId: session.user.id,
+									status: 'ACCEPTED'
+								 }
 							}
 						}
 					})
@@ -84,7 +87,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						...selectTeamProfile,
 						where: {
 							UsersOnTeam: {
-								some: { userId: session.user.id }
+								some: { 
+									userId: session.user.id,
+									status: 'ACCEPTED'
+								 }
 							}
 						}
 					})
