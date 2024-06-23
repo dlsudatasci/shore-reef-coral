@@ -16,13 +16,14 @@ const teamsSummary = Prisma.validator<Prisma.TeamDefaultArgs>()({
     UsersOnTeam: {
       select: {
         userId: true,
-        isLeader: true,  
+        isLeader: true,
+        status: true,  
         user: {
           select: {
             firstName: true,
             lastName: true,
           }
-        }
+        },
       }
     }
 	}
