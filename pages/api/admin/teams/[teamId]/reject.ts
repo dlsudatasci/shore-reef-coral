@@ -47,6 +47,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error) {
         console.error(error)
         res.status(500)
+    } finally {
+        res.end()
     }
 }
 

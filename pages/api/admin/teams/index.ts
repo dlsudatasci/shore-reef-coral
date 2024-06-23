@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Prisma, TeamStatus } from "@prisma/client";
-import { FieldRef } from '@prisma/client/runtime/library';
 
 export type TeamsSummary = Prisma.TeamGetPayload<typeof teamsSummary>
 
@@ -16,14 +15,14 @@ const teamsSummary = Prisma.validator<Prisma.TeamDefaultArgs>()({
     UsersOnTeam: {
       select: {
         userId: true,
-        isLeader: true,
-        status: true,  
+        isLeader: true,  
+        status: true,
         user: {
           select: {
             firstName: true,
             lastName: true,
           }
-        },
+        }
       }
     }
 	}
@@ -36,7 +35,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     switch (method) {
       case 'GET': {
         const { name, town, province, status } = query;
-        const teamStatus = status as TeamStatus;
 
         // Initialize the where clause
         const where: Prisma.TeamWhereInput = {};
