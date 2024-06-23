@@ -34,7 +34,7 @@ const columns = [
     id: "numMembers",
     header: "No. of members",
     cell: ({ row }) => (
-      <p>{row.original.UsersOnTeam.length}</p>
+      <p>{row.original.UsersOnTeam.filter((ut) => ut.status === "ACCEPTED").length}</p>
     ),
   }),
   helper.display({
