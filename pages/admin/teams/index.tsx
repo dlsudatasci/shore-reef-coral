@@ -1,21 +1,29 @@
-//* Hooks
-import { useState, useCallback } from "react";
-import { useAdminAccess } from "@lib/useRoleAccess";
-import { useRetriever } from '@lib/useRetriever'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect, useCallback, ChangeEvent } from "react";
+import useSWRImmutable from 'swr/immutable';
+import { useRetriever } from '@lib/useRetriever';
+import axios from 'axios';
 
 //* Components
 import { TeamsTable } from "@components/admin/teams-table/teams-table";
 import { TeamRequests } from "@components/admin/team-requests/team-requests";
 import AdminLayout from "@components/layouts/admin-layout";
+import LoadingSpinner from '@components/loading-spinner';
 import { TeamsSummary } from "@pages/api/admin/teams";
 
 //* Utils
 import cn from "classnames";
 
+// Define a type for the filters
+type Filters = {
+  name: string;
+  town: string;
+  province: string;
+  status: string;
+};
+
 const Teams = () => {
-  const [filters, setFilters] = useState<{
-    [key: string]: string;
-  }>({
+  const [filters, setFilters] = useState<Filters>({
     name: '',
     town: '',
     province: '',
@@ -23,26 +31,36 @@ const Teams = () => {
   });
 
   const [selected, setSelected] = useState<0 | 1>(0);
-  const handlePageSelect = (page: 0 | 1) => {
-    setSelected(page);
-  };
+  const [towns, setTowns] = useState<string[]>([]);
 
+  const { data: locations, isLoading } = useSWRImmutable('/bgy-masterlist.json', url => axios.get(url).then(res => res.data));
   const [queryString, setQueryString] = useState('?status=APPROVED');
   const { data: existingTeams, mutate } = useRetriever<TeamsSummary[]>(`/admin/teams${queryString}`, []);
   const { data: pendingTeams, mutate: mutatePendingTeams } = useRetriever<TeamsSummary[]>('/admin/teams?status=PENDING', []);
 
-  const handleFilterChange = (e: { target: { name: any; value: any; }; }) => {
-    const { name, value } = e.target;
-    setFilters({
-      ...filters,
-      [name]: value
-    });
+  const handlePageSelect = (page: 0 | 1) => {
+    setSelected(page);
   };
+
+  const handleFilterChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+
+    if (name === 'province') {
+      const selectedProvince = locations?.[1]?.[value] || [];
+      setTowns(selectedProvince);
+      setFilters((prev) => ({ ...prev, town: '' }));
+    }
+  };
+
   const applyFilters = useCallback(() => {
     let query = '?';
     Object.keys(filters).forEach((key) => {
-      if (filters[key]) {
-        query += `${key}=${encodeURIComponent(filters[key])}&`;
+      if (filters[key as keyof Filters]) {
+        query += `${key}=${encodeURIComponent(filters[key as keyof Filters])}&`;
       }
     });
     setQueryString(query.slice(0, -1)); // Remove the trailing '&'
@@ -54,7 +72,16 @@ const Teams = () => {
     mutate();
   }, [mutatePendingTeams, mutate]);
 
-  useAdminAccess();
+  useEffect(() => {
+    if (filters.province) {
+      const selectedProvince = locations?.[1]?.[filters.province] || [];
+      setTowns(selectedProvince);
+    }
+  }, [filters.province, locations]);
+
+  if (isLoading) {
+    return <LoadingSpinner borderColor="border-highlight" />;
+  }
 
   return (
     <AdminLayout>
@@ -85,7 +112,7 @@ const Teams = () => {
           </button>
         </div>
         {selected === 0 && (
-          <div className="mt-8 flex gap-6 w-[50%]">
+          <div className="mt-8 flex gap-6 w-[75%]">
             <input 
               type="text" 
               name="name"
@@ -93,20 +120,27 @@ const Teams = () => {
               onChange={handleFilterChange}
               placeholder="Team Name" 
             />
-            <input 
-              type="text" 
+            <select 
               name="province"
               value={filters.province}
               onChange={handleFilterChange}
-              placeholder="Province" 
-            />
-            <input 
-              type="text" 
+            >
+              <option value="">Select Province</option>
+              {locations[0].map((l: string) => (
+                <option key={l} value={l}>{l}</option>
+              ))}
+            </select>
+            <select 
               name="town"
               value={filters.town}
               onChange={handleFilterChange}
-              placeholder="Town" 
-            />
+              disabled={!filters.province} // Disable town dropdown if no province is selected
+            >
+              <option value="">Select Town</option>
+              {towns.map(town => (
+                <option key={town} value={town}>{town}</option>
+              ))}
+            </select>
             <select 
               name="status" 
               value={filters.status}
