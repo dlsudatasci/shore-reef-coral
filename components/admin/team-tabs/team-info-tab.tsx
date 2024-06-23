@@ -2,10 +2,7 @@ import cn from "classnames";
 import { FC } from "react";
 
 type TeamInfoTabProps = {
-  data: {
-    name: string;
-    value: string;
-  }[];
+  data: { name: string; value: string }[];
 };
 
 const TeamInfoTab: FC<TeamInfoTabProps> = ({ data }) => {

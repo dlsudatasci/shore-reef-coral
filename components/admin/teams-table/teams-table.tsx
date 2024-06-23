@@ -42,7 +42,7 @@ const columns = [
     cell: ({ row }) => (
       <Link
         className="btn bg-highlight text-t-highlight px-2 rounded-md"
-        href={`/admin/teams/${row.id}`}
+        href={`/admin/teams/${row.original.id}`}
       >
         View Details
       </Link>
