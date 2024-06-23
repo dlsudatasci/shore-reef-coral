@@ -43,7 +43,7 @@ const TeamInfo = () => {
             />
           }
           tab2={<MembersTable className="w-full mt-8" data={[]} />}
-          tab3={<TeamInfoTab data={[]} />}
+          tab3={<TeamInfoTab data={teamData} />}
         />
       </section>
     </AdminLayout>
