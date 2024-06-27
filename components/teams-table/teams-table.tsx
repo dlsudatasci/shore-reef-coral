@@ -78,7 +78,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
       await app.post(`/teams/${id}/members`);
       await mutate(`/teams?filter=${filter}`);
       setId(undefined);
-      toast(
+      toast.success(
         `Your request to join ${teamProfile?.name} has been submitted for approval by the team leader.`,
         toastSuccessConfig
       );

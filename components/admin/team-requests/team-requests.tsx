@@ -119,7 +119,7 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
     try {
       await app.post(`/admin/teams/${teamId}/approve`);
       updateTeams();
-      toast(
+      toast.success(
         `Team has been approved!`,
         toastSuccessConfig
       );
@@ -137,7 +137,7 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
     try {
       await app.post(`/admin/teams/${teamId}/reject`, { reason });
       updateTeams();
-      toast(
+      toast.success(
         `Team has been rejected!`,
         toastSuccessConfig
       );
