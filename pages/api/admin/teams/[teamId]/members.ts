@@ -3,14 +3,15 @@ import { getSession } from 'next-auth/react';
 import prisma from '@lib/prisma';
 
 type UsersSummary = {
-  id: number;
-  affiliation: string | null;
-  firstName: string;
-  lastName: string;
-  teamId: number;
-  isLeader: boolean;
-  status: string;
-};
+	id: number;
+	userId: number;
+	affiliation: string | null;
+	firstName: string;
+	lastName: string;
+	teamId: number;
+	isLeader: boolean;
+	status: string;
+  };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -42,6 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			affiliation: true,
 			firstName: true,
 			lastName: true,
+			id: true
 		  }
 		}
 	  }
@@ -56,7 +58,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			firstName: member.user?.firstName,
 			lastName: member.user?.lastName,
 			teamId: member.teamId,
-			status: member.status || "UNKNOWN"
+			status: member.status || "UNKNOWN",
+			userId: member.user?.id
 		}))
 
     res.status(200).json(mappedMembers); // Return mappedMembers instead of members

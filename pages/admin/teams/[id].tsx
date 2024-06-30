@@ -20,6 +20,7 @@ import { TeamData } from "@pages/api/admin/teams/[teamId]";
 
 type UsersSummary = {
   id: number;
+  userId: number;
   affiliation: string | null;
   firstName: string;
   lastName: string;

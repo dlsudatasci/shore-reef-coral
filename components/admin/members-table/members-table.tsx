@@ -1,4 +1,3 @@
-// MembersTable component
 import {
   SortingState,
   createColumnHelper,
@@ -7,8 +6,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { HTMLAttributes, useState } from "react";
-import { FC } from "react"
+import { HTMLAttributes, useState, useEffect, FC } from "react";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { toastAxiosError } from "@lib/utils";
@@ -18,12 +16,18 @@ import app from "@lib/axios-config";
 
 type UsersSummary = {
   id: number;
+  userId: number;
   affiliation: string | null;
   firstName: string;
   lastName: string;
   teamId: number;
   isLeader: boolean;
-  status: string; // Add status field to UsersSummary
+  status: string;
+};
+
+type AvailableTeams = {
+  id: number;
+  name: string;
 };
 
 const helper = createColumnHelper<UsersSummary>();
@@ -40,17 +44,22 @@ type MembersTableProps = {
   onUpdateData: (updatedData: UsersSummary[]) => void; // Function to update data
 } & HTMLAttributes<HTMLTableElement>;
 
+type MoveMemberComponentProps = {
+  member: UsersSummary;
+  onUpdateData: (updatedData: UsersSummary[]) => void;
+} & HTMLAttributes<HTMLTableElement>;
+
 export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [removeId, setRemoveId] = useState<number | string | undefined>(undefined);
   const [moveId, setMoveId] = useState<number | string | undefined>(undefined);
 
   const columns = [
-    helper.accessor((row) => `${row.isLeader}`, {
-      id: "leader"
-    }),
     helper.accessor((row) => `${row.id}`, {
       id: "id"
+    }),
+    helper.accessor((row) => `${row.userId}`, {
+      id: "user"
     }),
     helper.accessor((row) => `${row.firstName} ${row.lastName}`, {
       id: "name",
@@ -62,19 +71,6 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
       cell({ row }) {
         return <p>{row.original.status}</p>;
       },
-    }),
-    helper.display({
-      id: "action",
-      cell: ({ row }) => (
-        <div className="flex gap-5">
-          <button
-            className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
-            onClick={() => setMoveId(row.original.id)} // Set moveId to UsersSummary id
-          >
-            move
-          </button>
-        </div>
-      ),
     }),
   ];
 
@@ -91,7 +87,7 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
 
   const RemoveMemberComponent: FC<{ member: UsersSummary }> = ({ member }) => {
     const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
-    const reqUrl = `/admin/teams/${member.teamId}/edit-member?memberId=` + member.id + `&isLeader=` + member.isLeader;
+    const reqUrl = `/admin/teams/${member.teamId}/edit-member?memberId=${member.id}&isLeader=${member.isLeader}`;
 
     const onRemoveClick = async () => {
       try {
@@ -139,9 +135,79 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
       </>
     );
   };
+  
+  const MoveMemberComponent: FC<MoveMemberComponentProps> = ({
+    member,
+    onUpdateData,
+  }) => {
+    const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
+    const [teams, setTeams] = useState<AvailableTeams[]>([]);
+    const [selectedTeam, setSelectedTeam] = useState<number | undefined>(undefined);
+  
+    useEffect(() => {
+      const fetchTeams = async () => {
+        try {
+          const response = await app.get(`/admin/teams/${member.teamId}/edit-member?memberId=${member.id}`);
+          console.log(response.data)
+          setTeams(response.data);
+        } catch (error) {
+          toastAxiosError(error);
+        }
+      };
+  
+      if (isMoveModalOpen) {
+        fetchTeams();
+      }
+    }, [isMoveModalOpen]);
+  
+    const handleTeamSelection = (teamId: number) => {
+      setSelectedTeam(teamId); // Convert string to number
+    };
+  
+    const onMoveClick = async () => {
+      try {
+        if (selectedTeam === undefined) {
+          throw new Error('Please select a team.');
+        }
+        const reqUrl = `/admin/teams/${member.teamId}/edit-member?memberId=${member.id}&isLeader=${member.isLeader}&destTeam=${selectedTeam}&userId=${member.userId}`;
 
-  const onMoveClick = (id: number | string | undefined) => {
-    setMoveId(id); // Set moveId for modal usage
+        await app.post(reqUrl, { teamId: selectedTeam });
+  
+        toast.success(
+          `${member.firstName} ${member.lastName} has been moved to ${selectedTeam}!`,
+          { position: toast.POSITION.TOP_RIGHT }
+        );
+  
+        setIsMoveModalOpen(false);
+      } catch (error) {
+        toastAxiosError(error);
+      }
+    };
+  
+    return (
+      <>
+        {createPortal(
+          <MoveModal
+            title={`Move ${member.firstName} ${member.lastName} to which group?`}
+            teams={teams} // Assuming team names are strings
+            isOpen={isMoveModalOpen}
+            close={() => setIsMoveModalOpen(false)}
+            onAction={onMoveClick}
+            onSelectTeam={handleTeamSelection}
+          />,
+          document.body
+        )}
+  
+        {!member.isLeader && (
+          <button
+            className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
+            onClick={() => setIsMoveModalOpen(true)}
+          >
+            Move
+          </button>
+        )}
+      </>
+    );
   };
 
   return (
@@ -187,25 +253,13 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
               <td>
                 <RemoveMemberComponent member={row.original} />
               </td>
+              <td>
+                <MoveMemberComponent member={row.original} onUpdateData={onUpdateData} />
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      {createPortal(
-        <MoveModal
-          title={`Move ${
-            data.find((member) => member.id === moveId)?.firstName || ""
-          } ${
-            data.find((member) => member.id === moveId)?.lastName || ""
-          } to which group?`}
-          teams={["Team 1", "Team 2", "Team 3"]}
-          isOpen={moveId !== undefined}
-          close={() => setMoveId(undefined)}
-          onAction={() => onMoveClick(moveId)}
-        />,
-        document.body
-      )}
     </div>
   );
 }
