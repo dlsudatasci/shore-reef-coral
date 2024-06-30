@@ -18,11 +18,19 @@ import { useAdminAccess } from "@lib/useRoleAccess";
 //* API
 import { TeamData } from "@pages/api/admin/teams/[teamId]";
 
+type UsersSummary = {
+  id: number;
+  affiliation: string | null;
+  firstName: string;
+  lastName: string;
+};
+
 const TeamInfo = () => {
   useAdminAccess();
   const router = useRouter();
   const teamId = router.query.id;
   const { data: teamData, mutate } = useRetriever<TeamData>(`/admin/teams/${teamId}`);
+  const { data: membersData } = useRetriever<UsersSummary[]>(`/admin/teams/${teamId}/members`);
 
 
   return (
@@ -42,7 +50,7 @@ const TeamInfo = () => {
               data={[]}
             />
           }
-          tab2={<MembersTable className="w-full mt-8" data={[]} />}
+          tab2={<MembersTable className="w-full mt-8" data={membersData || []} />}
           tab3={<TeamInfoTab data={teamData} />}
         />
       </section>

@@ -6,20 +6,23 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { HTMLAttributes, useEffect, useState } from "react";
-import Link from "next/link";
-import { UsersSummary } from "@pages/api/users";
-import { RemoveModalProps } from "../modals/remove";
+import { HTMLAttributes, useState } from "react";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
-import { MoveModalProps } from "@components/admin/modals/move";
+
+type UsersSummary = {
+  id: number;
+  affiliation: string | null;
+  firstName: string;
+  lastName: string;
+};
 
 const helper = createColumnHelper<UsersSummary>();
-const RemoveModal = dynamic<RemoveModalProps>(() =>
+const RemoveModal = dynamic(() =>
   import("@components/admin/modals/remove").then((mod) => mod.RemoveModal)
 );
 
-const MoveModal = dynamic<MoveModalProps>(() =>
+const MoveModal = dynamic(() =>
   import("@components/admin/modals/move").then((mod) => mod.MoveModal)
 );
 
@@ -29,9 +32,7 @@ type MembersTableProps = {
 
 export function MembersTable({ data, ...props }: MembersTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [removeId, setRemoveId] = useState<number | string | undefined>(
-    undefined
-  );
+  const [removeId, setRemoveId] = useState<number | string | undefined>(undefined);
   const [moveId, setMoveId] = useState<number | string | undefined>(undefined);
 
   const columns = [
@@ -42,7 +43,7 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
     helper.display({
       id: "status",
       header: "Status",
-      cell(props) {
+      cell() {
         return <p>Active</p>;
       },
     }),
@@ -108,7 +109,7 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
         />,
         document.body
       )}
-       {createPortal(
+      {createPortal(
         <MoveModal
           title={`Move ${
             table
@@ -116,7 +117,7 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
               .rows.find((row) => row.id)
               ?.getVisibleCells()[0].row._valuesCache.name
           } to which group?`}
-          teams={['Team 1', 'Team 2', 'Team 3']}
+          teams={["Team 1", "Team 2", "Team 3"]}
           isOpen={moveId !== undefined}
           close={() => setMoveId(undefined)}
           onAction={onMoveClick}
