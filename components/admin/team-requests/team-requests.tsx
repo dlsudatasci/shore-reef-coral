@@ -119,14 +119,15 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
     try {
       await app.post(`/admin/teams/${teamId}/approve`);
       updateTeams();
-      setIsApproveModalOpen(false);
-      setTimeout(() => setTeamId(undefined), 300);
-      toast(
+      toast.success(
         `Team has been approved!`,
         toastSuccessConfig
       );
     } catch (err) {
       toastAxiosError(err);
+    } finally {
+      setIsApproveModalOpen(false);
+      setTimeout(() => setTeamId(undefined), 300);
     }
   }
 
@@ -136,14 +137,15 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
     try {
       await app.post(`/admin/teams/${teamId}/reject`, { reason });
       updateTeams();
-      setIsRejectModalOpen(false);
-      setTimeout(() => setTeamId(undefined), 300);
-      toast(
+      toast.success(
         `Team has been rejected!`,
         toastSuccessConfig
       );
     } catch (err) {
       toastAxiosError(err);
+    } finally {
+      setIsRejectModalOpen(false);
+      setTimeout(() => setTeamId(undefined), 300);
     }
   }
 

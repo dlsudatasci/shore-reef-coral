@@ -6,7 +6,7 @@ import styles from "@styles/Teams.module.css";
 import cn from "classnames";
 import { useMemo, useState } from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
-import { BadgeCheckIcon } from "@heroicons/react/solid";
+import { VerifyIcon } from "@components/icons/verifyicon";
 import {
   useReactTable,
   getCoreRowModel,
@@ -78,7 +78,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
       await app.post(`/teams/${id}/members`);
       await mutate(`/teams?filter=${filter}`);
       setId(undefined);
-      toast(
+      toast.success(
         `Your request to join ${teamProfile?.name} has been submitted for approval by the team leader.`,
         toastSuccessConfig
       );
@@ -100,7 +100,6 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
         document.body
       )}
       <div className="grid gap-x-4 gap-y-1 grid-cols-2 mb-6 max-w-2xl">
-        <p className="col-span-full text-secondary font-comic-cat">filters</p>
         <DebouncedInput
           type="text"
           placeholder="Team name"
@@ -132,8 +131,16 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
                   <div className="flex justify-between items-center w-full">
                     <div className="flex items-center space-x-2">
                       <p>{row.getValue("name")}</p>
-                      {(row.getValue("isVerified") as boolean) && (
-                        <BadgeCheckIcon className="w-6 aspect-square text-green-600" />
+                      {!!row.getValue("isVerified") && (
+                        <VerifyIcon
+                          variant={
+                            open
+                              ? "t-highlight"
+                              : !filter || filter === "joinable"
+                              ? "primary"
+                              : "secondary"
+                          }
+                        />
                       )}
                     </div>
                     {open ? (

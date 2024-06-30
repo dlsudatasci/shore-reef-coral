@@ -59,7 +59,7 @@ const Forgot: NextPage = () => {
 								<p className="error text-secondary">{errors.email?.message}</p>
 							</div>
 							<input className="btn secondary mt-4" type="submit"
-								value={isSending ? 'Sending...' : 'Send Rest Password Email'} disabled={isSending} />
+								value={isSending ? 'Sending...' : 'Send Reset Password Email'} disabled={isSending} />
 						</form>
 					</>
 					:

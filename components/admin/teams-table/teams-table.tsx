@@ -1,3 +1,8 @@
+// React/Next Setup
+import { HTMLAttributes, useState } from "react";
+import Link from "next/link";
+
+// React Table
 import {
   SortingState,
   createColumnHelper,
@@ -6,14 +11,30 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { HTMLAttributes, useState } from "react";
-import Link from "next/link";
+
+// Types
 import { TeamsSummary } from "@pages/api/admin/teams";
+import { Status } from "@prisma/client";
+
+// Icons
+import { VerifyIcon } from "@components/icons/verifyicon";
 
 const helper = createColumnHelper<TeamsSummary>();
 
 const columns = [
-  helper.accessor("name", { header: "Team Name" }),
+  helper.accessor("name", {
+    header: "Team Name",
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <p>{row.original.name}</p>
+          {row.original.isVerified && (
+            <VerifyIcon />
+          )}
+        </div>
+      )
+    }
+  }),
   helper.display({
     id: "leader",
     header: "Team Leader",
@@ -30,12 +51,13 @@ const columns = [
   helper.accessor("town", {
     header: "Town",
   }),
-  helper.display({
-    id: "numMembers",
-    header: "No. of members",
-    cell: ({ row }) => (
-      <p>{row.original.UsersOnTeam.filter((ut) => ut.status === "ACCEPTED").length}</p>
-    ),
+  helper.accessor("UsersOnTeam", {
+    header: "No. of Members",
+    cell: ({ row }) => {
+      return (
+        <p>{row.original.UsersOnTeam.filter((ut) => ut.status === String(Status.ACCEPTED)).length}</p>
+      )
+    }
   }),
   helper.display({
     id: "view",

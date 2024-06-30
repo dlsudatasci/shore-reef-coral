@@ -17,7 +17,7 @@ const TeamsPage: NextPage = () => {
 		required: true, 
 		onUnauthenticated() {
 			router.replace('/login?from=/teams')
-		},
+		}, 
 	})
 	useUserOnlyAccess()
 
@@ -35,7 +35,10 @@ const TeamsPage: NextPage = () => {
 				teams.length == 0 ?
 					<p className="text-center text-secondary text-4xl mt-24">No teams available.</p>
 					:
+					<>
+					<p className="col-span-full text-secondary font-comic-cat">filters</p>
 					<TeamsTable data={teams} />
+					</>
 			}
 		</DashboardLayout>
 	)

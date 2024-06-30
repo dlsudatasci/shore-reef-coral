@@ -10,6 +10,7 @@ import TeamTabs from "@components/admin/team-tabs/team-tabs";
 import TeamInfoTab from "@components/admin/team-tabs/team-info-tab";
 import { MembersTable } from "@components/admin/members-table/members-table";
 import Breadcrumbs from "@components/breadcrumbs";
+import { VerifyIcon } from "@components/icons/verifyicon";
 
 //* Utils
 import { useRetriever } from "@lib/useRetriever";
@@ -39,7 +40,7 @@ const TeamInfo = () => {
       <div className="flex justify-between mt-8">
         <div className="flex items-start space-x-4">
           <Waves className="w-8 aspect-square fill-t-highlight" />
-          <h1 className="text-3xl text-t-highlight">{ teamData?.name }</h1>
+          <h1 className="text-3xl text-t-highlight flex items-center">{ teamData?.name }{teamData?.isVerified && (<VerifyIcon />)}</h1>
         </div>
       </div>
       <section className="mt-5">
