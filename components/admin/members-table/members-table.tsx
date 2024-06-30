@@ -1,3 +1,4 @@
+// MembersTable component
 import {
   SortingState,
   createColumnHelper,
@@ -36,6 +37,9 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
   const [moveId, setMoveId] = useState<number | string | undefined>(undefined);
 
   const columns = [
+    helper.accessor((row) => `${row.id}`, {
+      id: "id"
+    }),
     helper.accessor((row) => `${row.firstName} ${row.lastName}`, {
       id: "name",
     }),
@@ -53,13 +57,13 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
         <div className="flex gap-5">
           <button
             className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
-            onClick={() => setRemoveId(Number(row.id))}
+            onClick={() => setRemoveId(row.original.id)} // Set removeId to UsersSummary id
           >
             remove
           </button>
           <button
             className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
-            onClick={() => setMoveId(Number(row.id))}
+            onClick={() => setMoveId(row.original.id)} // Set moveId to UsersSummary id
           >
             move
           </button>
@@ -79,12 +83,12 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
     getSortedRowModel: getSortedRowModel(),
   });
 
-  async function onRemoveClick() {
-    console.log("Remove");
+  async function onRemoveClick(id: number | string | undefined) {
+    setRemoveId(id); // Set removeId for modal usage
   }
 
-  async function onMoveClick() {
-    console.log("Move");
+  async function onMoveClick(id: number | string | undefined) {
+    setMoveId(id); // Set moveId for modal usage
   }
 
   return (
@@ -92,35 +96,32 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
       {createPortal(
         <RemoveModal
           title={`Remove ${
-            table
-              .getRowModel()
-              .rows.find((row) => row.id)
-              ?.getVisibleCells()[0].row._valuesCache.name
+            data.find((member) => member.id === removeId)?.firstName || ""
+          } ${
+            data.find((member) => member.id === removeId)?.lastName || ""
           } ?`}
           message={`Are you sure you want to remove ${
-            table
-              .getRowModel()
-              .rows.find((row) => row.id)
-              ?.getVisibleCells()[0].row._valuesCache.name
+            data.find((member) => member.id === removeId)?.firstName || ""
+          } ${
+            data.find((member) => member.id === removeId)?.lastName || ""
           } from the team?`}
           isOpen={removeId !== undefined}
           close={() => setRemoveId(undefined)}
-          onAction={onRemoveClick}
+          onAction={() => onRemoveClick(removeId)}
         />,
         document.body
       )}
       {createPortal(
         <MoveModal
           title={`Move ${
-            table
-              .getRowModel()
-              .rows.find((row) => row.id)
-              ?.getVisibleCells()[0].row._valuesCache.name
+            data.find((member) => member.id === moveId)?.firstName || ""
+          } ${
+            data.find((member) => member.id === moveId)?.lastName || ""
           } to which group?`}
           teams={["Team 1", "Team 2", "Team 3"]}
           isOpen={moveId !== undefined}
           close={() => setMoveId(undefined)}
-          onAction={onMoveClick}
+          onAction={() => onMoveClick(moveId)}
         />,
         document.body
       )}
