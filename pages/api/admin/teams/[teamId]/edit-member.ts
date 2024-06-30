@@ -83,12 +83,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userOnDestinationTeam = await prisma.usersOnTeams.findFirst({
           where: {
-            id: userId,
+            userId: userId,
             teamId: destTeam,
             status: {
               in: ['ACCEPTED', 'PENDING']
             }
           },
+          select: {
+            id: true
+          }
         });
 
         console.log(userOnDestinationTeam)
