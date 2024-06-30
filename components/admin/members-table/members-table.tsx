@@ -131,7 +131,7 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
         {!member.isLeader && (
           <button
             className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
-            onClick={onRemoveClick}
+            onClick={() => setIsRemoveModalOpen(true)}
           >
             Remove
           </button>
