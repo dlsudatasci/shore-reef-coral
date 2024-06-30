@@ -147,7 +147,7 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
     useEffect(() => {
       const fetchTeams = async () => {
         try {
-          const response = await app.get(`/admin/teams/${member.teamId}/edit-member?memberId=${member.id}`);
+          const response = await app.get(`/admin/teams/${member.teamId}/edit-member?memberId=${member.id}&userId=${member.userId}`);
           console.log(response.data)
           setTeams(response.data);
         } catch (error) {

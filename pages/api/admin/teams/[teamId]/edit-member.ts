@@ -37,28 +37,55 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     switch (method) {
       case "GET": {
-        const availableTeams = await prisma.team.findMany({
-          where: {
-              id: {
-                not: Number(teamId),
+        try {
+          // Fetch teams where the user is accepted or pending
+          const teamsOfUser = await prisma.usersOnTeams.findMany({
+            where: {
+              userId: userId,
+              status: {
+                in: ['ACCEPTED', 'PENDING']
+              }
+            },
+            select: {
+              team: {
+                select: {
+                  id: true
+                }
+              }
             }
-          },
-          select: {
-            id: true,
-            name: true,
-          }
-        });
-
-        const mappedTeams: AvailableTeams[] = availableTeams
-        .map(team => ({
-          id: team.id,
-          name: team.name
-        }))
-
-        console.log(mappedTeams);
-
-        return res.status(200).json(mappedTeams);
+          });
+      
+          // Extract team IDs where the user is already a member
+          const teamIdsOfUser = teamsOfUser.map(userTeam => userTeam.team.id);
+      
+          // Fetch available teams that the user is not already a part of
+          const availableTeams = await prisma.team.findMany({
+            where: {
+              id: {
+                notIn: teamIdsOfUser
+              }
+            },
+            select: {
+              id: true,
+              name: true
+            }
+          });
+      
+          // Map available teams to the desired structure
+          const mappedTeams = availableTeams.map(team => ({
+            id: team.id,
+            name: team.name
+          }));
+      
+          console.log(mappedTeams);
+      
+          return res.status(200).json(mappedTeams);
+        } catch (error) {
+          console.error("Error fetching available teams:", error);
+          return res.status(500).json({ error: "Internal server error" });
+        }
       }
+      
       case "PUT": {
         // Update member status to "INACTIVE"
         await prisma.usersOnTeams.update({
