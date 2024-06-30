@@ -10,7 +10,6 @@ import TeamTabs from "@components/admin/team-tabs/team-tabs";
 import TeamInfoTab from "@components/admin/team-tabs/team-info-tab";
 import { MembersTable } from "@components/admin/members-table/members-table";
 import Breadcrumbs from "@components/breadcrumbs";
-import { VerifyIcon } from "@components/icons/verifyicon";
 
 //* Utils
 import { useRetriever } from "@lib/useRetriever";
@@ -24,6 +23,9 @@ type UsersSummary = {
   affiliation: string | null;
   firstName: string;
   lastName: string;
+  teamId: number;
+  isLeader: boolean;
+  status: string;
 };
 
 const TeamInfo = () => {
@@ -31,8 +33,19 @@ const TeamInfo = () => {
   const router = useRouter();
   const teamId = router.query.id;
   const { data: teamData, mutate } = useRetriever<TeamData>(`/admin/teams/${teamId}`);
-  const { data: membersData } = useRetriever<UsersSummary[]>(`/admin/teams/${teamId}/members`);
+  const { data: membersData, mutate: mutateMembers } = useRetriever<UsersSummary[]>(`/admin/teams/${teamId}/members`);
 
+  // Function to handle updates to members data
+  const handleUpdateMembers = async (updatedMembers: UsersSummary[]) => {
+    // Perform API call or any necessary state management to update membersData
+    try {
+      // Example: Update membersData state or mutate function
+      // For demonstration, assuming mutateMembers is used for updating data
+      await mutateMembers(updatedMembers, false); // Example usage, adjust as per your use case
+    } catch (error) {
+      console.error('Error updating members:', error);
+    }
+  };
 
   return (
     <AdminLayout>
@@ -40,7 +53,7 @@ const TeamInfo = () => {
       <div className="flex justify-between mt-8">
         <div className="flex items-start space-x-4">
           <Waves className="w-8 aspect-square fill-t-highlight" />
-          <h1 className="text-3xl text-t-highlight flex items-center">{ teamData?.name }{teamData?.isVerified && (<VerifyIcon />)}</h1>
+          <h1 className="text-3xl text-t-highlight flex items-center">{ teamData?.name }{teamData?.isVerified}</h1>
         </div>
       </div>
       <section className="mt-5">
@@ -48,10 +61,16 @@ const TeamInfo = () => {
           tab1={
             <SurveyTableAdmin
               className="w-full mt-8 mb-20"
-              data={[]}
+              data={[]} // Example data, replace with actual survey data
             />
           }
-          tab2={<MembersTable className="w-full mt-8" data={membersData || []} />}
+          tab2={
+            <MembersTable
+              className="w-full mt-8"
+              data={membersData || []} // Pass membersData or an empty array if null
+              onUpdateData={handleUpdateMembers} // Pass the onUpdateData function to handle updates
+            />
+          }
           tab3={<TeamInfoTab data={teamData} />}
         />
       </section>

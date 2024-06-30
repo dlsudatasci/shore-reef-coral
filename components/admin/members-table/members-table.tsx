@@ -8,14 +8,22 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { HTMLAttributes, useState } from "react";
+import { FC } from "react"
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
+import { toastAxiosError } from "@lib/utils";
+import { toast } from "react-toastify";
+import { toastSuccessConfig } from "@lib/toast-defaults";
+import app from "@lib/axios-config";
 
 type UsersSummary = {
   id: number;
   affiliation: string | null;
   firstName: string;
   lastName: string;
+  teamId: number;
+  isLeader: boolean;
+  status: string; // Add status field to UsersSummary
 };
 
 const helper = createColumnHelper<UsersSummary>();
@@ -29,14 +37,20 @@ const MoveModal = dynamic(() =>
 
 type MembersTableProps = {
   data: UsersSummary[];
+  onUpdateData: (updatedData: UsersSummary[]) => void; // Function to update data
 } & HTMLAttributes<HTMLTableElement>;
 
-export function MembersTable({ data, ...props }: MembersTableProps) {
+export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [removeId, setRemoveId] = useState<number | string | undefined>(undefined);
   const [moveId, setMoveId] = useState<number | string | undefined>(undefined);
 
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
+
   const columns = [
+    helper.accessor((row) => `${row.isLeader}`, {
+      id: "leader"
+    }),
     helper.accessor((row) => `${row.id}`, {
       id: "id"
     }),
@@ -47,8 +61,8 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
     helper.display({
       id: "status",
       header: "Status",
-      cell() {
-        return <p>Active</p>;
+      cell({ row }) {
+        return <p>{row.original.status}</p>;
       },
     }),
     helper.display({
@@ -57,7 +71,7 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
         <div className="flex gap-5">
           <button
             className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
-            onClick={() => setRemoveId(row.original.id)} // Set removeId to UsersSummary id
+            onClick={() => setIsRemoveModalOpen(true)}
           >
             remove
           </button>
@@ -83,48 +97,53 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
     getSortedRowModel: getSortedRowModel(),
   });
 
-  async function onRemoveClick(id: number | string | undefined) {
-    setRemoveId(id); // Set removeId for modal usage
-  }
+  const RemoveMemberComponent: FC<{ member: UsersSummary }> = ({ member }) => {
+    const reqUrl = `/admin/teams/${member.teamId}/remove?memberId=` + member.id;
 
-  async function onMoveClick(id: number | string | undefined) {
+    const onRemoveClick = async () => {
+      try {
+        // Make API call to update member status to "INACTIVE"
+        await app.put(reqUrl);
+
+        // Handle success locally
+        const updatedData = data.map((item) =>
+          item.id === member.id ? { ...item, status: "INACTIVE" } : item
+        );
+
+        // Show success toast message
+        toast.success(`${member.firstName} ${member.lastName} has been removed from the team!`, toastSuccessConfig);
+        
+        onUpdateData(updatedData);
+      } catch (error) {
+        // Handle error
+        toastAxiosError(error);
+      } finally {
+        setIsRemoveModalOpen(false); // Close the modal regardless of success or failure
+      }
+    };
+
+    return (
+      <>
+        {createPortal(
+          <RemoveModal
+            title={`Remove ${member.firstName} ${member.lastName} ?`}
+            message={`Are you sure you want to remove ${member.firstName} ${member.lastName} from the team?`}
+            isOpen={isRemoveModalOpen}
+            close={() => setIsRemoveModalOpen(false)}
+            onAction={onRemoveClick}
+          />,
+          document.body
+        )}
+      </>
+    );
+  };
+
+  const onMoveClick = (id: number | string | undefined) => {
     setMoveId(id); // Set moveId for modal usage
-  }
+  };
 
   return (
     <div>
-      {createPortal(
-        <RemoveModal
-          title={`Remove ${
-            data.find((member) => member.id === removeId)?.firstName || ""
-          } ${
-            data.find((member) => member.id === removeId)?.lastName || ""
-          } ?`}
-          message={`Are you sure you want to remove ${
-            data.find((member) => member.id === removeId)?.firstName || ""
-          } ${
-            data.find((member) => member.id === removeId)?.lastName || ""
-          } from the team?`}
-          isOpen={removeId !== undefined}
-          close={() => setRemoveId(undefined)}
-          onAction={() => onRemoveClick(removeId)}
-        />,
-        document.body
-      )}
-      {createPortal(
-        <MoveModal
-          title={`Move ${
-            data.find((member) => member.id === moveId)?.firstName || ""
-          } ${
-            data.find((member) => member.id === moveId)?.lastName || ""
-          } to which group?`}
-          teams={["Team 1", "Team 2", "Team 3"]}
-          isOpen={moveId !== undefined}
-          close={() => setMoveId(undefined)}
-          onAction={() => onMoveClick(moveId)}
-        />,
-        document.body
-      )}
       <table {...props}>
         <thead>
           <tr className="bg-primary text-white font-comic-cat text-xl text-left">
@@ -163,10 +182,28 @@ export function MembersTable({ data, ...props }: MembersTableProps) {
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
+              <td>
+                <RemoveMemberComponent member={row.original} />
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {createPortal(
+        <MoveModal
+          title={`Move ${
+            data.find((member) => member.id === moveId)?.firstName || ""
+          } ${
+            data.find((member) => member.id === moveId)?.lastName || ""
+          } to which group?`}
+          teams={["Team 1", "Team 2", "Team 3"]}
+          isOpen={moveId !== undefined}
+          close={() => setMoveId(undefined)}
+          onAction={() => onMoveClick(moveId)}
+        />,
+        document.body
+      )}
     </div>
   );
 }
