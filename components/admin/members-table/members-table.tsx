@@ -45,8 +45,6 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
   const [removeId, setRemoveId] = useState<number | string | undefined>(undefined);
   const [moveId, setMoveId] = useState<number | string | undefined>(undefined);
 
-  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
-
   const columns = [
     helper.accessor((row) => `${row.isLeader}`, {
       id: "leader"
@@ -71,12 +69,6 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
         <div className="flex gap-5">
           <button
             className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
-            onClick={() => setIsRemoveModalOpen(true)}
-          >
-            remove
-          </button>
-          <button
-            className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
             onClick={() => setMoveId(row.original.id)} // Set moveId to UsersSummary id
           >
             move
@@ -98,7 +90,8 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
   });
 
   const RemoveMemberComponent: FC<{ member: UsersSummary }> = ({ member }) => {
-    const reqUrl = `/admin/teams/${member.teamId}/remove?memberId=` + member.id;
+    const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
+    const reqUrl = `/admin/teams/${member.teamId}/edit-member?memberId=` + member.id + `&isLeader=` + member.isLeader;
 
     const onRemoveClick = async () => {
       try {
@@ -133,6 +126,15 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
             onAction={onRemoveClick}
           />,
           document.body
+        )}
+
+        {!member.isLeader && (
+          <button
+            className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
+            onClick={onRemoveClick}
+          >
+            Remove
+          </button>
         )}
       </>
     );
