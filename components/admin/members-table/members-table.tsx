@@ -148,7 +148,6 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
       const fetchTeams = async () => {
         try {
           const response = await app.get(`/admin/teams/${member.teamId}/edit-member?memberId=${member.id}&userId=${member.userId}`);
-          console.log(response.data)
           setTeams(response.data);
         } catch (error) {
           toastAxiosError(error);
@@ -158,7 +157,7 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
       if (isMoveModalOpen) {
         fetchTeams();
       }
-    }, [isMoveModalOpen]);
+    }, [isMoveModalOpen, member.id, member.teamId, member.userId]);
   
     const handleTeamSelection = (teamId: number) => {
       setSelectedTeam(teamId); // Convert string to number
