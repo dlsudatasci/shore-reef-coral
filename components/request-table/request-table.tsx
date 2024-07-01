@@ -4,17 +4,20 @@ import { toastAxiosError } from '@lib/utils'
 import { MemberAPI } from '@pages/api/teams/[teamId]/members'
 import { Status } from '@prisma/client'
 import { rankings } from '@tanstack/match-sorter-utils'
-import { ColumnFiltersState, createColumnHelper, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table'
+import { ColumnFiltersState, createColumnHelper, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable, getPaginationRowModel, PaginationState } from '@tanstack/react-table'
 import { useSession } from 'next-auth/react'
 import { TableHTMLAttributes, useEffect, useRef, useState } from 'react'
 import useSWR from 'swr'
 
-//Confirmation Modal
+// Confirmation Modal
 import { createPortal } from "react-dom";
 import { ConfirmationModalProps } from "@components/confirmation-modal";
 import { ConfirmationTextModalProps } from "@components/confirmation-text-modal";
 import dynamic from "next/dynamic";
 import { set } from 'react-hook-form'
+
+// Components
+import Pagination from "@components/pagination";
 
 const ConfirmationModal = dynamic<ConfirmationModalProps>(() =>
 	import("@components/confirmation-modal").then((mod) => mod.ConfirmationModal)
@@ -31,6 +34,10 @@ const helper = createColumnHelper<member>()
 export function RequestTable({ teamId, ...props }: RequestTableProps) {
 	const { data, mutate } = useSWR<MemberAPI>(`/teams/${teamId}/members`, fetcher)
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([{ id: 'status', value: Status.ACCEPTED }])
+	const [pagination, setPagination] = useState<PaginationState>({
+		pageIndex: 0,
+		pageSize: 15,
+	})
 	const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 	const [user, setUser] = useState<member["user"]>();
 	const [id, setId] = useState<number>();
@@ -115,6 +122,7 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 		data: data?.UsersOnTeam ?? [],
 		state: {
 			columnFilters,
+			pagination,
 		},
 		filterFns: {
 			fuzzy: generateFuzzyFilter(rankings.EQUAL)
@@ -123,6 +131,8 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
 		onColumnFiltersChange: setColumnFilters,
+		getPaginationRowModel: getPaginationRowModel(),
+    	onPaginationChange: setPagination,
 	})
 
 	return (
@@ -190,6 +200,7 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 						))}
 					</tbody>
 				</table>
+				{table.getRowModel().rows.length > 0 && <Pagination table={table} variant='secondary' />}
 			</section>
 		</>
 	)

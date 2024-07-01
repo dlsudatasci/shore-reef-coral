@@ -7,12 +7,15 @@ import cn from "classnames";
 import { useMemo, useState } from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
 import { VerifyIcon } from "@components/icons/verifyicon";
+import Pagination from "@components/pagination";
 import {
   useReactTable,
   getCoreRowModel,
   getFilteredRowModel,
   createColumnHelper,
   ColumnFiltersState,
+  getPaginationRowModel,
+  PaginationState,
 } from "@tanstack/react-table";
 import DebouncedInput from "../debounced-input";
 import dynamic from "next/dynamic";
@@ -50,6 +53,10 @@ const columns = [
 
 export function TeamsTable({ data, filter }: TeamsTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 1,
+  })
   const [id, setId] = useState<number>();
   const teamProfile = useMemo(() => data.find((d) => d.id === id), [id, data]);
   const leaderName = useMemo(() => {
@@ -62,6 +69,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
     columns,
     state: {
       columnFilters,
+      pagination,
     },
     filterFns: {
       fuzzy: generateFuzzyFilter(rankings.CONTAINS),
@@ -69,6 +77,8 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
   });
 
   async function onJoinClick() {
@@ -179,6 +189,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
           </Disclosure>
         ))}
       </div>
+      {data.length > 0 && <Pagination table={table} variant="secondary" />}
     </div>
   );
 }

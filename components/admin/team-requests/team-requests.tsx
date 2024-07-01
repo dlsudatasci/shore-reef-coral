@@ -5,11 +5,15 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
+  getPaginationRowModel,
+  PaginationState,
 } from "@tanstack/react-table";
 import { HTMLAttributes, useState, useMemo } from "react";
-import Link from "next/link";
 import { TeamsSummary } from "@pages/api/admin/teams";
 import app from "@lib/axios-config";
+
+// Components
+import Pagination from "@components/pagination";
 
 // Toast
 import { toastAxiosError } from "@lib/utils";
@@ -32,10 +36,14 @@ const ConfirmationTextModal = dynamic<ConfirmationTextModalProps>(() =>
 type TeamsTableProps = {
   data: TeamsSummary[];
   updateTeams: () => void;
-} & HTMLAttributes<HTMLTableElement>;
+} & HTMLAttributes<HTMLDivElement>;
 
 export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 15,
+  })
   const [teamId, setTeamId] = useState<number>();
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
@@ -107,10 +115,13 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
     columns,
     state: {
       sorting,
+      pagination,
     },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
   });
 
   async function onApproveClick() {
@@ -178,48 +189,51 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
         />,
         document.body
       )}
-      <table {...props}>
-        <thead>
-          <tr className="bg-primary text-white font-comic-cat text-xl text-left">
-            {table.getFlatHeaders().map((header) => (
-              <th key={header.id} className="font-normal py-3 px-4">
-                {header.isPlaceholder ? null : (
-                  <div
-                    className={
-                      header.column.getCanSort()
-                        ? "cursor-pointer select-none"
-                        : ""
-                    }
-                    onClick={header.column.getToggleSortingHandler()}
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                    <div className="w-4 inline-block">
-                      {{
-                        asc: " 🔼",
-                        desc: " 🔽",
-                      }[header.column.getIsSorted() as string] ?? ""}
+      <div {...props}>
+        <table className="w-full">
+          <thead>
+            <tr className="bg-primary text-white font-comic-cat text-xl text-left">
+              {table.getFlatHeaders().map((header) => (
+                <th key={header.id} className="font-normal py-3 px-4">
+                  {header.isPlaceholder ? null : (
+                    <div
+                      className={
+                        header.column.getCanSort()
+                          ? "cursor-pointer select-none"
+                          : ""
+                      }
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                      <div className="w-4 inline-block">
+                        {{
+                          asc: " 🔼",
+                          desc: " 🔽",
+                        }[header.column.getIsSorted() as string] ?? ""}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="text-t-highlight [&_td]:py-3 [&_td]:px-4 [&>tr:nth-child(even)]:bg-[#B4BEBA] [&>tr:nth-child(odd)]:bg-secondary">
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
+                  )}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="text-t-highlight [&_td]:py-3 [&_td]:px-4 [&>tr:nth-child(even)]:bg-[#B4BEBA] [&>tr:nth-child(odd)]:bg-secondary">
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {data.length > 0 && <Pagination table={table} />}
+      </div>
     </>
   );
 }
