@@ -24,7 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   
   try {
-	console.log(teamId);
 	const members = await prisma.usersOnTeams.findMany({
 	  where: {
 		teamId: Number(teamId),
