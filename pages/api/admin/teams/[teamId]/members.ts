@@ -3,11 +3,15 @@ import { getSession } from 'next-auth/react';
 import prisma from '@lib/prisma';
 
 type UsersSummary = {
-  id: number;
-  affiliation: string | null;
-  firstName: string;
-  lastName: string;
-};
+	id: number;
+	userId: number;
+	affiliation: string | null;
+	firstName: string;
+	lastName: string;
+	teamId: number;
+	isLeader: boolean;
+	status: string;
+  };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -18,24 +22,47 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ message: 'Team ID is required' });
   }
 
+  
   try {
-    const members = await prisma.user.findMany({
-      where: {
-        UsersOnTeam: {
-          some: {
-            teamId: Number(teamId),
-          },
-        },
-      },
-      select: {
-        id: true,
-        affiliation: true,
-        firstName: true,
-        lastName: true,
-      },
-    });
+	console.log(teamId);
+	const members = await prisma.usersOnTeams.findMany({
+	  where: {
+		teamId: Number(teamId),
+		// Uncomment the following lines if you need to filter by status
+		status: {
+		  in: ["ACCEPTED", "PENDING"]
+		}
+  	},
+	  select: {
+		id: true,
+		teamId: true,
+		status: true,
+		isLeader: true,
+		user: {
+		  select: {
+			affiliation: true,
+			firstName: true,
+			lastName: true,
+			id: true
+		  }
+		}
+	  }
+	});
 
-    res.status(200).json(members as UsersSummary[]);
+    // Map Prisma result to match UsersSummary type
+    const mappedMembers: UsersSummary[] = members
+		.map(member => ({
+			id: member.id,
+			isLeader: member.isLeader,
+			affiliation: member.user?.affiliation,
+			firstName: member.user?.firstName,
+			lastName: member.user?.lastName,
+			teamId: member.teamId,
+			status: member.status || "UNKNOWN",
+			userId: member.user?.id
+		}))
+
+    res.status(200).json(mappedMembers); // Return mappedMembers instead of members
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error', error });
   }
