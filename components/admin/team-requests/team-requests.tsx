@@ -48,7 +48,6 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const teamProfile = useMemo(() => data.find((d) => { 
-    console.log('id and teamId:', d.id, teamId)
     return d.id === teamId
   }), [teamId, data]);
 
