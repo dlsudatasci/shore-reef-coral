@@ -33,8 +33,8 @@ const TeamInfo = () => {
   useAdminAccess();
   const router = useRouter();
   const teamId = router.query.id;
-  const { data: teamData, mutate } = useRetriever<TeamData>(`/admin/teams/${teamId}`);
-  const { data: membersData, mutate: mutateMembers } = useRetriever<UsersSummary[]>(`/admin/teams/${teamId}/members`);
+  const { data: teamData, mutate } = useRetriever<TeamData>(teamId ? `/admin/teams/${teamId}` : null);
+  const { data: membersData, mutate: mutateMembers } = useRetriever<UsersSummary[]>(teamId ? `/admin/teams/${teamId}/members` : null);
 
   // Function to handle updates to members data
   const handleUpdateMembers = async (updatedMembers: UsersSummary[]) => {
