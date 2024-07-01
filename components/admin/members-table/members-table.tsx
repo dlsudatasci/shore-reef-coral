@@ -81,6 +81,17 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
         return <p>{row.original.status}</p>;
       },
     }),
+    helper.display({
+      id: "actions",
+      cell({ row }) {
+        return (
+          <div className="flex space-x-4">
+            <RemoveMemberComponent member={row.original} />
+            <MoveMemberComponent member={row.original} onUpdateData={onUpdateData} />
+          </div>
+        );
+      },
+    })
   ];
 
   const table = useReactTable<UsersSummary>({
@@ -209,14 +220,16 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
           document.body
         )}
   
-        {!member.isLeader && (
+        {!member.isLeader ? (
           <button
             className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
             onClick={() => setIsMoveModalOpen(true)}
           >
             Move
           </button>
-        )}
+        ) :
+          <div className="h-9"></div>
+        }
       </>
     );
   };
@@ -261,12 +274,6 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
-              <td>
-                <RemoveMemberComponent member={row.original} />
-              </td>
-              <td>
-                <MoveMemberComponent member={row.original} onUpdateData={onUpdateData} />
-              </td>
             </tr>
           ))}
         </tbody>
