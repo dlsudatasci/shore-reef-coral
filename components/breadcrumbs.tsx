@@ -21,18 +21,18 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
 
         if (!isLastItem) {
           return (
-            <div key={i}>
+            <span key={i} className="flex items-center h-5">
               <span className="flex items-center">
                 <Link href={crumb.path ?? '/'} className="text-[#759691] hover:underline">
                   {crumb.label}
                 </Link>
               </span>
-              <span className="text-[#759691] text-3xl m-0 leading-none"> &#8227; </span>
-            </div>
+              <span className="text-[#759691] text-3xl ml-2 leading-none"> &#8227; </span>
+            </span>
           );
         } else {
           return (
-            <span key={i} className="text-[#759691]">
+            <span key={i} className="text-[#759691] flex items-center h-5">
               {crumb.label}
             </span>
           );
