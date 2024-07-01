@@ -5,6 +5,8 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
+  getPaginationRowModel,
+  PaginationState,
 } from "@tanstack/react-table";
 import { HTMLAttributes, useState, useEffect, FC } from "react";
 import dynamic from "next/dynamic";
@@ -13,6 +15,9 @@ import { toastAxiosError } from "@lib/utils";
 import { toast } from "react-toastify";
 import { toastSuccessConfig } from "@lib/toast-defaults";
 import app from "@lib/axios-config";
+
+// Components
+import Pagination from "@components/pagination";
 
 type UsersSummary = {
   id: number;
@@ -51,6 +56,10 @@ type MoveMemberComponentProps = {
 
 export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 15,
+  })
   const [removeId, setRemoveId] = useState<number | string | undefined>(undefined);
   const [moveId, setMoveId] = useState<number | string | undefined>(undefined);
 
@@ -79,10 +88,13 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
     columns,
     state: {
       sorting,
+      pagination,
     },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
   });
 
   const RemoveMemberComponent: FC<{ member: UsersSummary }> = ({ member }) => {
@@ -259,6 +271,7 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
           ))}
         </tbody>
       </table>
+      {data.length > 0 && <Pagination table={table} />}
     </div>
   );
 }
