@@ -170,7 +170,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
                     styles.header,
                     open
                       ? "bg-highlight text-t-highlight"
-                      : !filter || filter === "joinable"
+                      : !filter || filter === "joinable" || filter === "pending"
                       ? "bg-secondary  text-primary"
                       : "bg-primary text-secondary"
                   )}
