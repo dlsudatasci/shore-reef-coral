@@ -57,8 +57,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 							UsersOnTeam: {
 								none: { 
 									userId: session.user.id,
-									status: 'ACCEPTED'
-								 }
+									status: {
+										in: ['ACCEPTED', 'PENDING']
+									}
+								}
 							}
 						}
 					})
