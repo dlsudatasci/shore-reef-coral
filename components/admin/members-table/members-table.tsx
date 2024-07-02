@@ -60,8 +60,6 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
     pageIndex: 0,
     pageSize: 15,
   })
-  const [removeId, setRemoveId] = useState<number | string | undefined>(undefined);
-  const [moveId, setMoveId] = useState<number | string | undefined>(undefined);
 
   const columns = [
     helper.accessor((row) => `${row.id}`, {
