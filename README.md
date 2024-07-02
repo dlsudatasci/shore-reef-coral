@@ -41,5 +41,9 @@ yarn dev
 ```
 
 ## Making changes to the backend
+- Update schema.prisma file
+- npx prisma generate
+- npx prisma migrate dev --name <migration-name>
+- npm run migrate:dev
 
 When making changes to [schema.prisma](./prisma/schema.prisma), make sure to run migrations again for changes to take effect in the database and the frontend client library.

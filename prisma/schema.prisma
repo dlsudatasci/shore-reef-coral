@@ -29,10 +29,25 @@ model Team {
   province        String
   town            String
   affiliation     String?
+  status          TeamStatus        @default(PENDING)
   isVerified      Boolean           @default(false)
   UsersOnTeam     UsersOnTeams[]
   Survey          Survey[]
   CoralAssessment CoralAssessment[]
+  rejectionReason RejectionReason?
+}
+
+model RejectionReason {
+  id         Int     @id @default(autoincrement())
+  reason     String  @db.VarChar(480) 
+  team       Team    @relation(fields: [teamId], references: [id])
+  teamId     Int     @unique
+}
+
+enum TeamStatus {
+  APPROVED
+  REJECTED
+  PENDING
 }
 
 model UsersOnTeams {

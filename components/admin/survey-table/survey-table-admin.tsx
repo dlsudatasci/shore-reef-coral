@@ -14,6 +14,7 @@ const helper = createColumnHelper<TeamSurveySummary>();
 
 const columns = [
   helper.accessor("date", {
+    id: "date",
     header: "Survey Date and Time",
     cell(props) {
       return props
@@ -39,6 +40,7 @@ const columns = [
   helper.accessor("dataType", { header: "Data Type" }),
   helper.accessor("status", { header: "Status" }),
   helper.accessor("status", {
+    id: "verified",
     header: "Verified",
     cell(props) {
       return <p className="text-center">{props.getValue() === "COMPLETE" ? "✓" : ""}</p>;

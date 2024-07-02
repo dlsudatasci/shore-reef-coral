@@ -20,7 +20,7 @@ const TeamsPage: NextPage = () => {
 		},
 	})
 	useUserOnlyAccess()
-
+ 
 
 	return (
 		<ProfileLayout>

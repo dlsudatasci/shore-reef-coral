@@ -6,7 +6,7 @@ import { authOptions } from '@pages/api/auth/[...nextauth]'
 
 export type TeamSurveySummary = Prisma.SurveyGetPayload<typeof teamSurveys>
 
-const teamSurveys = Prisma.validator<Prisma.SurveyArgs>()({
+const teamSurveys = Prisma.validator<Prisma.SurveyDefaultArgs>()({
 	select: {
 		id: true,
 		date: true,

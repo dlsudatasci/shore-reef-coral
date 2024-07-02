@@ -6,13 +6,16 @@ import styles from "@styles/Teams.module.css";
 import cn from "classnames";
 import { useMemo, useState } from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
-import { BadgeCheckIcon } from "@heroicons/react/solid";
+import { VerifyIcon } from "@components/icons/verifyicon";
+import Pagination from "@components/pagination";
 import {
   useReactTable,
   getCoreRowModel,
   getFilteredRowModel,
   createColumnHelper,
   ColumnFiltersState,
+  getPaginationRowModel,
+  PaginationState,
 } from "@tanstack/react-table";
 import DebouncedInput from "../debounced-input";
 import dynamic from "next/dynamic";
@@ -26,14 +29,17 @@ import { ConfirmationModalProps } from "@components/confirmation-modal";
 
 type TeamsTableProps = {
   data: TeamProfileSummary[];
-  filter?: "joined" | "joinable";
+  filter?: "joined" | "joinable" | "pending";
 };
 
 const columnHelper = createColumnHelper<TeamProfileSummary>();
 const ConfirmationModal = dynamic<ConfirmationModalProps>(() =>
   import("@components/confirmation-modal").then((mod) => mod.ConfirmationModal)
 );
-
+const WithdrawalModal = dynamic<ConfirmationModalProps>(() =>
+  import("@components/confirmation-modal").then((mod) => mod.ConfirmationModal)
+)
+ 
 const columns = [
   columnHelper.accessor("id", {}),
   columnHelper.accessor("name", {}),
@@ -50,18 +56,29 @@ const columns = [
 
 export function TeamsTable({ data, filter }: TeamsTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 1,
+  })
   const [id, setId] = useState<number>();
+  const [wId, setWId] = useState<number>();
   const teamProfile = useMemo(() => data.find((d) => d.id === id), [id, data]);
+  const wTeamProfile = useMemo(() => data.find((d) => d.id === wId), [wId, data]);
   const leaderName = useMemo(() => {
     const user = teamProfile?.UsersOnTeam[0].user;
     return `${user?.firstName} ${user?.lastName}`;
   }, [teamProfile]);
+  const wLeaderName = useMemo(() => {
+    const user = wTeamProfile?.UsersOnTeam[0].user;
+    return `${user?.firstName} ${user?.lastName}`;
+  }, [wTeamProfile]);
 
   const table = useReactTable<TeamProfileSummary>({
     data,
     columns,
     state: {
       columnFilters,
+      pagination,
     },
     filterFns: {
       fuzzy: generateFuzzyFilter(rankings.CONTAINS),
@@ -69,6 +86,8 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
   });
 
   async function onJoinClick() {
@@ -77,11 +96,29 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
     try {
       await app.post(`/teams/${id}/members`);
       await mutate(`/teams?filter=${filter}`);
+      await mutate(`/teams?filter=pending`);
       setId(undefined);
-      toast(
+      toast.success(
         `Your request to join ${teamProfile?.name} has been submitted for approval by the team leader.`,
         toastSuccessConfig
       );
+    } catch (err) {
+      toastAxiosError(err);
+    }
+  }
+
+  async function onWithdrawClick() {
+    if (wId === undefined) return;
+
+    try {
+      await app.put(`/teams/${wId}/members`);
+      await mutate(`/teams?filter=${filter}`);
+      await mutate(`/teams?filter=joinable`);
+      toast.success(
+        `Your request to join ${wTeamProfile?.name} has been withdrawn.`,
+        toastSuccessConfig
+      );
+      setWId(undefined);
     } catch (err) {
       toastAxiosError(err);
     }
@@ -96,6 +133,16 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
           isOpen={id !== undefined}
           close={() => setId(undefined)}
           onAction={onJoinClick}
+        />,
+        document.body
+      )}
+      {createPortal(
+        <WithdrawalModal
+          title="Withdraw application"
+          message={`Are you sure you want to withdraw your application to ${wTeamProfile?.name} created by ${wLeaderName}?`}
+          isOpen={wId !== undefined}
+          close={() => setWId(undefined)}
+          onAction={onWithdrawClick}
         />,
         document.body
       )}
@@ -123,7 +170,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
                     styles.header,
                     open
                       ? "bg-highlight text-t-highlight"
-                      : !filter || filter === "joinable"
+                      : !filter || filter === "joinable" || filter === "pending"
                       ? "bg-secondary  text-primary"
                       : "bg-primary text-secondary"
                   )}
@@ -131,8 +178,16 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
                   <div className="flex justify-between items-center w-full">
                     <div className="flex items-center space-x-2">
                       <p>{row.getValue("name")}</p>
-                      {(row.getValue("isVerified") as boolean) && (
-                        <BadgeCheckIcon className="w-6 aspect-square text-green-600" />
+                      {!!row.getValue("isVerified") && (
+                        <VerifyIcon
+                          variant={
+                            open
+                              ? "t-highlight"
+                              : !filter || filter === "joinable"
+                              ? "primary"
+                              : "secondary"
+                          }
+                        />
                       )}
                     </div>
                     {open ? (
@@ -165,12 +220,21 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
                       Join Team
                     </button>
                   )}
+                  {(filter === 'pending') && (
+                    <button
+                      className="mx-auto block btn primary mt-8"
+                      onClick={() => setWId(row.getValue("id"))}
+                    >
+                      Withdraw Application
+                    </button>
+                  )}
                 </Disclosure.Panel>
               </>
             )}
           </Disclosure>
         ))}
       </div>
+      {data.length > 0 && <Pagination table={table} variant="secondary" />}
     </div>
   );
 }
