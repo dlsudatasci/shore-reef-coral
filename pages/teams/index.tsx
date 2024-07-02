@@ -50,7 +50,7 @@ const TeamsPage: NextPage = () => {
 					:
 					<>
 					<p className="col-span-full text-secondary font-comic-cat">filters</p>
-					<TeamsTable data={teams} />
+					<TeamsTable data={teams} filter={'joinable'} />
 					</>
 			}
 		</DashboardLayout>

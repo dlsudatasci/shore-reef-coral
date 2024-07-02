@@ -104,6 +104,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
     try {
       await app.put(`/teams/${id}/members`);
       await mutate(`/teams?filter=${filter}`);
+      await mutate(`/teams?filter=joinable`);
       setId(undefined);
       toast.success(
         `Your request to join ${teamProfile?.name} has been withdrawn.`,
