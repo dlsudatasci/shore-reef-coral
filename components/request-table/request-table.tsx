@@ -8,6 +8,8 @@ import { ColumnFiltersState, createColumnHelper, flexRender, getCoreRowModel, ge
 import { useSession } from 'next-auth/react'
 import { TableHTMLAttributes, useEffect, useRef, useState } from 'react'
 import useSWR from 'swr'
+import Link from 'next/link';
+import { ChevronLeftIcon } from '@heroicons/react/outline'
 
 type RequestTableProps = {
 	teamId: number | string
@@ -36,7 +38,7 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 				hasRedirected.current = true
 			}
 		}
-	})
+	}, [data])
 
 	const columns = [
 		helper.accessor(row => `${row.user.firstName} ${row.user.lastName}`, {
@@ -101,7 +103,12 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 	return (
 		<section className="my-4">
 			<header className="flex justify-between">
-				<h2 className="text-white">{data?.name}</h2>
+				<div className="flex items-center">
+					<Link href="/dashboard">
+						<ChevronLeftIcon className="text-secondary w-6" />
+					</Link>
+					<h2 className="text-white ml-4">{data?.name}</h2>
+				</div>
 				<div className="flex items-center space-x-4">
 					<label htmlFor="type" className="whitespace-nowrap text-white">Status</label>
 					<select id="type" className="lowercase"

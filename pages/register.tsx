@@ -64,22 +64,22 @@ const Register: NextPage = () => {
 				}
 				<form onSubmit={onSubmit}>
 					<div className="control">
-						<label htmlFor="email" className="text-secondary">email</label>
+						<label htmlFor="email" className="text-secondary">email<span className="text-red-400"> *</span></label>
 						<input type="email" id="email" {...register('email')} />
 						<p className="error text-secondary">{errors.email?.message}</p>
 					</div>
 					<div className="control">
-						<label htmlFor="password" className="text-secondary">password</label>
+						<label htmlFor="password" className="text-secondary">password<span className="text-red-400"> *</span></label>
 						<input type="password" id="password" {...register('password')} />
 						<p className="error text-secondary">{errors.password?.message}</p>
 					</div>
 					<div className="control">
-						<label htmlFor="first-name" className="text-secondary">first name</label>
+						<label htmlFor="first-name" className="text-secondary">first name<span className="text-red-400"> *</span></label>
 						<input type="text" id="first-name" {...register('firstName')} />
 						<p className="error text-secondary">{errors.firstName?.message}</p>
 					</div>
 					<div className="control">
-						<label htmlFor="last-name" className="text-secondary">last name</label>
+						<label htmlFor="last-name" className="text-secondary">last name<span className="text-red-400"> *</span></label>
 						<input type="text" id="last-name" {...register('lastName')} />
 						<p className="error text-secondary">{errors.lastName?.message}</p>
 					</div>
