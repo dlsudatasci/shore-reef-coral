@@ -61,6 +61,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
     pageSize: 1,
   })
   const [id, setId] = useState<number>();
+  const [wId, setWId] = useState<number>();
   const teamProfile = useMemo(() => data.find((d) => d.id === id), [id, data]);
   const leaderName = useMemo(() => {
     const user = teamProfile?.UsersOnTeam[0].user;
@@ -90,6 +91,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
     try {
       await app.post(`/teams/${id}/members`);
       await mutate(`/teams?filter=${filter}`);
+      await mutate(`/teams?filter=pending`);
       setId(undefined);
       toast.success(
         `Your request to join ${teamProfile?.name} has been submitted for approval by the team leader.`,
@@ -102,10 +104,10 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
 
   async function onWithdrawClick() {
     try {
-      await app.put(`/teams/${id}/members`);
+      await app.put(`/teams/${wId}/members`);
       await mutate(`/teams?filter=${filter}`);
       await mutate(`/teams?filter=joinable`);
-      setId(undefined);
+      setWId(undefined);
       toast.success(
         `Your request to join ${teamProfile?.name} has been withdrawn.`,
         toastSuccessConfig
@@ -131,8 +133,8 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
         <WithdrawalModal
           title="Withdraw application"
           message={`Are you sure you want to withdraw your application to ${teamProfile?.name} created by ${leaderName}?`}
-          isOpen={id !== undefined}
-          close={() => setId(undefined)}
+          isOpen={wId !== undefined}
+          close={() => setWId(undefined)}
           onAction={onWithdrawClick}
         />,
         document.body
@@ -214,7 +216,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
                   {(filter === 'pending') && (
                     <button
                       className="mx-auto block btn primary mt-8"
-                      onClick={() => setId(row.getValue("id"))}
+                      onClick={() => setWId(row.getValue("id"))}
                     >
                       Withdraw Application
                     </button>
