@@ -63,10 +63,15 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
   const [id, setId] = useState<number>();
   const [wId, setWId] = useState<number>();
   const teamProfile = useMemo(() => data.find((d) => d.id === id), [id, data]);
+  const wTeamProfile = useMemo(() => data.find((d) => d.id === wId), [wId, data]);
   const leaderName = useMemo(() => {
     const user = teamProfile?.UsersOnTeam[0].user;
     return `${user?.firstName} ${user?.lastName}`;
   }, [teamProfile]);
+  const wLeaderName = useMemo(() => {
+    const user = wTeamProfile?.UsersOnTeam[0].user;
+    return `${user?.firstName} ${user?.lastName}`;
+  }, [wTeamProfile]);
 
   const table = useReactTable<TeamProfileSummary>({
     data,
@@ -103,15 +108,17 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
   }
 
   async function onWithdrawClick() {
+    if (wId === undefined) return;
+
     try {
       await app.put(`/teams/${wId}/members`);
       await mutate(`/teams?filter=${filter}`);
       await mutate(`/teams?filter=joinable`);
-      setWId(undefined);
       toast.success(
-        `Your request to join ${teamProfile?.name} has been withdrawn.`,
+        `Your request to join ${wTeamProfile?.name} has been withdrawn.`,
         toastSuccessConfig
       );
+      setWId(undefined);
     } catch (err) {
       toastAxiosError(err);
     }
@@ -132,7 +139,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
       {createPortal(
         <WithdrawalModal
           title="Withdraw application"
-          message={`Are you sure you want to withdraw your application to ${teamProfile?.name} created by ${leaderName}?`}
+          message={`Are you sure you want to withdraw your application to ${wTeamProfile?.name} created by ${wLeaderName}?`}
           isOpen={wId !== undefined}
           close={() => setWId(undefined)}
           onAction={onWithdrawClick}
