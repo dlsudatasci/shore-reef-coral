@@ -12,6 +12,7 @@ import { useUserOnlyAccess } from '@lib/useRoleAccess'
 const TeamsPage: NextPage = () => {
 	const router = useRouter()
 	const { data: teams } = useRetriever<TeamProfileSummary[]>('/teams?filter=joinable', [])
+	const { data: pending } = useRetriever<TeamProfileSummary[]>('/teams?filter=pending', [])
 
 	useSession({
 		required: true, 
@@ -24,6 +25,18 @@ const TeamsPage: NextPage = () => {
 
 	return (
 		<DashboardLayout>
+			<div className="flex justify-between mt-16 mb-8">
+				<h3 className="text-secondary text-3xl font-comic-cat">Pending applications</h3>
+			</div>
+			{
+				pending.length == 0 ?
+					<p className="text-center text-secondary text-4xl mt-24">You haven't applied for any teams.</p>
+					:
+					<>
+					<p className="col-span-full text-secondary font-comic-cat">filters</p>
+					<TeamsTable data={pending} />
+					</>
+			}
 			<div className="flex justify-between mt-16 mb-8">
 				<h3 className="text-secondary text-3xl font-comic-cat">Join a team</h3>
 				<Link className="btn highlight" href="/teams/create">
