@@ -29,13 +29,16 @@ import { ConfirmationModalProps } from "@components/confirmation-modal";
 
 type TeamsTableProps = {
   data: TeamProfileSummary[];
-  filter?: "joined" | "joinable";
+  filter?: "joined" | "joinable" | "pending";
 };
 
 const columnHelper = createColumnHelper<TeamProfileSummary>();
 const ConfirmationModal = dynamic<ConfirmationModalProps>(() =>
   import("@components/confirmation-modal").then((mod) => mod.ConfirmationModal)
 );
+const WithdrawalModal = dynamic<ConfirmationModalProps>(() =>
+  import("@components/confirmation-modal").then((mod) => mod.ConfirmationModal)
+)
  
 const columns = [
   columnHelper.accessor("id", {}),
@@ -97,6 +100,20 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
     }
   }
 
+  async function onWithdrawClick() {
+    try {
+      await app.put(`/teams/${id}/members`);
+      await mutate(`/teams?filter=${filter}`);
+      setId(undefined);
+      toast.success(
+        `Your request to join ${teamProfile?.name} has been withdrawn.`,
+        toastSuccessConfig
+      );
+    } catch (err) {
+      toastAxiosError(err);
+    }
+  }
+
   return (
     <div>
       {createPortal(
@@ -106,6 +123,16 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
           isOpen={id !== undefined}
           close={() => setId(undefined)}
           onAction={onJoinClick}
+        />,
+        document.body
+      )}
+      {createPortal(
+        <WithdrawalModal
+          title="Withdraw application"
+          message={`Are you sure you want to withdraw your application to ${teamProfile?.name} created by ${leaderName}?`}
+          isOpen={id !== undefined}
+          close={() => setId(undefined)}
+          onAction={onWithdrawClick}
         />,
         document.body
       )}
@@ -181,6 +208,14 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
                       onClick={() => setId(row.getValue("id"))}
                     >
                       Join Team
+                    </button>
+                  )}
+                  {(filter === 'pending') && (
+                    <button
+                      className="mx-auto block btn primary mt-8"
+                      onClick={() => setId(row.getValue("id"))}
+                    >
+                      Withdraw Application
                     </button>
                   )}
                 </Disclosure.Panel>

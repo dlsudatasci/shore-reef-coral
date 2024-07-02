@@ -34,7 +34,7 @@ const TeamsPage: NextPage = () => {
 					:
 					<>
 					<p className="col-span-full text-secondary font-comic-cat">filters</p>
-					<TeamsTable data={pending} />
+					<TeamsTable data={pending} filter={"pending"} />
 					</>
 			}
 			<div className="flex justify-between mt-16 mb-8">
