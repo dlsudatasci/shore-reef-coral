@@ -27,7 +27,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	const members = await prisma.usersOnTeams.findMany({
 	  where: {
 		teamId: Number(teamId),
-		// Uncomment the following lines if you need to filter by status
 		status: {
 		  in: ["ACCEPTED", "PENDING"]
 		}
