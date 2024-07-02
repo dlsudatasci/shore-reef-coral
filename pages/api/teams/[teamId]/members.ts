@@ -144,13 +144,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 					return res.status(400).json({ message: 'You don\'t have a pending application to this team!' })
 				}
 
-				await prisma.usersOnTeams.update({
+				await prisma.usersOnTeams.delete({
 					where: {
 					  id: exists.id,
 					  teamId,
-					},
-					data: {
-					  status: "REJECTED",
 					},
 				});
 
