@@ -58,7 +58,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 1,
+    pageSize: 15,
   })
   const [id, setId] = useState<number>();
   const [wId, setWId] = useState<number>();
