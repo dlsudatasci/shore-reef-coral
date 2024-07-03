@@ -54,6 +54,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 					const teams = await prisma.team.findMany({
 						...selectTeamProfile,
 						where: {
+							status: 'APPROVED',
 							UsersOnTeam: {
 								none: { 
 									userId: session.user.id,
