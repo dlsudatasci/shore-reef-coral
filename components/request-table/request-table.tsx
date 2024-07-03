@@ -82,20 +82,24 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 					)
 				}
 
-				return (
-					<div className="flex space-x-4">
-						<button className="btn highlight" onClick={() => handleAction(id, Status.ACCEPTED)}>
-							Accept
-						</button>
-						<button className="btn secondary" onClick={() => {
-							setUser(user);
-							setId(id);
-							setIsRejectModalOpen(true);
-						}}>
-							Reject
-						</button>
-					</div>
-				)
+				if (status === Status.PENDING) {
+					return (
+						<div className="flex space-x-4">
+							<button className="btn highlight" onClick={() => handleAction(id, Status.ACCEPTED)}>
+								Accept
+							</button>
+							<button className="btn secondary" onClick={() => {
+								setUser(user);
+								setId(id);
+								setIsRejectModalOpen(true);
+							}}>
+								Reject
+							</button>
+						</div>
+					)
+				}
+
+				return <></>
 			}
 		})
 	]
@@ -161,6 +165,8 @@ export function RequestTable({ teamId, ...props }: RequestTableProps) {
 						>
 							<option value={Status.ACCEPTED}>{Status.ACCEPTED}</option>
 							<option value={Status.PENDING}>{Status.PENDING}</option>
+							<option value={Status.REJECTED}>{Status.REJECTED}</option>
+							<option value={Status.INACTIVE}>{Status.INACTIVE}</option>
 						</select>
 					</div>
 				</header>

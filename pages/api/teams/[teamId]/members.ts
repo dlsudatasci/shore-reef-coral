@@ -17,9 +17,6 @@ const selectMembers = Prisma.validator<Prisma.Team$UsersOnTeamArgs>()({
 		},
 		status: true,
 	},
-	where: {
-		OR: [{ status: 'ACCEPTED' }, { status: 'PENDING' }]
-	}
 })
 
 const selectRequests = Prisma.validator<Prisma.TeamArgs>()({
