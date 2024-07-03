@@ -183,7 +183,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
                           variant={
                             open
                               ? "t-highlight"
-                              : !filter || filter === "joinable"
+                              : !filter || filter === "joinable" || filter === "pending"
                               ? "primary"
                               : "secondary"
                           }
