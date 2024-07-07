@@ -119,6 +119,7 @@ model Survey {
   dataType         SurveyDataType 
   status           String         @default("PENDING")
   submissionType   SubmissionType
+  tag              String         
 
   @@index([teamId])
 }
