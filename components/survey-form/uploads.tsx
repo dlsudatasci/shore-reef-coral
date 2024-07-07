@@ -58,12 +58,12 @@ export function Uploads({ submitHandler, backHandler }: SurveyFormProps) {
 			{mode === 'ALWAN' &&
 				<>
 					<div className="control text-secondary">
-						<label htmlFor="zip" className="mb-1 required">ZIP file containg 30-50 images</label>
+						<label htmlFor="zip" className="mb-1 required">ZIP file containg 30-50 images<span className="text-red-400"> *</span></label>
 						<input type="file" id="zip" {...register('zip')} />
 						<p className="error text-error">{errors.zip?.message?.toString()}</p>
 					</div>
 					<div className="control text-secondary">
-						<label htmlFor="alwan-data-form" className="mb-1 required">ALWAN Data Form</label>
+						<label htmlFor="alwan-data-form" className="mb-1 required">ALWAN Data Form<span className="text-red-400"> *</span></label>
 						<input type="file" id="alwan-data-form" {...register('alwanDataForm')} />
 						<p className="error text-error">{errors.alwanDataForm?.message?.toString()}</p>
 					</div>

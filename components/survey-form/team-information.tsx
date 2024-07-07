@@ -40,7 +40,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
 	return (
 		<form id="survey-form" onSubmit={onSubmit}>
 			<div className="control">
-				<label htmlFor="leader" className="text-secondary">team leader</label>
+				<label htmlFor="leader" className="text-secondary required">team leader</label>
 				<select id="leader" onChange={(e) => {
 					const [userId, teamId] = e.target.value.split('-')
 					setValue('leaderId', parseInt(userId))
@@ -53,22 +53,22 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
 				<p className="error text-secondary">{errors.leaderId?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="scientist" className="text-secondary">team scientist</label>
+				<label htmlFor="scientist" className="text-secondary required">team scientist</label>
 				<input type="text" id="scientist" {...register('scientist')} />
 				<p className="error text-secondary">{errors.scientist?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="member-1" className="text-secondary">volunteer member 1</label>
+				<label htmlFor="member-1" className="text-secondary required">volunteer member 1</label>
 				<input type="text" id="member-1" {...register('volunteer1')} />
 				<p className="error text-secondary">{errors.volunteer1?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="member-2" className="text-secondary">volunteer member 2</label>
+				<label htmlFor="member-2" className="text-secondary required">volunteer member 2</label>
 				<input type="text" id="member-2" {...register('volunteer2')} />
 				<p className="error text-secondary">{errors.volunteer2?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="member-3" className="text-secondary">volunteer member 3</label>
+				<label htmlFor="member-3" className="text-secondary required">volunteer member 3</label>
 				<input type="text" id="member-3" {...register('volunteer3')} />
 				<p className="error text-secondary">{errors.volunteer3?.message}</p>
 			</div>

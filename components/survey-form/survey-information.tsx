@@ -91,32 +91,32 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 	return (
 		<form id="survey-form" onSubmit={onSubmit}>
 			<div className="control">
-				<label htmlFor="date" className="text-secondary">survey date and time</label>
+				<label htmlFor="date" className="text-secondary required">survey date and time</label>
 				<input type="datetime-local" id="date" {...register('date')} />
 				<p className="error text-secondary">{errors.date?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="station" className="text-secondary">station name</label>
+				<label htmlFor="station" className="text-secondary required">station name</label>
 				<input type="text" id="station" {...register('stationName')} />
 				<p className="error text-secondary">{errors.stationName?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="start-coordinates" className="text-secondary">starting corner coordinates</label>
+				<label htmlFor="start-coordinates" className="text-secondary required">starting corner coordinates</label>
 				<input type="text" id="start-coordinates" placeholder="12.3456, 7.8901" {...register('startCorner')} />
 				<p className="error text-secondary">{errors.startCorner?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="end-coordinates" className="text-secondary">ending corner coordinates</label>
+				<label htmlFor="end-coordinates" className="text-secondary required">ending corner coordinates</label>
 				<input type="text" id="end-coordinates" placeholder="12.3456, 7.8901" {...register('endCorner')} />
 				<p className="error text-secondary">{errors.endCorner?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="gps" className="text-secondary">gps datum</label>
+				<label htmlFor="gps" className="text-secondary required">gps datum</label>
 				<input type="text" id="gps" {...register('gpsDatum')} placeholder="WGS84" />
 				<p className="error text-secondary">{errors.gpsDatum?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="province" className="text-secondary">province</label>
+				<label htmlFor="province" className="text-secondary required">province</label>
 				<select id="province" {...register('province')}>
 					<option value="" disabled defaultChecked>-SELECT PROVINCE-</option>
 					{locations[0].map((l: string) => (
@@ -126,7 +126,7 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 				<p className="error text-secondary">{errors.province?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="town" className="text-secondary">town</label>
+				<label htmlFor="town" className="text-secondary required">town</label>
 				<select id="town" {...register('town')} disabled={!locations[1][province]}>
 					<option value="" disabled defaultChecked>-SELECT TOWN-</option>
 					{
@@ -138,7 +138,7 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 				<p className="error text-secondary">{errors.town?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="barangay" className="text-secondary">barangay</label>
+				<label htmlFor="barangay" className="text-secondary required">barangay</label>
 				<select id="barangay" {...register('barangay')} disabled={!locations[2][province + town]}>
 					<option value="" disabled defaultChecked>-SELECT BARANGAY-</option>
 					{
@@ -150,7 +150,7 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 				<p className="error text-secondary">{errors.barangay?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="management" className="text-secondary">type of management</label>
+				<label htmlFor="management" className="text-secondary required">type of management</label>
 				<select id="management" {...register('managementTypeId')}>
 					<option value={0} disabled defaultChecked>-SELECT MANAGEMENT TYPE-</option>
 					{mngmt?.map(d => <option key={d.id} value={d.id}>{d.type}</option>)}
@@ -158,7 +158,7 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 				<p className="error text-secondary">{errors.managementTypeId?.message}</p>
 			</div>
 			<div className="control">
-				<label htmlFor="data-type" className="text-secondary">data type</label>
+				<label htmlFor="data-type" className="text-secondary required">data type</label>
 				<select id="data-type" {...register('dataType')}>
 					<option value="" disabled defaultChecked>-SELECT DATA TYPE-</option>
 					<option value={SurveyDataType.PRIVATE}>PRIVATE</option>

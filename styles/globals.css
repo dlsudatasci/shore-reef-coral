@@ -30,7 +30,7 @@
 	}
 
 	label.required, .label.required {
-		@apply after:content-['_*']
+		@apply after:content-['_*'] after:text-red-400
 	}
 
 	select,
