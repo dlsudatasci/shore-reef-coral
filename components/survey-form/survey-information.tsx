@@ -1,20 +1,54 @@
-import { useEffect } from 'react'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
-import { surveyInfoSchema, ISurveyInformation } from '@models/survey'
+// React
+import { useEffect, useState } from 'react'
+
+// Components
+import LoadingSpinner from '@components/loading-spinner'
+
+// Store
 import { Survey, useSurveyStore } from '@stores/survey-store'
 import { shallow } from 'zustand/shallow'
-import useSWRImmutable from 'swr/immutable'
+
+// Fetching Data
 import axios from 'axios'
-import LoadingSpinner from '@components/loading-spinner'
-import { SurveyFormProps } from '.'
 import { fetcher } from '@lib/axios-config'
+import useSWRImmutable from 'swr/immutable'
+
+// Form Handling and Validation
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { SurveyFormProps } from '.'
+import { surveyInfoSchema, ISurveyInformation } from '@models/survey'
+
+// Prisma
 import { ManagementType } from '@prisma/client'
+import { SurveyDataType } from '@prisma/client'
+import SurveyInfo from '../survey-info';
 
 const storeSelector = (state: Survey) => [state.surveyInfo, state.setSurveyInfo] as const
 
 export function SurveyInformation({ submitHandler }: SurveyFormProps) {
+
+	// Default Values
 	const [surveyInfo, setSurveyInfo] = useSurveyStore(storeSelector, shallow)
+
+	// No values
+	// const [surveyInfo, setSurveyInfo] = useState(
+	// 	{
+	// 		date: new Date(),
+	// 		stationName: '',
+	// 		startCorner: '',
+	// 		endCorner: '',
+	// 		gpsDatum: 'WGS84',
+	// 		province: '',
+	// 		town: '',
+	// 		barangay: '',
+	// 		managementTypeId: 0,
+	// 		dataType: '',
+	// 		additionalInfo: '',
+	// 	} as ISurveyInformation
+	// )
+
+
 	const { data: locations, isLoading } = useSWRImmutable('/bgy-masterlist.json', url => axios.get(url).then(res => res.data))
 	const { data: mngmt, isLoading: mngmtTypesLoading } = useSWRImmutable<ManagementType[]>('/management-types', fetcher)
 
@@ -118,9 +152,19 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 			<div className="control">
 				<label htmlFor="management" className="text-secondary">type of management</label>
 				<select id="management" {...register('managementTypeId')}>
+					<option value={0} disabled defaultChecked>-SELECT MANAGEMENT TYPE-</option>
 					{mngmt?.map(d => <option key={d.id} value={d.id}>{d.type}</option>)}
 				</select>
 				<p className="error text-secondary">{errors.managementTypeId?.message}</p>
+			</div>
+			<div className="control">
+				<label htmlFor="data-type" className="text-secondary">data type</label>
+				<select id="data-type" {...register('dataType')}>
+					<option value="" disabled defaultChecked>-SELECT DATA TYPE-</option>
+					<option value={SurveyDataType.PRIVATE}>PRIVATE</option>
+					<option value={SurveyDataType.PUBLIC}>PUBLIC</option>
+				</select>
+				<p className="error text-secondary">{errors.dataType?.message}</p>
 			</div>
 			<div className="control">
 				<label htmlFor="others" className="text-secondary">additional information</label>

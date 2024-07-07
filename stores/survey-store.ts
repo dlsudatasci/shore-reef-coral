@@ -24,6 +24,7 @@ export const useSurveyStore = create<Survey>(set => ({
 		town: 'Botolan',
 		barangay: 'Bangan',
 		managementTypeId: 1,
+		dataType: 'PRIVATE',
 		additionalInfo: '',
 	},
 	team: {
