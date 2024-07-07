@@ -116,7 +116,7 @@ model Survey {
   volunteer5       String?
   volunteer6       String?
   C30ImageSet      C30ImageSet?
-  dataType         String
+  dataType         SurveyDataType 
   status           String         @default("PENDING")
   submissionType   SubmissionType
 
@@ -180,4 +180,9 @@ enum SubmissionType {
   CPCE
   ALWAN
   MANUAL
+}
+
+enum SurveyDataType {
+  PRIVATE
+  PUBLIC
 }
