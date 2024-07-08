@@ -90,7 +90,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
       <div className="control">
         <label htmlFor="team" className="text-secondary required">Team</label>
         <select id="team" {...register('teamId')}>
-          <option value="">--Please select a team--</option>
+          --Please select a team--
           {teams.map(team => (
             <option key={team.teamId} value={team.teamId}>{team.teamName}</option>
           ))}
@@ -116,7 +116,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
           id="leaderNum"
           className="input"
           value={leaderNum}
-          readOnly
+          {...register('leaderNum')}
         />
       </div>
 
