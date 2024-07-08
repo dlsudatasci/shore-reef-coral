@@ -98,7 +98,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
         <p className="error text-secondary">{errors.teamId?.message}</p>
       </div>
 
-      <div className="control">
+      <div className="control" style={{ paddingBottom: '5%' }}>
         <label htmlFor="leaderName" className="text-secondary required">Team Leader</label>
         <input
           type="text"
@@ -109,7 +109,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
         />
       </div>
 
-      <div className="control">
+      <div className="control" style={{ paddingBottom: '5%' }}>
         <label htmlFor="leaderNum" className="text-secondary">Team Leader Contact #</label>
         <input
           type="text"
