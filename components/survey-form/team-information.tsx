@@ -89,8 +89,8 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
     <form id="survey-form" onSubmit={onSubmit}>
       <div className="control">
         <label htmlFor="team" className="text-secondary required">Team</label>
-        <select id="team" {...register('teamId')}>
-          --Please select a team--
+        <select id="team" {...register('teamId')} defaultValue="">
+          <option value="" disabled>--Please select a team--</option>
           {teams.map(team => (
             <option key={team.teamId} value={team.teamId}>{team.teamName}</option>
           ))}
