@@ -110,7 +110,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
       </div>
 
       <div className="control">
-        <label htmlFor="leaderNum" className="text-secondary required">Team Leader Contact #</label>
+        <label htmlFor="leaderNum" className="text-secondary">Team Leader Contact #</label>
         <input
           type="text"
           id="leaderNum"
