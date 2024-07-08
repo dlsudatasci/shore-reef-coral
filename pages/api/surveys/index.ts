@@ -8,6 +8,7 @@ import minio from '@lib/minio'
 import { surveyInfoSchema } from '@models/survey'
 import { teamInfoSchema } from '@models/team'
 import { UploadedObjectInfo } from 'minio'
+import { SurveyDataType } from '@prisma/client'
 
 export const config = {
 	api: {
@@ -35,6 +36,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				const [fields, files] = await form.parse(req)
 
 				const parsedData = parseFormidableOutput(fields)
+				console.log(parsedData)
 
 				const [surveyInfo, team] = await Promise.all([
 					surveyInfoSchema.validate(parsedData.surveyInfo),
@@ -58,8 +60,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						...data,
 						...team,
 						submissionType: parsedData.uploads.submissionType,
-						dataType: parsedData.uploads.dataType,
 						tag: parsedData.uploads.submissionType === 'MANUAL' ? 'Photos only' : 'With data forms',
+						dataType: data.dataType as SurveyDataType,
 					}
 				})
 
