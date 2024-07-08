@@ -108,18 +108,19 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
           readOnly
         />
       </div>
+      
       <div className="control">
-        <label htmlFor="leaderName" className="text-secondary required">Team Leader Contact #</label>
+        <label htmlFor="leaderNum" className="text-secondary required">Team Leader Contact #</label>
         <input
           type="text"
-          id="leaderName"
+          id="leaderNum"
           className="input"
           value={leaderNum}
           readOnly
         />
       </div>
 
-      <div className="control">
+      {/* <div className="control">
         <label htmlFor="scientist" className="text-secondary required">Team Scientist</label>
         <input
           type="text"
@@ -128,7 +129,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
           {...register('scientist', { required: 'Team scientist is required' })}
         />
         <p className="error text-secondary">{errors.scientist?.message}</p>
-      </div>
+      </div> */}
       
       <div className="control">
         <label htmlFor="volunteer1" className="text-secondary required">Volunteer Member 1</label>
