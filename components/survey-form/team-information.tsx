@@ -108,7 +108,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
           readOnly
         />
       </div>
-      
+
       <div className="control">
         <label htmlFor="leaderNum" className="text-secondary required">Team Leader Contact #</label>
         <input
@@ -195,11 +195,6 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
           {...register('volunteer6')}
         />
         <p className="error text-secondary">{errors.volunteer6?.message}</p>
-      </div>
-
-      <div className="form-actions">
-        <button type="button" onClick={backHandler}>Back</button>
-        <button type="submit">Submit</button>
       </div>
     </form>
   );
