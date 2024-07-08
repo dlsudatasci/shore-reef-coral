@@ -16,6 +16,7 @@ type TeamsSummary = {
   leaderId: number;
   leaderFirstName: string;
   leaderLastName: string;
+  leaderContactNo?: string | null;
 };
 
 export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps) {
@@ -28,6 +29,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
 
   const [teams, setTeams] = useState<TeamsSummary[]>([]);
   const [leaderName, setLeaderName] = useState<string>('');
+  const [leaderNum, setLeaderNum] = useState<string>('');
   const selectedTeamId = watch('teamId');
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
           setValue('teamId', defaultTeam.teamId);
           setValue('leaderId', defaultTeam.leaderId);
           setLeaderName(`${defaultTeam.leaderFirstName} ${defaultTeam.leaderLastName}`);
-          console.log(defaultTeam.leaderId);
+          setLeaderNum(`${defaultTeam.leaderContactNo}`)
           team.leaderId = defaultTeam.leaderId;
           team.teamId = defaultTeam.teamId;
         }
@@ -103,6 +105,16 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
           id="leaderName"
           className="input"
           value={leaderName}
+          readOnly
+        />
+      </div>
+      <div className="control">
+        <label htmlFor="leaderName" className="text-secondary required">Team Leader Contact #</label>
+        <input
+          type="text"
+          id="leaderName"
+          className="input"
+          value={leaderNum}
           readOnly
         />
       </div>

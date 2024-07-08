@@ -8,6 +8,7 @@ type TeamsSummary = {
   leaderId: number;
   leaderFirstName: string;
   leaderLastName: string;
+  leaderContactNo?: string | null;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<TeamsSummary[] | { message: string; error: any }>) {
@@ -40,7 +41,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                         select: {
                           id: true,
                           firstName: true,
-                          lastName: true
+                          lastName: true,
+                          contactNumber: true,
                         }
                       }
                     },
@@ -60,7 +62,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             teamName: userTeam.team.name,
             leaderId: userTeam.team.UsersOnTeam[0].user.id,
             leaderFirstName: userTeam.team.UsersOnTeam[0].user.firstName,
-            leaderLastName: userTeam.team.UsersOnTeam[0].user.lastName
+            leaderLastName: userTeam.team.UsersOnTeam[0].user.lastName,
+            leaderContactNo: userTeam.team.UsersOnTeam[0].user.contactNumber ? userTeam.team.UsersOnTeam[0].user.contactNumber : "",
           }));
       
           res.status(200).json(mappedTeams);
