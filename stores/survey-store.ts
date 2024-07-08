@@ -28,8 +28,9 @@ export const useSurveyStore = create<Survey>(set => ({
 		additionalInfo: '',
 	},
 	team: {
-		leaderId: 1,
-		teamId: 1,
+		leaderId: 29,
+		leaderNum: '',
+		teamId: 16,
 		scientist: 'Jared',
 		volunteer1: 'Jared',
 		volunteer2: 'Jared',
@@ -40,10 +41,12 @@ export const useSurveyStore = create<Survey>(set => ({
 	},
 	uploads: {
 		submissionType: SubmissionType.CPCE,
+		uploadOption: 'zip',
 		zip: undefined,
-		alwanDataForm: '',
-		coralDataSheet: '',
-		surveyGuides: ''
+		imageUpload: undefined,
+		alwanDataForm: undefined,
+		coralDataSheet: undefined,
+		surveyGuides: undefined
 	},
 	setSurveyInfo: (data: ISurveyInformation) => set({ surveyInfo: data }),
 	setTeam: (data: ITeam) => set({ team: data }),

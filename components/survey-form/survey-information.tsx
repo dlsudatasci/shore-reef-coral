@@ -22,33 +22,12 @@ import { surveyInfoSchema, ISurveyInformation } from '@models/survey'
 // Prisma
 import { ManagementType } from '@prisma/client'
 import { SurveyDataType } from '@prisma/client'
-import SurveyInfo from '../survey-info';
 
 const storeSelector = (state: Survey) => [state.surveyInfo, state.setSurveyInfo] as const
 
 export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 
-	// Default Values
 	const [surveyInfo, setSurveyInfo] = useSurveyStore(storeSelector, shallow)
-
-	// No values
-	// const [surveyInfo, setSurveyInfo] = useState(
-	// 	{
-	// 		date: new Date(),
-	// 		stationName: '',
-	// 		startCorner: '',
-	// 		endCorner: '',
-	// 		gpsDatum: 'WGS84',
-	// 		province: '',
-	// 		town: '',
-	// 		barangay: '',
-	// 		managementTypeId: 0,
-	// 		dataType: '',
-	// 		additionalInfo: '',
-	// 	} as ISurveyInformation
-	// )
-
-
 	const { data: locations, isLoading } = useSWRImmutable('/bgy-masterlist.json', url => axios.get(url).then(res => res.data))
 	const { data: mngmt, isLoading: mngmtTypesLoading } = useSWRImmutable<ManagementType[]>('/management-types', fetcher)
 

@@ -26,6 +26,7 @@ import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { toastSuccessConfig } from "@lib/toast-defaults";
 import { ConfirmationModalProps } from "@components/confirmation-modal";
+import { set } from "react-hook-form";
 
 type TeamsTableProps = {
   data: TeamProfileSummary[];
@@ -62,6 +63,7 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
   })
   const [id, setId] = useState<number>();
   const [wId, setWId] = useState<number>();
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const teamProfile = useMemo(() => data.find((d) => d.id === id), [id, data]);
   const wTeamProfile = useMemo(() => data.find((d) => d.id === wId), [wId, data]);
   const leaderName = useMemo(() => {
@@ -97,7 +99,8 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
       await app.post(`/teams/${id}/members`);
       await mutate(`/teams?filter=${filter}`);
       await mutate(`/teams?filter=pending`);
-      setId(undefined);
+      setIsJoinModalOpen(false);
+      setTimeout(() => setId(undefined), 300);
       toast.success(
         `Your request to join ${teamProfile?.name} has been submitted for approval by the team leader.`,
         toastSuccessConfig
@@ -130,8 +133,11 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
         <ConfirmationModal
           title="Join team"
           message={`Are you sure you want to join the team ${teamProfile?.name} created by ${leaderName}?`}
-          isOpen={id !== undefined}
-          close={() => setId(undefined)}
+          isOpen={isJoinModalOpen}
+          close={() => {
+            setIsJoinModalOpen(false);
+            setTimeout(() => setId(undefined), 300);
+          }}
           onAction={onJoinClick}
         />,
         document.body
@@ -215,7 +221,10 @@ export function TeamsTable({ data, filter }: TeamsTableProps) {
                   {(!filter || filter === 'joinable') && (
                     <button
                       className="mx-auto block btn primary mt-8"
-                      onClick={() => setId(row.getValue("id"))}
+                      onClick={() => {
+                        setId(row.getValue("id"))
+                        setIsJoinModalOpen(true)
+                      }}
                     >
                       Join Team
                     </button>
