@@ -23,12 +23,11 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
   const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
   const { control, register, handleSubmit, formState: { errors }, setValue, watch } = useForm<ITeam>({
     resolver: yupResolver(teamInfoSchema),
-    defaultValues: team as ITeam, // Explicitly cast team as ITeam
+    defaultValues: team as ITeam,
   });
 
-  const [teams, setTeams] = useState<TeamsSummary[]>([]); // State to hold teams data
-  const [leaderName, setLeaderName] = useState<string>(''); // State to hold the leader's name
-
+  const [teams, setTeams] = useState<TeamsSummary[]>([]);
+  const [leaderName, setLeaderName] = useState<string>('');
   const selectedTeamId = watch('teamId');
 
   useEffect(() => {
@@ -49,9 +48,11 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
           setValue('teamId', defaultTeam.teamId);
           setValue('leaderId', defaultTeam.leaderId);
           setLeaderName(`${defaultTeam.leaderFirstName} ${defaultTeam.leaderLastName}`);
-          console.log(defaultTeam.leaderId)
+          console.log(defaultTeam.leaderId);
+          team.leaderId = defaultTeam.leaderId;
+          team.teamId = defaultTeam.teamId;
         }
-        console.log(leaderName)
+        console.log(team)
       } catch (error) {
         console.error('Error fetching teams:', error);
       } finally {
@@ -94,6 +95,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
         </select>
         <p className="error text-secondary">{errors.teamId?.message}</p>
       </div>
+
       <div className="control">
         <label htmlFor="leaderName" className="text-secondary required">Team Leader</label>
         <input
@@ -101,7 +103,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
           id="leaderName"
           className="input"
           value={leaderName}
-          readOnly // Ensure the input is read-only to prevent manual editing
+          readOnly
         />
       </div>
 
