@@ -58,7 +58,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						...data,
 						...team,
 						submissionType: parsedData.uploads.submissionType,
-						dataType: parsedData.uploads.submissionType === 'MANUAL' ? 'Photos only' : 'With data forms',
+						dataType: parsedData.uploads.dataType,
+						tag: parsedData.uploads.submissionType === 'MANUAL' ? 'Photos only' : 'With data forms',
 					}
 				})
 
