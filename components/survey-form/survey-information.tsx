@@ -39,7 +39,6 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 
 	const province = watch('province')
 	const town = watch('town')
-	console.log("HI")
 
 	useEffect(() => {
 		if (!locations) return
