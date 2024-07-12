@@ -33,8 +33,6 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
   const selectedTeamId = watch('teamId');
   const leaderContact = watch('leaderNum');
   team.leaderNum = leaderContact;
-  console.log (team)
-
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -58,7 +56,6 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
           const leaderNumElement = document.getElementById('leaderNum') as HTMLInputElement;
           if (leaderNumElement) {
             leaderNumElement.value = String(defaultTeam.leaderContactNo);
-            console.log("HI")
           }
           team.leaderId = defaultTeam.leaderId;
           team.teamId = defaultTeam.teamId;
