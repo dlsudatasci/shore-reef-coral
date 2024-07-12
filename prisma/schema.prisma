@@ -91,6 +91,7 @@ model ManagementType {
 
 model Survey {
   id               Int            @id @default(autoincrement())
+  dbSurveyNum      String         
   date             DateTime
   stationName      String
   startLongtitude  Float
@@ -108,6 +109,7 @@ model Survey {
   team             Team           @relation(fields: [teamId], references: [id])
   leaderId         Int
   leader           User           @relation(fields: [leaderId], references: [id])
+  leaderNum        String?
   scientist        String
   volunteer1       String
   volunteer2       String
@@ -117,7 +119,8 @@ model Survey {
   volunteer6       String?
   C30ImageSet      C30ImageSet?
   dataType         SurveyDataType 
-  status           String         @default("PENDING")
+  isVerified       Boolean        @default(false)
+  isComplete       Boolean        @default(false)
   submissionType   SubmissionType
   tag              String         
 
