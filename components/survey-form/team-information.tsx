@@ -43,10 +43,13 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
         var defaultTeam;
         var i;
         for (i = 0; i < response.data.length; i++) {
-          if (teams[i].teamId == selectedTeamId) {
-            defaultTeam = teams[i];
-            break;
+          if (teams[i]) {
+            if (teams[i].teamId == selectedTeamId) {
+              defaultTeam = teams[i];
+              break;
+            }
           }
+          
         }
 
         if (defaultTeam) {
