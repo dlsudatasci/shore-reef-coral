@@ -91,6 +91,7 @@ model ManagementType {
 
 model Survey {
   id               Int            @id @default(autoincrement())
+  dbSurveyNum      String         
   date             DateTime
   stationName      String
   startLongtitude  Float

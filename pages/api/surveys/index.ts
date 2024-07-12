@@ -62,36 +62,49 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						submissionType: parsedData.uploads.submissionType,
 						tag: parsedData.uploads.submissionType === 'MANUAL' ? 'Photos only' : 'With data forms',
 						dataType: data.dataType as SurveyDataType,
+						dbSurveyNum: 'ALWAN',
 					}
 				})
 
-				const { uploads: fileData } = parseFormidableOutput(files)
-				const upload = getUploader(process.env.MINIO_PRIVATE_BUCKET, surveyId)
-				const uploadPromises: Promise<UploadedObjectInfo>[] = []
+				const surveyNumber = surveyId.toString().padStart(4, '0');
+				const formattedSurveyNumber = `ALWAN-${surveyNumber}`;
 
-				switch (parsedData.uploads.submissionType) {
-					case 'CPCE': {
-						uploadPromises.push(upload('data/cpce', fileData.zip[0]))
-						break
-					}
+				await prisma.survey.update({
+					where: {
+						id: surveyId,
+					},
+					data: {
+						dbSurveyNum: formattedSurveyNumber,
+					},
+				});
 
-					case 'ALWAN': {
-						uploadPromises.push(upload('img/zip', fileData.zip[0]))
-						uploadPromises.push(upload('data/alwan-data-form', fileData.alwanDataForm[0]))
-						break
-					}
+				// const { uploads: fileData } = parseFormidableOutput(files)
+				// const upload = getUploader(process.env.MINIO_PRIVATE_BUCKET, surveyId)
+				// const uploadPromises: Promise<UploadedObjectInfo>[] = []
 
-					case 'MANUAL':
-						uploadPromises.push(upload('img/zip', fileData.zip[0]))
-						uploadPromises.push(upload('img/coral-data-sheet', fileData.coralDataSheet[0]))
+				// switch (parsedData.uploads.submissionType) {
+				// 	case 'CPCE': {
+				// 		uploadPromises.push(upload('data/cpce', fileData.zip[0]))
+				// 		break
+				// 	}
 
-						for (const [key, value] of Object.entries<File>(fileData.surveyGuides)) {
-							uploadPromises.push(upload(`img/survey-guides-${key}`, value))
-						}
-						break
-				}
+				// 	case 'ALWAN': {
+				// 		uploadPromises.push(upload('img/zip', fileData.zip[0]))
+				// 		uploadPromises.push(upload('data/alwan-data-form', fileData.alwanDataForm[0]))
+				// 		break
+				// 	}
 
-				await Promise.all(uploadPromises)
+				// 	case 'MANUAL':
+				// 		uploadPromises.push(upload('img/zip', fileData.zip[0]))
+				// 		uploadPromises.push(upload('img/coral-data-sheet', fileData.coralDataSheet[0]))
+
+				// 		for (const [key, value] of Object.entries<File>(fileData.surveyGuides)) {
+				// 			uploadPromises.push(upload(`img/survey-guides-${key}`, value))
+				// 		}
+				// 		break
+				// }
+
+				// await Promise.all(uploadPromises)
 
 				// const data = await (await fetch('http://ccscloud2.dlsu.edu.ph:22302/app/extract')).json()
 				// console.log(data)
