@@ -108,6 +108,7 @@ model Survey {
   team             Team           @relation(fields: [teamId], references: [id])
   leaderId         Int
   leader           User           @relation(fields: [leaderId], references: [id])
+  leaderNum        String?
   scientist        String
   volunteer1       String
   volunteer2       String
