@@ -31,6 +31,10 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
   const [leaderName, setLeaderName] = useState<string>('');
   const [leaderNum, setLeaderNum] = useState<string>('');
   const selectedTeamId = watch('teamId');
+  const leaderContact = watch('leaderNum');
+  team.leaderNum = leaderContact;
+  console.log (team)
+
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -46,15 +50,19 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
             break;
           }
         }
+
         if (defaultTeam) {
           setValue('teamId', defaultTeam.teamId);
           setValue('leaderId', defaultTeam.leaderId);
           setLeaderName(`${defaultTeam.leaderFirstName} ${defaultTeam.leaderLastName}`);
-          setLeaderNum(`${defaultTeam.leaderContactNo}`)
+          const leaderNumElement = document.getElementById('leaderNum') as HTMLInputElement;
+          if (leaderNumElement) {
+            leaderNumElement.value = String(defaultTeam.leaderContactNo);
+            console.log("HI")
+          }
           team.leaderId = defaultTeam.leaderId;
           team.teamId = defaultTeam.teamId;
         }
-        console.log(team)
       } catch (error) {
         console.error('Error fetching teams:', error);
       } finally {
@@ -115,7 +123,6 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
           type="text"
           id="leaderNum"
           className="input"
-          value={leaderNum}
           {...register('leaderNum')}
         />
       </div>
