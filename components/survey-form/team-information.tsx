@@ -49,7 +49,6 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
               break;
             }
           }
-          
         }
 
         if (defaultTeam) {

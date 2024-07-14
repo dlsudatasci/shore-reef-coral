@@ -8,7 +8,9 @@ const userSchema = object({
 	firstName: string().trim().required('first name is required'),
 	lastName: string().trim().required('last name is required'),
 	affiliation: string().nullable().trim(),
-	contactNumber: string().nullable().trim(),
+	contactNumber: string().nullable().trim()
+	.matches(/^[\d()+-]*$/, "Contact number should contain only numbers, +, -, (, and )")
+	.length(13, "Contact number should be exactly 10 digits long."),
 }).required()
 
 export default userSchema
