@@ -66,7 +66,7 @@ const columns = [
     cell: ({ row }) => (
       <Link
         className="btn bg-highlight text-t-highlight px-2 rounded-md"
-        href={`/surveys/${row.id}`}
+        href={`/surveys/${row.original.id}`}
       >
         View
       </Link>
