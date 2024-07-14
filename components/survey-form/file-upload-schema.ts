@@ -14,7 +14,7 @@ export const fileUploadSchema = yup.object({
 				return !!f && f.length > 0
 			})
 			.test('is-valid-type', 'Not a valid file format', f => {
-				return f?.[0]?.type === 'application/x-zip-compressed'
+				return f?.[0]?.type === 'application/x-zip-compressed' || f?.[0]?.type === 'application/zip';
 			})
 	}),
 	imageUpload: yup.mixed().when(['submissionType', 'uploadOption'], {
