@@ -1,6 +1,6 @@
 //* React
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 //* Components
 import { Waves } from "@components/icons";
@@ -16,6 +16,7 @@ import { useRetriever } from "@lib/useRetriever";
 import { useAdminAccess } from "@lib/useRoleAccess";
 
 //* API
+import axios from "axios";
 import { TeamData } from "@pages/api/admin/teams/[teamId]";
 
 type UsersSummary = {
@@ -36,13 +37,41 @@ const TeamInfo = () => {
   const { data: teamData, mutate } = useRetriever<TeamData>(teamId ? `/admin/teams/${teamId}` : null);
   const { data: membersData, mutate: mutateMembers } = useRetriever<UsersSummary[]>(teamId ? `/admin/teams/${teamId}/members` : null);
 
+  const [surveysData, setSurveysData] = useState([]);
+  const [surveysTotalPages, setSurveysTotalPages] = useState(0);
+  const [surveysCurrentPage, setSurveysCurrentPage] = useState(1);
+  const [surveysPageSize] = useState(15);
+  const [surveysSorting, setSurveysSorting] = useState({ sortBy: "date", sortOrder: "desc" });
+
+  const fetchData = useCallback(async () => {
+    const { sortBy, sortOrder } = surveysSorting;
+    const response = await axios.get("/api/admin/surveys", {
+      params: {
+        teamId: teamId, 
+        page: surveysCurrentPage,
+        pageSize: surveysPageSize,
+        sortBy,
+        sortOrder,
+      },
+    });
+    setSurveysData(response.data.surveys);
+    setSurveysTotalPages(response.data.totalPages);
+  }, [teamId, surveysSorting, surveysCurrentPage, surveysPageSize]);
+
+  useEffect(() => {
+    if (teamId) {
+      fetchData();
+    }
+  }, [fetchData, teamId]);
+
+  const handleSurveysSortChange = (sortBy: string, sortOrder: string) => {
+    setSurveysSorting({ sortBy, sortOrder });
+  };
+
   // Function to handle updates to members data
   const handleUpdateMembers = async (updatedMembers: UsersSummary[]) => {
-    // Perform API call or any necessary state management to update membersData
     try {
-      // Example: Update membersData state or mutate function
-      // For demonstration, assuming mutateMembers is used for updating data
-      await mutateMembers(updatedMembers, false); // Example usage, adjust as per your use case
+      await mutateMembers(updatedMembers, false);
     } catch (error) {
       console.error('Error updating members:', error);
     }
@@ -61,8 +90,12 @@ const TeamInfo = () => {
         <TeamTabs
           tab1={
             <SurveyTableAdmin
-              className="w-full mt-8 mb-20"
-              data={[]} // Example data, replace with actual survey data
+              className="w-full mt-8"
+              data={surveysData || []}
+              totalPages={surveysTotalPages}
+              currentPage={surveysCurrentPage}
+              setCurrentPage={setSurveysCurrentPage}
+              handleSortChange={handleSurveysSortChange}
             />
           }
           tab2={
