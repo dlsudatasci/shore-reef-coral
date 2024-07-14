@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Prisma, TeamStatus } from "@prisma/client";
+import { Prisma, TeamStatus } from "@prisma/client"
+
+import { getServerSession } from 'next-auth/next'
+import prisma from '@lib/prisma'
+import { authOptions } from '@pages/api/auth/[...nextauth]'
 
 export type TeamsSummary = Prisma.TeamGetPayload<typeof teamsSummary>
 
@@ -34,6 +38,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     switch (method) {
       case 'GET': {
+        const session = await getServerSession(req, res, authOptions)
+        if (!session) return res.status(401)
+
+        // Authenticate admin
+        const count = await prisma.user.count({
+            where: {
+                id: session.user.id,
+                isAdmin: true
+            }
+        })
+        if (!count) return res.status(401)
+
         const { name, town, province, status } = query;
 
         // Initialize the where clause
