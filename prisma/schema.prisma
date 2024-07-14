@@ -18,7 +18,8 @@ model User {
   contactNumber    String?
   UsersOnTeam      UsersOnTeams[]
   PasswordRecovery PasswordRecovery?
-  Survey           Survey[]
+  SurveyLeader     Survey[]          @relation("SurveyLeader")
+  SurveyUploader   Survey[]          @relation("SurveyUploader")  
   CoralAssessment  CoralAssessment[]
   isAdmin          Boolean           @default(false)
 }
@@ -108,7 +109,9 @@ model Survey {
   teamId           Int
   team             Team           @relation(fields: [teamId], references: [id])
   leaderId         Int
-  leader           User           @relation(fields: [leaderId], references: [id])
+  leader           User           @relation(name: "SurveyLeader", fields: [leaderId], references: [id])
+  uploaderId       Int
+  uploader         User           @relation(name: "SurveyUploader", fields: [uploaderId], references: [id])
   leaderNum        String?
   scientist        String
   volunteer1       String
