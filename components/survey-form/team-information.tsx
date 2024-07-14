@@ -29,29 +29,19 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
 
   const [teams, setTeams] = useState<TeamsSummary[]>([]);
   const [leaderName, setLeaderName] = useState<string>('');
-  const [leaderNum, setLeaderNum] = useState<string>('');
   const selectedTeamId = watch('teamId');
   const leaderContact = watch('leaderNum');
   team.leaderNum = leaderContact;
 
   useEffect(() => {
     const fetchTeams = async () => {
-      // setIsLoading(true);
+      setIsLoading(true);
       try {
         const response = await axios.get<TeamsSummary[]>('/api/surveys/teamInfo');
         setTeams(response.data);
-        var defaultTeam;
-        var i;
-        for (i = 0; i < response.data.length; i++) {
-          if (teams[i]) {
-            if (teams[i].teamId == selectedTeamId) {
-              defaultTeam = teams[i];
-              break;
-            }
-          }
-        }
 
-        if (defaultTeam) {
+        if (response.data.length > 0) {
+          const defaultTeam = response.data[0];
           setValue('teamId', defaultTeam.teamId);
           setValue('leaderId', defaultTeam.leaderId);
           setLeaderName(`${defaultTeam.leaderFirstName} ${defaultTeam.leaderLastName}`);
@@ -70,13 +60,18 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
     };
 
     fetchTeams();
-  }, [selectedTeamId, setValue]);
+  }, [setValue]);
 
   useEffect(() => {
     const selectedTeam = teams.find(team => team.teamId === selectedTeamId);
     if (selectedTeam) {
       setValue('leaderId', selectedTeam.leaderId);
       setLeaderName(`${selectedTeam.leaderFirstName} ${selectedTeam.leaderLastName}`);
+    } else if (teams.length > 0) {
+      const defaultTeam = teams[0];
+      setValue('teamId', defaultTeam.teamId);
+      setValue('leaderId', defaultTeam.leaderId);
+      setLeaderName(`${defaultTeam.leaderFirstName} ${defaultTeam.leaderLastName}`);
     }
   }, [selectedTeamId, setValue, teams]);
 
@@ -85,6 +80,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
     if ((document.activeElement as HTMLInputElement)?.value === 'BACK') {
       return backHandler();
     }
+    console.log(data)
     submitHandler();
   });
 
@@ -126,17 +122,6 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
         />
       </div>
 
-      {/* <div className="control">
-        <label htmlFor="scientist" className="text-secondary required">Team Scientist</label>
-        <input
-          type="text"
-          id="scientist"
-          className="input"
-          {...register('scientist', { required: 'Team scientist is required' })}
-        />
-        <p className="error text-secondary">{errors.scientist?.message}</p>
-      </div> */}
-      
       <div className="control">
         <label htmlFor="volunteer1" className="text-secondary required">Volunteer Member 1</label>
         <input
