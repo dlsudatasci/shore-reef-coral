@@ -36,7 +36,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				const [fields, files] = await form.parse(req)
 
 				const parsedData = parseFormidableOutput(fields)
-				console.log(parsedData)
 
 				const [surveyInfo, team] = await Promise.all([
 					surveyInfoSchema.validate(parsedData.surveyInfo),
@@ -63,6 +62,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						tag: parsedData.uploads.submissionType === 'MANUAL' ? 'Photos only' : 'With data forms',
 						dataType: data.dataType as SurveyDataType,
 						dbSurveyNum: 'ALWAN',
+						uploaderId: session.user.id,
 					}
 				})
 
