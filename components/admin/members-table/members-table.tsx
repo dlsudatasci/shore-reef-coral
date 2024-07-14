@@ -82,6 +82,10 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
     helper.display({
       id: "actions",
       cell({ row }) {
+        if (row.original.status === "PENDING") {
+          return <div className="h-9"></div>;
+        }
+
         return (
           <div className="flex space-x-4">
             <RemoveMemberComponent member={row.original} />

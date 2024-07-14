@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Prisma, TeamStatus } from "@prisma/client"
 
+// Authentication
 import { getServerSession } from 'next-auth/next'
 import prisma from '@lib/prisma'
 import { authOptions } from '@pages/api/auth/[...nextauth]'

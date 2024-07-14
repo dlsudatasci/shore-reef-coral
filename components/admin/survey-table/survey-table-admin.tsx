@@ -1,24 +1,29 @@
-import { TeamSurveySummary } from "@pages/api/teams/[teamId]/surveys";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { SurveySummary } from "@pages/api/admin/surveys";
 import {
   SortingState,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { HTMLAttributes, useState } from "react";
+import { HTMLAttributes, useEffect, useState } from "react";
 import Link from "next/link";
 
-const helper = createColumnHelper<TeamSurveySummary>();
+// Components
+import Pagination from "@components/pagination";
+
+const helper = createColumnHelper<SurveySummary>();
 
 const columns = [
   helper.accessor("date", {
     id: "date",
     header: "Survey Date and Time",
     cell(props) {
-      return props
-        .getValue()
+      const date = new Date(props.getValue());
+      return date
         .toLocaleString("en-US", {
           dateStyle: "long",
           timeStyle: "short",
@@ -27,23 +32,33 @@ const columns = [
     },
   }),
   helper.accessor("stationName", { header: "Station Name" }),
-  helper.display({
+  helper.accessor("uploader", {
     id: "uploader",
     header: "Uploader",
-    cell: () => <span>Uploader</span>,
+    cell(props) {
+      return `${props.getValue().firstName} ${props.getValue().lastName}`;
+    },
   }),
-  helper.display({
+  helper.accessor("leader", {
     id: "leader",
     header: "Leader",
-    cell: () => <span>Leader</span>,
+    cell(props) {
+      return `${props.getValue().firstName} ${props.getValue().lastName}`;
+    },
   }),
   helper.accessor("dataType", { header: "Data Type" }),
-  helper.accessor("status", { header: "Status" }),
-  helper.accessor("status", {
-    id: "verified",
+  helper.accessor("isComplete", {
+    id: "isComplete",
+    header: "Completed",
+    cell(props) {
+      return <p className="text-center">{props.getValue() ? "✓" : ""}</p>;
+    },
+  }),
+  helper.accessor("isVerified", {
+    id: "isVerified",
     header: "Verified",
     cell(props) {
-      return <p className="text-center">{props.getValue() === "COMPLETE" ? "✓" : ""}</p>;
+      return <p className="text-center">{props.getValue() ? "✓" : ""}</p>;
     },
   }),
   helper.display({
@@ -51,7 +66,7 @@ const columns = [
     cell: ({ row }) => (
       <Link
         className="btn bg-highlight text-t-highlight px-2 rounded-md"
-        href={`/surveys/${row.id}`}
+        href={`/surveys/${row.original.id}`}
       >
         View
       </Link>
@@ -60,65 +75,97 @@ const columns = [
 ];
 
 type SurveyTableAdminProps = {
-  data: TeamSurveySummary[];
+  data: SurveySummary[];
+  totalPages: number;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  handleSortChange: (sortBy: string, sortOrder: string) => void;
 } & HTMLAttributes<HTMLTableElement>;
 
-export function SurveyTableAdmin({ data, ...props }: SurveyTableAdminProps) {
-  const [sorting, setSorting] = useState<SortingState>([]);
+export function SurveyTableAdmin({ 
+  data,
+  totalPages,
+  currentPage,
+  setCurrentPage,
+  handleSortChange,
+  ...props 
+}: SurveyTableAdminProps) {
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "date", desc: true },
+  ]);
+  useEffect(() => {
+    handleSortChange(sorting[0]?.id || "date", sorting[0]?.desc ? "desc" : "asc");
+  }, [sorting]);
 
-  const table = useReactTable<TeamSurveySummary>({
+  const [pagination, setPagination] = useState({ pageIndex: currentPage - 1, pageSize: 15 });
+  useEffect(() => {
+    setCurrentPage(pagination.pageIndex + 1);
+  }, [pagination.pageIndex]);
+
+  const table = useReactTable<SurveySummary>({
     data,
     columns,
     state: {
       sorting,
+      pagination,
     },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
+
     getSortedRowModel: getSortedRowModel(),
+    manualSorting: true,
+
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
+    manualPagination: true,
+    pageCount: totalPages,
   });
 
   return (
-    <table {...props}>
-      <thead>
-        <tr className="bg-primary text-white font-comic-cat text-xl text-left">
-          {table.getFlatHeaders().map((header) => (
-            <th key={header.id} className="font-normal py-3 px-4">
-              {header.isPlaceholder ? null : (
-                <div
-                  className={
-                    header.column.getCanSort()
-                      ? "cursor-pointer select-none"
-                      : ""
-                  }
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-                  <div className="w-4 inline-block">
-                    {{
-                      asc: " 🔼",
-                      desc: " 🔽",
-                    }[header.column.getIsSorted() as string] ?? ""}
+    <>
+      <table {...props}>
+        <thead>
+          <tr className="bg-primary text-white font-comic-cat text-xl text-left">
+            {table.getFlatHeaders().map((header) => (
+              <th key={header.id} className="font-normal py-3 px-4">
+                {header.isPlaceholder ? null : (
+                  <div
+                    className={
+                      header.column.getCanSort()
+                        ? "cursor-pointer select-none"
+                        : ""
+                    }
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                    <div className="w-4 inline-block">
+                      {{
+                        asc: " 🔼",
+                        desc: " 🔽",
+                      }[header.column.getIsSorted() as string] ?? ""}
+                    </div>
                   </div>
-                </div>
-              )}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody className="text-t-highlight [&_td]:py-3 [&_td]:px-4 [&>tr:nth-child(even)]:bg-[#B4BEBA] [&>tr:nth-child(odd)]:bg-secondary">
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
+                )}
+              </th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className="text-t-highlight [&_td]:py-3 [&_td]:px-4 [&>tr:nth-child(even)]:bg-[#B4BEBA] [&>tr:nth-child(odd)]:bg-secondary">
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {data.length > 0 && <Pagination table={table} />}
+    </>
   );
 }
