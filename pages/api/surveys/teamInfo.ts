@@ -37,9 +37,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                   name: true,
                   UsersOnTeam: {
                     select: {
+                      userId: true,
                       user: {
                         select: {
-                          id: true,
                           firstName: true,
                           lastName: true,
                           contactNumber: true,
@@ -60,7 +60,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           const mappedTeams: TeamsSummary[] = userTeams.map(userTeam => ({
             teamId: userTeam.team.id,
             teamName: userTeam.team.name,
-            leaderId: userTeam.team.UsersOnTeam[0].user.id,
+            leaderId: userTeam.team.UsersOnTeam[0].userId,
             leaderFirstName: userTeam.team.UsersOnTeam[0].user.firstName,
             leaderLastName: userTeam.team.UsersOnTeam[0].user.lastName,
             leaderContactNo: userTeam.team.UsersOnTeam[0].user.contactNumber ? userTeam.team.UsersOnTeam[0].user.contactNumber : "",
