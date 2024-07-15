@@ -80,7 +80,6 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
     if ((document.activeElement as HTMLInputElement)?.value === 'BACK') {
       return backHandler();
     }
-    console.log(data)
     submitHandler();
   });
 

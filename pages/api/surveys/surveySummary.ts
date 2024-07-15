@@ -65,8 +65,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             isVerified: survey.isVerified ? "✓" : "X"
         }));
 
-        console.log(surveySummary);
-
         res.status(200).json(surveySummary);
         } catch (error) {
       console.error('Error fetching teams:', error);

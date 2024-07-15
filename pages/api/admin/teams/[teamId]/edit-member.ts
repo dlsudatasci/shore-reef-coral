@@ -16,14 +16,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const destTeam = Number(req.query.destTeam);
   const userId = Number(req.query.userId);
 
-  console.log(method);
-  console.log(memberId);
-  console.log(teamId);
-  console.log(isLeader);
-  console.log(destTeam);
-  console.log(userId);
-  console.log(req.url);
-
   try {
     if (!memberId) {
       return res.status(400).json({ message: 'Member ID is required' });
@@ -77,8 +69,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             name: team.name
           }));
       
-          console.log(mappedTeams);
-      
           return res.status(200).json(mappedTeams);
         } catch (error) {
           console.error("Error fetching available teams:", error);
@@ -120,8 +110,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             id: true
           }
         });
-
-        console.log(userOnDestinationTeam)
 
         if (userOnDestinationTeam) {
           return res.status(400).json({ message: 'User is already in the destination team' });
