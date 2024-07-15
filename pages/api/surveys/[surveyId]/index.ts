@@ -42,7 +42,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 month: 'short',
                 day: '2-digit',
                 year: 'numeric',
-                hour12: true
+                hour12: true,
+                hour: '2-digit',
+                minute: '2-digit'
             });
         };
 
