@@ -47,35 +47,51 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				const [startLongitude, startLatitude] = startCorner.split(', ').map(n => parseFloat(n))
 				const [secondLongitude, secondLatitude] = endCorner.split(', ').map(n => parseFloat(n))
 
-				const { id: surveyId } = await prisma.survey.create({
-					select: {
-						id: true
-					},
-					data: {
-						startLongitude,
-						startLatitude,
-						secondLongitude,
-						secondLatitude,
-						...data,
-						...team,
-						submissionType: parsedData.uploads.submissionType,
-						tag: parsedData.uploads.submissionType === 'MANUAL' ? 'Photos only' : 'With data forms',
-						dataType: data.dataType as SurveyDataType,
-						dbSurveyNum: 'ALWAN',
-						uploaderId: session.user.id,
-					}
-				})
+				await prisma.$transaction(async (prisma) => {
+					const { id: surveyId } = await prisma.survey.create({
+						select: {
+							id: true,
+						},
+						data: {
+							startLongitude,
+							startLatitude,
+							secondLongitude,
+							secondLatitude,
+							...data,
+							...team,
+							submissionType: parsedData.uploads.submissionType,
+							tag: parsedData.uploads.submissionType === 'MANUAL' ? 'Photos only' : 'With data forms',
+							dataType: data.dataType as SurveyDataType,
+							dbSurveyNum: 'ALWAN',
+							uploaderId: session.user.id,
+						},
+					});
+		  
+					const surveyNumber = surveyId.toString().padStart(4, '0');
+					const formattedSurveyNumber = `ALWAN-${surveyNumber}`;
+		  
+					await prisma.survey.update({
+						where: {
+							id: surveyId,
+						},
+						data: {
+							dbSurveyNum: formattedSurveyNumber,
+						},
+					});
+		  
+					const { id: c30ImageSetId } = await prisma.c30ImageSet.create({
+						data: {
+							surveyId: surveyId,
+							imageCount: 30,
+						},
+					});
 
-				const surveyNumber = surveyId.toString().padStart(4, '0');
-				const formattedSurveyNumber = `ALWAN-${surveyNumber}`;
-
-				await prisma.survey.update({
-					where: {
-						id: surveyId,
-					},
-					data: {
-						dbSurveyNum: formattedSurveyNumber,
-					},
+					await prisma.coralAssessment.create({
+						data: {
+							imageSetId: c30ImageSetId,
+							...team,
+						}
+					});
 				});
 
 				// const { uploads: fileData } = parseFormidableOutput(files)
