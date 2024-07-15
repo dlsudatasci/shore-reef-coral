@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useForm } from 'react-hook-form';
 import { ITeam, teamInfoSchema } from '@models/team';
 import { yupResolver } from '@hookform/resolvers/yup';

@@ -1,4 +1,4 @@
-import { BaseModal } from '@components/base-modal'; // Adjust the path as per your project structure
+import { BaseModal } from '@components/base-modal';
 import { FC, useRef, useState } from 'react';
 import styles from '@styles/Modal.module.css';
 import cn from 'classnames';
@@ -28,11 +28,18 @@ const MoveModal: FC<MoveModalProps> = ({
 }) => {
   const cancelButton = useRef<HTMLButtonElement>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
 
   async function handleActionClick() {
     setIsLoading(true);
     await onAction();
     setIsLoading(false);
+  }
+
+  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    const teamId = Number(event.target.value);
+    setSelectedTeamId(teamId);
+    onSelectTeam(teamId);
   }
 
   return (
@@ -41,17 +48,18 @@ const MoveModal: FC<MoveModalProps> = ({
         <div className={styles['confirmation-body']}>
           <h2 className="text-2xl">{title}</h2>
           <div>
-            {teams.map((team) => (
-              <label htmlFor={team.name} key={team.id}>
-                <input
-                  type="radio"
-                  id={team.name}
-                  name="team"
-                  onChange={() => onSelectTeam(team.id)}
-                />
-                {team.name}
-              </label>
-            ))}
+            <select
+              className="form-select rounded-md border-0"
+              onChange={handleSelectChange}
+              value={selectedTeamId ?? ''}
+            >
+              <option value="" disabled>Select a team</option>
+              {teams.map((team) => (
+                <option key={team.id} value={team.id}>
+                  {team.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className={styles['btn-group']}>
             <button

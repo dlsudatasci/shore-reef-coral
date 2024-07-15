@@ -198,7 +198,7 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
         await app.post(reqUrl, { teamId: selectedTeam });
   
         toast.success(
-          `${member.firstName} ${member.lastName} has been moved to ${selectedTeam}!`,
+          `${member.firstName} ${member.lastName} has been moved to ${teams.find((team) => team.id === selectedTeam)?.name || "a different team"}!`,
           { position: toast.POSITION.TOP_RIGHT }
         );
   
@@ -212,7 +212,7 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
       <>
         {createPortal(
           <MoveModal
-            title={`Move ${member.firstName} ${member.lastName} to which group?`}
+            title={`Move ${member.firstName} ${member.lastName} to which team?`}
             teams={teams} // Assuming team names are strings
             isOpen={isMoveModalOpen}
             close={() => setIsMoveModalOpen(false)}
