@@ -1,5 +1,6 @@
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult, NextPage } from "next";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 import SurveySection from "@components/survey-section";
 import { sectionsTemplate } from "@models/survey-summary";
 import { ChevronLeftIcon } from "@heroicons/react/solid";
@@ -8,21 +9,53 @@ import SurveyInfo from "@components/survey-info";
 import { useSession } from "next-auth/react";
 import { onUnauthenticated } from "@lib/utils";
 import Breadcrumbs from "@components/breadcrumbs";
+import axios from "axios";
+
 
 type SurveyProps = {
-  teamId: string;
+  teamId: string | null;
+  surveyId: string | undefined;
 };
 
-const Survey: NextPage<SurveyProps> = ({ teamId }) => {
+type SurveySummary = {
+  date: Date;
+  stationName: string;
+  startLongitude: number;
+  startLatitude: number;
+};
+
+const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
   const router = useRouter();
   const { data: session } = useSession({
     required: true,
     onUnauthenticated: onUnauthenticated(router),
   });
   const isAdmin = session?.user.isAdmin;
-  const surveyId = router.query.id;
+  const [surveyDetails, setSurveyDetails] = useState<SurveySummary | null>(null);
+
+  const fetchSurveyDetails = async () => {
+    try {
+      const response = await axios.get(`/api/surveys/${surveyId}`);
+      setSurveyDetails(response.data[0]);
+      console.log(surveyDetails)
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching survey details:", error);
+      return null;
+    }
+  };
+  
+  useEffect(() => {
+    console.log(surveyDetails);
+  }, [surveyDetails]);
+
+  // Use useEffect to fetch survey details on component mount
+  useEffect(() => {
+    fetchSurveyDetails();
+  }, []);
 
   const breadcrumbItems = getBreadcrumbItems(isAdmin, teamId, surveyId);
+  
   return (
     <>
       <Head>
@@ -33,10 +66,11 @@ const Survey: NextPage<SurveyProps> = ({ teamId }) => {
         <Breadcrumbs items={breadcrumbItems} />
         <ChevronLeftIcon
           className="cursor-pointer w-8 hover:text-t-highlight"
-          onClick={router.back}
+          onClick={() => router.back()}
         />
       </div>
-      {isAdmin ? (
+
+      {isAdmin && (
         <div className="flex justify-start mx-auto max-w-3xl w-full gap-8 mb-5">
           <button className="btn bg-highlight text-t-highlight px-2 rounded-md">
             Download Image
@@ -45,23 +79,28 @@ const Survey: NextPage<SurveyProps> = ({ teamId }) => {
             Download Data Form
           </button>
         </div>
-      ) : (
-        ""
       )}
-      <SurveyInfo
-        date={"July 24, 2023"}
-        latitude="0.00"
-        longitude="0.00"
-        stationName="Station Name"
-      />
+
+      {/* Render SurveyInfo component with survey details */}
+      {surveyDetails != null ? (
+        console.log(surveyDetails.date),
+        <SurveyInfo
+          date={String(surveyDetails.date)}
+          latitude={String(surveyDetails.startLatitude)}
+          longitude={String(surveyDetails.startLongitude)}
+          stationName={surveyDetails.stationName}
+        />
+      ) : (
+        <p>Loading survey details...</p>
+      )}
 
       <section className="mb-20">
         <div className="grid max-w-3xl mx-auto gap-y-8">
-          {sectionsTemplate.map((e) => (
+          {sectionsTemplate.map((section) => (
             <SurveySection
-              key={e.title}
-              title={e.title}
-              subsections={e.subsections}
+              key={section.title}
+              title={section.title}
+              subsections={section.subsections}
             />
           ))}
         </div>
@@ -72,18 +111,21 @@ const Survey: NextPage<SurveyProps> = ({ teamId }) => {
 
 export default Survey;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const teamId = context.req.headers.referer?.split("/").at(-1);
+export const getServerSideProps: GetServerSideProps<SurveyProps> = async (context: GetServerSidePropsContext) => {
+  const teamId = context.req.headers.referer?.split("/").at(-1) || null;
+  const surveyId = context.params?.id;
+
   return {
     props: {
       teamId: teamId !== "surveys" && teamId !== "dashboard" ? teamId : null,
+      surveyId: Array.isArray(surveyId) ? surveyId[0] : surveyId,
     },
   };
 };
 
 function getBreadcrumbItems(
   isAdmin: boolean | undefined,
-  teamId: string | string[] | undefined,
+  teamId: string | string[] | null | undefined,
   surveyId: string | string[] | undefined
 ) {
   const breadcrumbItems = [
@@ -99,5 +141,5 @@ function getBreadcrumbItems(
         },
     { label: `Survey ${surveyId}`, path: "" },
   ];
-  return breadcrumbItems;
+  return breadcrumbItems.filter((item) => Object.keys(item).length !== 0); // Filter out empty objects
 }
