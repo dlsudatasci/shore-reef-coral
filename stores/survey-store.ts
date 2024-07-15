@@ -11,6 +11,7 @@ export type Survey = {
 	setSurveyInfo: (data: ISurveyInformation) => void
 	setTeam: (data: ITeam) => void
 	setUploads: (data: IFileUploads) => void
+	resetSurvey: () => void
 }
 
 export const useSurveyStore = create<Survey>(set => ({
@@ -50,5 +51,41 @@ export const useSurveyStore = create<Survey>(set => ({
 	},
 	setSurveyInfo: (data: ISurveyInformation) => set({ surveyInfo: data }),
 	setTeam: (data: ITeam) => set({ team: data }),
-	setUploads: (data: IFileUploads) => set({ uploads: data })
+	setUploads: (data: IFileUploads) => set({ uploads: data }),
+	resetSurvey: () => set({
+		surveyInfo: {
+			date: new Date(),
+			stationName: '',
+			startCorner: '',
+			endCorner: '',
+			gpsDatum: 'WGS84',
+			province: '',
+			town: '',
+			barangay: '',
+			managementTypeId: 0,
+			dataType: '',
+			additionalInfo: '',
+		},
+		team: {
+			leaderId: 0,
+			leaderNum: '',
+			teamId: 0,
+			scientist: '',
+			volunteer1: '',
+			volunteer2: '',
+			volunteer3: '',
+			volunteer4: '',
+			volunteer5: '',
+			volunteer6: '',
+		},
+			uploads: {
+			submissionType: SubmissionType.CPCE,
+			uploadOption: 'zip',
+			zip: undefined,
+			imageUpload: undefined,
+			alwanDataForm: undefined,
+			coralDataSheet: undefined,
+			surveyGuides: undefined
+		}
+	})
 }))

@@ -15,11 +15,16 @@ import { useSurveyStore } from '@stores/survey-store'
 import { useRetriever } from '@lib/useRetriever'
 import { UserTeamsAPI } from '@pages/api/me/teams'
 
+// Toast
+import { toastAxiosError } from "@lib/utils";
+import { toast } from "react-toastify";
+import { toastSuccessConfig } from "@lib/toast-defaults";
+
 const TeamInformation = dynamic<SurveyFormProps>(() => import('@components/survey-form').then(m => m.TeamInformation))
 const Uploads = dynamic<SurveyFormProps>(() => import('@components/survey-form').then(m => m.Uploads))
 
 const Contribute: NextPage = () => {
-	const { page, nextPage, prevPage } = usePageStore()
+	const { page, nextPage, prevPage, resetPage } = usePageStore()
 	const router = useRouter()
 	useSession({
 		required: true,
@@ -29,8 +34,19 @@ const Contribute: NextPage = () => {
 
 	function onSubmit() {
 		if (page == SURVEY_STEPS.length - 1) {
-			const { team, surveyInfo, uploads } = useSurveyStore.getState()
-			app.post('/surveys', objectToFormData({ team, surveyInfo, uploads }))
+			const { team, surveyInfo, uploads, resetSurvey } = useSurveyStore.getState()
+
+			try {
+				app.post('/surveys', objectToFormData({ team, surveyInfo, uploads }))
+				toast.success(
+					`Survey has been submitted!`,
+					toastSuccessConfig
+				);
+				resetSurvey()
+				resetPage()
+			} catch(err) {
+				toastAxiosError(err);
+			}
 		} else {
 			nextPage()
 		}
