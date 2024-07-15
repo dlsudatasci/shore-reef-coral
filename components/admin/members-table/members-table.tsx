@@ -46,7 +46,7 @@ const MoveModal = dynamic(() =>
 
 type MembersTableProps = {
   data: UsersSummary[];
-  onUpdateData: (updatedData: UsersSummary[]) => void; // Function to update data
+  onUpdateData: (updatedData: UsersSummary[]) => void;
 } & HTMLAttributes<HTMLTableElement>;
 
 type MoveMemberComponentProps = {
