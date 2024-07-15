@@ -18,7 +18,7 @@ type SurveyProps = {
 };
 
 type SurveySummary = {
-  date: Date;
+  date: string;
   stationName: string;
   startLongitude: number;
   startLatitude: number;
@@ -37,17 +37,12 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
     try {
       const response = await axios.get(`/api/surveys/${surveyId}`);
       setSurveyDetails(response.data[0]);
-      console.log(surveyDetails)
       return response.data;
     } catch (error) {
       console.error("Error fetching survey details:", error);
       return null;
     }
   };
-  
-  useEffect(() => {
-    console.log(surveyDetails);
-  }, [surveyDetails]);
 
   // Use useEffect to fetch survey details on component mount
   useEffect(() => {
@@ -83,9 +78,8 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
 
       {/* Render SurveyInfo component with survey details */}
       {surveyDetails != null ? (
-        console.log(surveyDetails.date),
         <SurveyInfo
-          date={String(surveyDetails.date)}
+          date={surveyDetails.date}
           latitude={String(surveyDetails.startLatitude)}
           longitude={String(surveyDetails.startLongitude)}
           stationName={surveyDetails.stationName}

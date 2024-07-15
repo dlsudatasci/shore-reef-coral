@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/react';
 import prisma from '@lib/prisma';
 
 type SurveySummary = {
-    date: Date;
+    date: string;
     stationName: string;
     startLongtitude: number;
     startLatitude: number;
@@ -34,8 +34,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 startLatitude: true
             }
           });
-      
-          res.status(200).json(surveyInfo);
+
+          const formatDate = (date: Date): string => {
+            return date.toLocaleString('en-US', {
+                month: 'short',
+                day: '2-digit',
+                year: 'numeric',
+                hour12: true
+            });
+        };
+
+          const surveySummary = surveyInfo.map(survey => ({
+            date: formatDate(new Date(survey.date)),
+            stationName: survey.stationName,
+            startLongtitude: survey.startLongtitude,
+            startLatitude: survey.startLatitude
+        }));
+
+        res.status(200).json(surveySummary);
         } catch (error) {
       console.error('Error fetching teams:', error);
       res.status(500).json({ message: 'Internal Server Error', error });
