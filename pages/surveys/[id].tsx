@@ -18,6 +18,7 @@ type SurveyProps = {
 };
 
 type SurveySummary = {
+  id: number;
   date: string;
   stationName: string;
   startLongtitude: number;
