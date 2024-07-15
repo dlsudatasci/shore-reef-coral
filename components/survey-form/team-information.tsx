@@ -89,7 +89,7 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
   }
 
   return (
-    <form id="survey-form" onSubmit={onSubmit}>
+    <form id="survey-form" onSubmit={onSubmit} className='bg-accent-3 rounded-md p-6 mb-3'>
       <div className="control">
         <label htmlFor="team" className="text-secondary required">Team</label>
         <select id="team" {...register('teamId')} defaultValue="">
