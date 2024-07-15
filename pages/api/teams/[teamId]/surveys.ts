@@ -13,7 +13,7 @@ const surveySummary = Prisma.validator<Prisma.SurveyDefaultArgs>()({
 		id: true,
 		date: true,
 		stationName: true,
-		startLongtitude: true,
+		startLongitude: true,
 		startLatitude: true,
 		dataType: true,
 		isComplete: true,

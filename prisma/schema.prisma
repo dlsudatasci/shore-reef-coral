@@ -95,9 +95,9 @@ model Survey {
   dbSurveyNum      String         
   date             DateTime
   stationName      String
-  startLongtitude  Float
+  startLongitude  Float
   startLatitude    Float
-  secondLongtitude Float
+  secondLongitude Float
   secondLatitude   Float
   gpsDatum         String
   barangay         String

@@ -6,7 +6,7 @@ type SurveySummary = {
     id: number;
     date: string;
     stationName: string;
-    startLongtitude: number;
+    startLongitude: number;
     startLatitude: number;
 };
 
@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 id: true,
                 date: true,
                 stationName: true,
-                startLongtitude: true,
+                startLongitude: true,
                 startLatitude: true
             }
           });
@@ -50,7 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             id: survey.id,
             date: formatDate(new Date(survey.date)),
             stationName: survey.stationName,
-            startLongtitude: survey.startLongtitude,
+            startLongitude: survey.startLongitude,
             startLatitude: survey.startLatitude
         }));
 
