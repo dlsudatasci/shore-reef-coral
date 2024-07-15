@@ -20,7 +20,7 @@ type SurveyProps = {
 type SurveySummary = {
   date: string;
   stationName: string;
-  startLongitude: number;
+  startLongtitude: number;
   startLatitude: number;
 };
 
@@ -81,7 +81,7 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
         <SurveyInfo
           date={surveyDetails.date}
           latitude={String(surveyDetails.startLatitude)}
-          longitude={String(surveyDetails.startLongitude)}
+          longitude={String(surveyDetails.startLongtitude)}
           stationName={surveyDetails.stationName}
         />
       ) : (
