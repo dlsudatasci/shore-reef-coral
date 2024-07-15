@@ -45,7 +45,6 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
     }
   };
 
-  // Use useEffect to fetch survey details on component mount
   useEffect(() => {
     fetchSurveyDetails();
   }, []);
@@ -77,7 +76,6 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
         </div>
       )}
 
-      {/* Render SurveyInfo component with survey details */}
       {surveyDetails != null ? (
         <SurveyInfo
           date={surveyDetails.date}
@@ -136,5 +134,5 @@ function getBreadcrumbItems(
         },
     { label: `Survey ${surveyId}`, path: "" },
   ];
-  return breadcrumbItems.filter((item) => Object.keys(item).length !== 0); // Filter out empty objects
+  return breadcrumbItems.filter((item) => Object.keys(item).length !== 0);
 }
