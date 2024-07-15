@@ -44,17 +44,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 				const { startCorner, endCorner, ...data } = surveyInfo
 
-				const [startLongtitude, startLatitude] = startCorner.split(', ').map(n => parseFloat(n))
-				const [secondLongtitude, secondLatitude] = endCorner.split(', ').map(n => parseFloat(n))
+				const [startLongitude, startLatitude] = startCorner.split(', ').map(n => parseFloat(n))
+				const [secondLongitude, secondLatitude] = endCorner.split(', ').map(n => parseFloat(n))
 
 				const { id: surveyId } = await prisma.survey.create({
 					select: {
 						id: true
 					},
 					data: {
-						startLongtitude,
+						startLongitude,
 						startLatitude,
-						secondLongtitude,
+						secondLongitude,
 						secondLatitude,
 						...data,
 						...team,

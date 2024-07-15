@@ -25,8 +25,8 @@ const columns = [
 		},
 	}),
 	helper.accessor('stationName', { header: 'Station Name' }),
-	helper.accessor('startLongtitude', {
-		header: 'Longtitude',
+	helper.accessor('startLongitude', {
+		header: 'Longitude',
 		cell(props) {
 			return props.getValue().toFixed(3)
 		}
