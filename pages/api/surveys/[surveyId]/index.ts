@@ -3,6 +3,7 @@ import { getSession } from 'next-auth/react';
 import prisma from '@lib/prisma';
 
 type SurveySummary = {
+    id: number;
     date: string;
     stationName: string;
     startLongtitude: number;
@@ -28,6 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
               id,
             },
             select: {
+                id: true,
                 date: true,
                 stationName: true,
                 startLongtitude: true,
@@ -45,6 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         };
 
           const surveySummary = surveyInfo.map(survey => ({
+            id: survey.id,
             date: formatDate(new Date(survey.date)),
             stationName: survey.stationName,
             startLongtitude: survey.startLongtitude,
