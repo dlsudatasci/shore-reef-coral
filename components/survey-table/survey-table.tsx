@@ -29,16 +29,11 @@ const columns = [
 		}
 	}),
 	helper.accessor('dataType', { header: 'Data Type' }),
-	helper.accessor('status', { header: 'Status' }),
-	helper.accessor('status', {
-		header: 'Verified',
-		cell(props) {
-			return <p className="text-center">{props.getValue() === 'COMPLETE' ? '✓' : ''}</p>
-		}
-	}),
+	helper.accessor('isComplete', { header: 'Status' }),
+	helper.accessor('isVerified', { header: 'Verified'	}),
 	helper.display({
 		id: 'view',
-		cell: ({ row }) => <Link className="btn secondary px-2 rounded-md" href={`/surveys/${row.id}`}>View</Link>
+		cell: ({ row }) => <Link className="btn secondary px-2 rounded-md" href={`/surveys/${row.original.id}`}>View</Link>
 	})
 ]
 
