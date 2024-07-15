@@ -68,7 +68,7 @@ export function SurveyInformation({ submitHandler }: SurveyFormProps) {
 	}
 
 	return (
-		<form id="survey-form" onSubmit={onSubmit}>
+		<form id="survey-form" onSubmit={onSubmit} className='bg-accent-3 rounded-md p-6 mb-3'>
 			<div className="control">
 				<label htmlFor="date" className="text-secondary required">survey date and time</label>
 				<input type="datetime-local" id="date" {...register('date')} />
