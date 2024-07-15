@@ -32,7 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				const session = await getServerSession(req, res, authOptions)
 				if (!session) return res.status(401)
 
-				const form = formidable({ keepExtensions: true, multiples: true })
+				const form = formidable({ keepExtensions: true, multiples: true, maxFileSize: 300 * 1024 * 1024 })
 				const [fields, files] = await form.parse(req)
 
 				const parsedData = parseFormidableOutput(fields)
