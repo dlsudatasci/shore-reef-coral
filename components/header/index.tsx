@@ -71,8 +71,25 @@ const Header: FC = () => {
 								<div className="flex-1 lg:flex-grow-0 flex items-center h-full justify-center lg:items-stretch lg:justify-start">
 									<Link href="/" className="flex">
 										<div className="flex-shrink-0 flex items-center cursor-pointer mr-6">
-											{!isAdmin ? <Image src="/logo-alwan.png" alt="SHORE Logo" width={260} height={70} /> 
-												: <Image src="/logo-alwan-dark.png" alt="SHORE Logo" width={260} height={70} />}
+											{!isAdmin ? (
+												<Image 
+													src="/logo-alwan.png" 
+													alt="SHORE Logo" 
+													width={260} 
+													height={70} 
+													style={{ width: '260px', height: '70px', objectFit: 'contain' }} 
+													priority
+												/>
+											) : (
+												<Image 
+													src="/logo-alwan-dark.png" 
+													alt="SHORE Logo" 
+													width={260} 
+													height={70} 
+													style={{ width: '260px', height: '70px', objectFit: 'contain' }} 
+													priority
+												/>
+											)}
 										</div>
 									</Link>
 								</div>

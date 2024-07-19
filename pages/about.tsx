@@ -12,14 +12,14 @@ const About: NextPage = () => {
 			<section className='relative !px-0 !py-0'>
 				<ParallaxBanner className="main-height w-full !mx-0 !max-w-full">
 					<ParallaxBannerLayer speed={-40}>
-						<Image src="/about_banner.jpg" alt="Diver taking pictures" layout="fill" objectFit="cover" objectPosition="top" />
+						<Image src="/about_banner.jpg" alt="Diver taking pictures" fill style={{ objectFit: 'cover', objectPosition: 'top' }} priority />
 					</ParallaxBannerLayer>
 				</ParallaxBanner>
 				<WaveBG className="absolute -bottom-5 md:-bottom-8 lg:-bottom-10 xl:-bottom-16" />
 			</section>
 			<section className='relative !py-32'>
 				<div className="grid md:grid-cols-2 gap-8 !max-w-6xl items-center">
-					<Image src="/about-1.jpg" alt="Diver" layout="responsive" width={3} height={2} />
+					<Image src="/about-1.jpg" alt="Diver" style={{ width: '100%', height: 'auto' }}  width={300} height={200} priority />
 					<div>
 						<h1>What is</h1>
 						<div className="flex items-center -mt-2 space-x-4 mb-4">
@@ -48,11 +48,11 @@ const About: NextPage = () => {
 			</section>
 			<ParallaxBanner className="min-h-[60vh] relative grid place-items-center">
 				<ParallaxBannerLayer speed={-35}>
-					<Image src="/about-2.jpg" alt="A picture of the Reef Mo Team" layout="fill" objectFit="cover" className="z-0" />
+					<Image src="/about-2.jpg" alt="A picture of the Reef Mo Team" fill style={{ objectFit: 'cover'}} className="z-0" priority />
 				</ParallaxBannerLayer>
 				<div className="!max-w-3xl relative z-10 text-xl text-secondary">
 					<h1 className="mb-8">
-						Our <span className="flex items-center text-6xl -mt-2">Vision <Waves className='fill-secondary w-14 ' /> </span>
+						Our <span className="flex items-center text-6xl -mt-2">Vision <Waves className='fill-secondary w-14' /> </span>
 					</h1>
 					<p>
 						ReefMo aims to empower citizen scientists from all walks of life, especially
@@ -67,10 +67,11 @@ const About: NextPage = () => {
 					<Image
 						src="/bg4.png"
 						alt="Checkered background"
-						layout="fill"
-						objectFit="cover"
+						fill
+						style={{ objectFit: 'cover'}}
 						className="z-0"
 						quality={100}
+						priority
 					/>
 				</ParallaxBannerLayer>
 				<div className="relative grid md:grid-cols-[1fr_2fr] gap-y-4 z-10 mx-auto text-secondary !max-w-5xl">
@@ -123,8 +124,8 @@ const About: NextPage = () => {
 						</p>
 					</div>
 					<div className="w-full grid gap-y-2">
-						<Image src="/about-3.jpg" alt="Reef Mo Team Meeting" layout="responsive" width={1500} height={1000} />
-						<Image src="/about-4.jpg" alt="Diver taking notes" layout="responsive" width={256} height={171} />
+						<Image src="/about-3.jpg" alt="Reef Mo Team Meeting" style={{ width: '100%', height: 'auto' }}  width={1500} height={1000} priority />
+						<Image src="/about-4.jpg" alt="Diver taking notes" style={{ width: '100%', height: 'auto' }}  width={256} height={171} priority />
 					</div>
 				</div>
 			</section>
@@ -132,10 +133,11 @@ const About: NextPage = () => {
 				<Image
 					src="/bg2.png"
 					alt="Checkered background"
-					layout="fill"
-					objectFit="cover"
+					fill
+					style={{ objectFit: 'cover'}}
 					className="z-0"
 					quality={100}
+					priority
 				/>
 				<div className="grid !max-w-3xl relative z-10">
 					<div className="bg-primary flex w-fit space-x-2 px-2 items-center mb-6">
