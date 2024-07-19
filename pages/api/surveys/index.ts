@@ -29,24 +29,27 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		switch (method) {
 			case 'POST': {
+				// Session authentication
 				const session = await getServerSession(req, res, authOptions)
 				if (!session) return res.status(401)
 
+				// Formidable file parsing
 				const form = formidable({ keepExtensions: true, multiples: true, maxFileSize: 300 * 1024 * 1024 })
 				const [fields, files] = await form.parse(req)
-
 				const parsedData = parseFormidableOutput(fields)
+				const { uploads: fileData } = parseFormidableOutput(files)
 
+				// Get, validate, and format survey and team information
 				const [surveyInfo, team] = await Promise.all([
 					surveyInfoSchema.validate(parsedData.surveyInfo),
 					teamInfoSchema.validate(parsedData.team),
 				])
 
 				const { startCorner, endCorner, ...data } = surveyInfo
-
 				const [startLongitude, startLatitude] = startCorner.split(', ').map(n => parseFloat(n))
 				const [secondLongitude, secondLatitude] = endCorner.split(', ').map(n => parseFloat(n))
 
+				// Prisma transaction
 				await prisma.$transaction(async (prisma) => {
 					const { id: surveyId } = await prisma.survey.create({
 						select: {
@@ -82,7 +85,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 					const { id: c30ImageSetId } = await prisma.c30ImageSet.create({
 						data: {
 							surveyId: surveyId,
-							imageCount: 30,
+							imageCount: 30, //TODO: Set this based on image count
 						},
 					});
 
@@ -92,6 +95,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 							...team,
 						}
 					});
+
+					switch (parsedData.uploads.submissionType) {
+						case 'CPCE': 
+							await prisma.surveyFile.create({
+								data: {
+									surveyId: surveyId,
+									CPCEFilePath: fileData.zip[0].originalFilename,
+								}
+							});
+							break;
+						
+						case 'ALWAN': 
+							await prisma.surveyFile.create({
+								data: {
+									surveyId: surveyId,
+									excelFilePath: fileData.zip[0].originalFilename,
+								}
+							});
+							break;
+					}
 				});
 
 				// const { uploads: fileData } = parseFormidableOutput(files)
