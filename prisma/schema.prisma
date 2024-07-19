@@ -121,6 +121,9 @@ model Survey {
   volunteer5       String?
   volunteer6       String?
   C30ImageSet      C30ImageSet?
+  SurveyFile       SurveyFile?
+  SurveyGuideImage SurveyGuideImage[]
+  coralDatasheetImage coralDatasheetImage[]
   dataType         SurveyDataType 
   isVerified       Boolean        @default(false)
   isComplete       Boolean        @default(false)
@@ -193,4 +196,26 @@ enum SubmissionType {
 enum SurveyDataType {
   PRIVATE
   PUBLIC
+}
+
+model SurveyFile {
+  id              Int               @id @default(autoincrement())
+  surveyId        Int               @unique
+  survey          Survey            @relation(fields: [surveyId], references: [id])
+  excelFilePath   String?
+  CPCEFilePath    String?
+}
+
+model SurveyGuideImage {
+  id         Int    @id @default(autoincrement())
+  surveyId   Int
+  survey     Survey @relation(fields: [surveyId], references: [id])
+  fileName   String
+}
+
+model coralDatasheetImage {
+  id         Int    @id @default(autoincrement())
+  surveyId   Int
+  survey     Survey @relation(fields: [surveyId], references: [id])
+  fileName   String
 }
