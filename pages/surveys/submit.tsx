@@ -101,20 +101,24 @@ const Contribute: NextPage = () => {
 								<h3 className="flex-1 text-t-highlight md:text-2xl text-base font-comic-cat">You are not yet in a volunteer team!</h3>
 								<Link className="btn primary" href="/teams">Join a Team</Link>
 							</div>
-							{pendingTeams?.length &&
-								<div className="mt-8 mb-20">
-									<h3 className="text-3xl mb-4 text-secondary font-comic-cat">Pending Team Approval</h3>
-									<ul>
-										{pendingTeams.map(team => (
-											<li key={team.id} className="rounded p-4 mb-2 bg-highlight">
-												<h4 className="md:text-2xl text-base font-comic-cat text-t-highlight">{team.name}</h4>
-												<p className="text-primary">Province: {team.province}</p>
-												<p className="text-primary">Town: {team.town}</p>
-												<p className="text-primary">Affiliation: {team.affiliation}</p>
-											</li>
-										))}
-									</ul>
-								</div>
+							{pendingTeams?.length ? 
+								(	
+									<div className="mt-8 mb-20">
+										<h3 className="text-3xl mb-4 text-secondary font-comic-cat">Pending Team Approval</h3>
+										<ul>
+											{pendingTeams.map(team => (
+												<li key={team.id} className="rounded p-4 mb-2 bg-highlight">
+													<h4 className="md:text-2xl text-base font-comic-cat text-t-highlight">{team.name}</h4>
+													<p className="text-primary">Province: {team.province}</p>
+													<p className="text-primary">Town: {team.town}</p>
+													<p className="text-primary">Affiliation: {team.affiliation}</p>
+												</li>
+											))}
+										</ul>
+									</div>
+								) : (
+									<></>
+								)
 							}
 						</div>
 					</div>
