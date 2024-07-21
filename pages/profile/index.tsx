@@ -76,12 +76,12 @@ const Profile: NextPage = () => {
       if (i == 0) {
         formattedPhoneNumber += '(';
       }
-	  if (i == 3) {
-		formattedPhoneNumber += ')';
-	  } 
-	  if (i == 6) {
-		formattedPhoneNumber += '-';
-	  }
+      if (i == 3) {
+        formattedPhoneNumber += ')';
+      } 
+      if (i == 6) {
+        formattedPhoneNumber += '-';
+      }
       formattedPhoneNumber += phoneNumber[i];
     }
   
