@@ -8,6 +8,8 @@ type SurveySummary = {
     stationName: string;
     startLongitude: number;
     startLatitude: number;
+    isVerified: boolean;
+    isComplete: boolean;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<SurveySummary[] | { message: string; error: any }>) {
@@ -33,7 +35,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 date: true,
                 stationName: true,
                 startLongitude: true,
-                startLatitude: true
+                startLatitude: true,
+                isVerified: true,
+                isComplete: true
             }
           });
 
@@ -53,7 +57,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             date: formatDate(new Date(survey.date)),
             stationName: survey.stationName,
             startLongitude: survey.startLongitude,
-            startLatitude: survey.startLatitude
+            startLatitude: survey.startLatitude,
+            isVerified: survey.isVerified,
+            isComplete: survey.isComplete
         }));
 
         res.status(200).json(surveySummary);
