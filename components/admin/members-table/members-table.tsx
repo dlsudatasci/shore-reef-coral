@@ -116,23 +116,19 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
 
     const onRemoveClick = async () => {
       try {
-        // Make API call to update member status to "INACTIVE"
         await app.put(reqUrl);
 
-        // Handle success locally
         const updatedData = data.map((item) =>
           item.id === member.id ? { ...item, status: "INACTIVE" } : item
         );
 
-        // Show success toast message
         toast.success(`${member.firstName} ${member.lastName} has been removed from the team!`, toastSuccessConfig);
         
         onUpdateData(updatedData);
       } catch (error) {
-        // Handle error
         toastAxiosError(error);
       } finally {
-        setIsRemoveModalOpen(false); // Close the modal regardless of success or failure
+        setIsRemoveModalOpen(false);
       }
     };
 
@@ -185,7 +181,7 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
     }, [isMoveModalOpen, member.id, member.teamId, member.userId]);
   
     const handleTeamSelection = (teamId: number) => {
-      setSelectedTeam(teamId); // Convert string to number
+      setSelectedTeam(teamId);
     };
   
     const onMoveClick = async () => {
@@ -213,7 +209,7 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
         {createPortal(
           <MoveModal
             title={`Move ${member.firstName} ${member.lastName} to which team?`}
-            teams={teams} // Assuming team names are strings
+            teams={teams}
             isOpen={isMoveModalOpen}
             close={() => setIsMoveModalOpen(false)}
             onAction={onMoveClick}
