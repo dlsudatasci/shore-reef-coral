@@ -114,6 +114,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 								}
 							});
 							break;
+						
+						case 'MANUAL':
+							await prisma.surveyGuideImage.create({
+								data: {
+									surveyId: surveyId,
+									fileName: fileData.surveyGuides[0].originalFilename,
+								}
+							});
+							await prisma.coralDatasheetImage.create({
+								data: {
+									surveyId: surveyId,
+									fileName: fileData.coralDataSheet[0].originalFilename,
+								}
+							});
+							break;
 					}
 				});
 
