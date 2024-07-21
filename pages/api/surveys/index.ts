@@ -82,10 +82,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						},
 					});
 		  
+					let imgCount: number;
+					if (fileData.imageUpload) {
+						imgCount = Object.keys(fileData.imageUpload).length;
+					} else {
+						imgCount = 1;
+					}
+					
 					const { id: c30ImageSetId } = await prisma.c30ImageSet.create({
 						data: {
 							surveyId: surveyId,
-							imageCount: Object.keys(fileData.imageUpload).length,
+							imageCount: imgCount,
 						},
 					});
 					
