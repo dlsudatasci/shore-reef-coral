@@ -2,21 +2,20 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import prisma from '@lib/prisma';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<{ message: string; error: any }>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
-  
-  switch (method){
-    case "POST":{
+
+  switch (method) {
+    case "POST": {
       try {
         const session = await getSession({ req });
 
         if (!session?.user?.id) {
-          return res.status(401);
+          return res.status(401).json({ message: 'Unauthorized' });
         }
 
         const id = Number(req.query.surveyId);
         const query = String(req.query.query);
-        console.log(query)
 
         switch (query) {
           case 'complete': {
@@ -25,8 +24,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 id,
               },
               data: {
-                  isComplete: true
-              }
+                isComplete: true,
+              },
             });
             break;
           }
@@ -36,22 +35,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 id,
               },
               data: {
-                  isVerified: true
-              }
+                isVerified: true,
+              },
             });
             break;
           }
           default: {
             res.setHeader('Allow', ['complete', 'verify']);
-				    res.status(405).end(`Method ${query} Not Allowed`);
+            return res.status(405).json({ message: `Query ${query} Not Allowed` });
           }
         }
 
-        res.status(200);
+        return res.status(200).json({ message: `Survey ${query}d successfully` });
 
-        } catch (error) {
-      console.error('Error fetching teams:', error);
-      res.status(500).json({ message: 'Internal Server Error', error });
+      } catch (error) {
+        console.error('Error updating survey:', error);
+        return res.status(500).json({ message: 'Internal Server Error', error });
+      }
     }
-  }} 
+    default: {
+      res.setHeader('Allow', ['POST']);
+      return res.status(405).json({ message: `Method ${method} Not Allowed` });
+    }
+  }
 }
