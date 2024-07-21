@@ -90,7 +90,7 @@ const Profile: NextPage = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let { value } = event.target;
-	value = value.replace(/\D/g, '').slice(0, 10);
+	  value = value.replace(/\D/g, '').slice(0, 10);
     const formattedValue = formatPhoneNumber(value);
     setValue('contactNumber', formattedValue);
   };
