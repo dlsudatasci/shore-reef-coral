@@ -84,6 +84,33 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
     submitHandler();
   });
 
+  const formatPhoneNumber = (value: string) => {
+    const phoneNumber = value.replace(/\D/g, '');
+  
+    let formattedPhoneNumber = '';
+    for (let i = 0; i < phoneNumber.length; i++) {
+      if (i == 0) {
+        formattedPhoneNumber += '(';
+      }
+      if (i == 3) {
+        formattedPhoneNumber += ')';
+      } 
+      if (i == 6) {
+        formattedPhoneNumber += '-';
+      }
+      formattedPhoneNumber += phoneNumber[i];
+    }
+  
+    return formattedPhoneNumber;
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let { value } = event.target;
+	  value = value.replace(/\D/g, '').slice(0, 10);
+    const formattedValue = formatPhoneNumber(value);
+    setValue('leaderNum', formattedValue);
+  };
+
   if (isLoading) {
     return <LoadingSpinner borderColor="border-highlight" />;
   }
@@ -114,12 +141,17 @@ export function TeamInformation({ submitHandler, backHandler }: SurveyFormProps)
 
       <div className="control" style={{ paddingBottom: '5%' }}>
         <label htmlFor="leaderNum" className="text-secondary">Team Leader Contact #</label>
-        <input
-          type="text"
-          id="leaderNum"
-          className="input"
-          {...register('leaderNum')}
-        />
+        <div className="flex items-center rounded text-white">
+          <div className="p-2">+63</div>
+          <input
+            type="text"
+            id="leaderNum"
+            className="input"
+            {...register('leaderNum')}
+            onChange={handleInputChange}
+          />
+        </div>
+        
       </div>
 
       <div className="control">
