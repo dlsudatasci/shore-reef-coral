@@ -33,6 +33,7 @@ type SurveySummary = {
   startLatitude: number;
   isVerified: boolean;
   isComplete: boolean;
+  submissionType: string;
 };
 
 const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
@@ -63,8 +64,8 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
       setModalOpen(false);
 
       let success = String(action);
-      if (action == "verify") {
-        success = "verifie"
+      if (action === "verify") {
+        success = "verifie";
       }
 
       toast.success(`Survey has been ${success}d successfully!`, toastSuccessConfig);
@@ -80,6 +81,13 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
       toastAxiosError(error);
     } finally {
       setModalOpen(false);
+    }
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      console.log('File selected:', file);
     }
   };
 
@@ -111,6 +119,20 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
           <button className="btn bg-highlight text-t-highlight px-2 rounded-md">
             Download Data Form
           </button>
+          {surveyDetails?.submissionType == "MANUAL" && (
+            <div>
+              <button className="btn bg-highlight text-t-highlight px-2 rounded-md" onClick={() => document.getElementById('file-input')?.click()}>
+                Upload Excel Sheet
+              </button>
+              <input
+                type="file"
+                id="file-input"
+                accept=".xlsx"
+                className="hidden"
+                onChange={handleFileUpload}
+              />
+            </div>
+          )}
         </div>
       )}
 
