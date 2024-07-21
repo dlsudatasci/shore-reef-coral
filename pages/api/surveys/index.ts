@@ -85,10 +85,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 					const { id: c30ImageSetId } = await prisma.c30ImageSet.create({
 						data: {
 							surveyId: surveyId,
-							imageCount: 30, //TODO: Set this based on image count
+							imageCount: Object.keys(fileData.imageUpload).length,
 						},
 					});
-
+					
 					await prisma.coralAssessment.create({
 						data: {
 							imageSetId: c30ImageSetId,
@@ -116,12 +116,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 							break;
 						
 						case 'MANUAL':
-							await prisma.surveyGuideImage.create({
-								data: {
-									surveyId: surveyId,
-									fileName: fileData.surveyGuides[0].originalFilename,
-								}
-							});
+							const surveyGuideCount = Object.keys(fileData.surveyGuides).length;
+							var i;
+							for (i = 0; i < surveyGuideCount; i++) {
+								await prisma.surveyGuideImage.create({
+									data: {
+										surveyId: surveyId,
+										fileName: fileData.surveyGuides[i].originalFilename,
+									}
+								});
+							}
+							
 							await prisma.coralDatasheetImage.create({
 								data: {
 									surveyId: surveyId,
