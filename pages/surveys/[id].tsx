@@ -1,6 +1,7 @@
-import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult, NextPage } from "next";
+import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import SurveySection from "@components/survey-section";
 import { sectionsTemplate } from "@models/survey-summary";
 import { ChevronLeftIcon } from "@heroicons/react/solid";
@@ -11,6 +12,13 @@ import { onUnauthenticated } from "@lib/utils";
 import Breadcrumbs from "@components/breadcrumbs";
 import axios from "axios";
 
+import { toastAxiosError } from "@lib/utils";
+import { toast } from "react-toastify";
+import { toastSuccessConfig } from "@lib/toast-defaults";
+
+const ConfirmModal = dynamic(() =>
+  import("@components/admin/modals/remove").then((mod) => mod.RemoveModal)
+);
 
 type SurveyProps = {
   teamId: string | null;
@@ -23,6 +31,8 @@ type SurveySummary = {
   stationName: string;
   startLongitude: number;
   startLatitude: number;
+  isVerified: boolean;
+  isComplete: boolean;
 };
 
 const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
@@ -33,6 +43,8 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
   });
   const isAdmin = session?.user.isAdmin;
   const [surveyDetails, setSurveyDetails] = useState<SurveySummary | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [action, setAction] = useState<"verify" | "complete">("verify");
 
   const fetchSurveyDetails = async () => {
     try {
@@ -45,12 +57,38 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
     }
   };
 
+  const handleAction = async () => {
+    try {
+      await axios.post(`/api/surveys/${surveyId}/edit?query=${action}`);
+      setModalOpen(false);
+
+      let success = String(action);
+      if (action == "verify") {
+        success = "verifie"
+      }
+
+      toast.success(`Survey has been ${success}d successfully!`, toastSuccessConfig);
+      setSurveyDetails((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          isVerified: action === "verify" ? true : prev.isVerified,
+          isComplete: action === "complete" ? true : prev.isComplete,
+        };
+      });
+    } catch (error) {
+      toastAxiosError(error);
+    } finally {
+      setModalOpen(false);
+    }
+  };
+
   useEffect(() => {
     fetchSurveyDetails();
   }, []);
 
   const breadcrumbItems = getBreadcrumbItems(isAdmin, teamId, surveyId);
-  
+
   return (
     <>
       <Head>
@@ -98,13 +136,54 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
           ))}
         </div>
       </section>
+
+      {isAdmin && (
+        <div className="flex justify-start mx-auto max-w-3xl w-full gap-2 mb-5">
+          {!surveyDetails?.isVerified && (
+            <button
+              className="btn bg-highlight text-t-highlight px-2 rounded-md"
+              id="verify"
+              onClick={() => {
+                setAction("verify");
+                setModalOpen(true);
+              }}
+            >
+              Verify
+            </button>
+          )}
+          {!surveyDetails?.isComplete && (
+            <button
+              className="btn bg-highlight text-t-highlight px-2 rounded-md"
+              id="complete"
+              onClick={() => {
+                setAction("complete");
+                setModalOpen(true);
+              }}
+            >
+              Complete
+            </button>
+          )}
+        </div>
+      )}
+
+      {modalOpen && (
+        <ConfirmModal
+          isOpen={modalOpen}
+          close={() => setModalOpen(false)}
+          onAction={handleAction}
+          title={action === "verify" ? "Verify Survey" : "Complete Survey"}
+          message={`Are you sure you want to ${action} this survey?`}
+        />
+      )}
     </>
   );
 };
 
 export default Survey;
 
-export const getServerSideProps: GetServerSideProps<SurveyProps> = async (context: GetServerSidePropsContext) => {
+export const getServerSideProps: GetServerSideProps<SurveyProps> = async (
+  context: GetServerSidePropsContext
+) => {
   const teamId = context.req.headers.referer?.split("/").at(-1) || null;
   const surveyId = context.params?.id;
 
