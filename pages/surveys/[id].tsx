@@ -174,7 +174,7 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
             </button>
             ) : (
               <button
-                className="btn border border-yellow-500 text-t-highlight bg-white px-2 rounded-md"
+                className="btn border border-yellow-500 text-t-highlight bg-white px-2 rounded-md cursor-not-allowed"
                 id="complete"
                 disabled
               >
