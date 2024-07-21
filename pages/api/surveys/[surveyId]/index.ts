@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import prisma from '@lib/prisma';
+import { SubmissionType } from '@prisma/client';
 
 type SurveySummary = {
     id: number;
@@ -10,6 +11,7 @@ type SurveySummary = {
     startLatitude: number;
     isVerified: boolean;
     isComplete: boolean;
+    submissionType: string;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<SurveySummary[] | { message: string; error: any }>) {
@@ -37,7 +39,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 startLongitude: true,
                 startLatitude: true,
                 isVerified: true,
-                isComplete: true
+                isComplete: true,
+                submissionType: true
             }
           });
 
@@ -59,7 +62,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             startLongitude: survey.startLongitude,
             startLatitude: survey.startLatitude,
             isVerified: survey.isVerified,
-            isComplete: survey.isComplete
+            isComplete: survey.isComplete,
+            submissionType: survey.submissionType
         }));
 
         res.status(200).json(surveySummary);
