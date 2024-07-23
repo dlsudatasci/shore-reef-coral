@@ -54,7 +54,7 @@ const columns = [
 	  }),
 	helper.display({
 		id: 'view',
-		cell: ({ row }) => <Link className="btn secondary px-2 rounded-md" href={`/surveys/${row.original.id}`}>View</Link>
+		cell: ({ row }) => <Link className="btn secondary px-8 font-comic-cat" href={`/surveys/${row.original.id}`}>View</Link>
 	})
 ]
 

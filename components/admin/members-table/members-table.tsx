@@ -147,10 +147,10 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
 
         {!member.isLeader && (
           <button
-            className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
+            className="btn bg-highlight text-t-highlight px-8 font-comic-cat"
             onClick={() => setIsRemoveModalOpen(true)}
           >
-            Remove
+            REMOVE
           </button>
         )}
       </>
@@ -220,10 +220,10 @@ export function MembersTable({ data, onUpdateData, ...props }: MembersTableProps
   
         {!member.isLeader ? (
           <button
-            className="btn bg-highlight text-t-highlight px-2 rounded-md font-sans"
+            className="btn bg-highlight text-t-highlight px-8 font-comic-cat"
             onClick={() => setIsMoveModalOpen(true)}
           >
-            Move
+            MOVE
           </button>
         ) :
           <div className="h-9"></div>

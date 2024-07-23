@@ -66,7 +66,7 @@ const columns = [
     id: "view",
     cell: ({ row }) => (
       <Link
-        className="btn bg-highlight text-t-highlight px-2 rounded-md"
+        className="btn bg-highlight text-t-highlight px-8 font-comic-cat"
         href={`/admin/teams/${row.original.id}`}
       >
         View Details

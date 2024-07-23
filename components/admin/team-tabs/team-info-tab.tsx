@@ -76,7 +76,7 @@ const TeamInfoTab: FC<TeamInfoTabProps> = ({ data }) => {
         ))}
       </div>
       {teamInfo.find(item => item.name === "Verified")?.value === "No" ? (
-        <button className="bg-primary text-secondary rounded-full px-8 py-2 my-12" onClick={() => {setIsVerifyModalOpen(true)}}>
+        <button className="bg-primary text-secondary rounded-full px-8 py-2 my-12 font-comic-cat" onClick={() => {setIsVerifyModalOpen(true)}}>
           VERIFY TEAM
         </button>
       ) : null}
