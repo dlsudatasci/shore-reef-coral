@@ -195,7 +195,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               await prisma.surveyFile.create({
                 data: {
                   surveyId: surveyId,
-                  excelFilePath: fileData.zip[0].originalFilename,
+                  excelFilePath: fileData.alwanDataForm[0].originalFilename,
                 }
               });
               break;
