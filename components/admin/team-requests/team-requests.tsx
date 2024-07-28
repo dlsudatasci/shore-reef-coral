@@ -83,13 +83,13 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
       id: "approve",
       cell: ({ row }) => (
         <button
-          className="btn bg-highlight text-t-highlight px-2 rounded-md"
+          className="btn bg-highlight text-t-highlight px-8 font-comic-cat"
           onClick={() => {
             setTeamId(Number(row.original.id))
             setIsApproveModalOpen(true)
           }}
         >
-          Approve
+          APPROVE
         </button>
       ),
     }),
@@ -97,13 +97,13 @@ export function TeamRequests({ data, updateTeams, ...props }: TeamsTableProps) {
       id: "reject",
       cell: ({ row }) => (
         <button
-          className="btn bg-highlight text-t-highlight px-2 rounded-md"
+          className="btn bg-highlight text-t-highlight px-8 font-comic-cat"
           onClick={() => {
             setTeamId(Number(row.original.id))
             setIsRejectModalOpen(true)
           }}
         >
-          Reject
+          REJECT
         </button>
       ),
     }),

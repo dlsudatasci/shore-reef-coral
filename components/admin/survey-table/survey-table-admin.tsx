@@ -65,10 +65,10 @@ const columns = [
     id: "view",
     cell: ({ row }) => (
       <Link
-        className="btn bg-highlight text-t-highlight px-2 rounded-md"
+        className="btn bg-highlight text-t-highlight px-8 font-comic-cat"
         href={`/surveys/${row.original.id}`}
       >
-        View
+        VIEW
       </Link>
     ),
   }),

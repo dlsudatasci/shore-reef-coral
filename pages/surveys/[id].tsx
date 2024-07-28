@@ -113,15 +113,15 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
 
       {isAdmin && (
         <div className="flex justify-start mx-auto max-w-3xl w-full gap-8 mb-5">
-          <button className="btn bg-highlight text-t-highlight px-2 rounded-md">
+          <button className="btn bg-highlight text-t-highlight px-6 font-comic-cat">
             Download Image
           </button>
-          <button className="btn bg-highlight text-t-highlight px-2 rounded-md">
+          <button className="btn bg-highlight text-t-highlight px-6 font-comic-cat">
             Download Data Form
           </button>
           {surveyDetails?.submissionType == "MANUAL" && (
             <div>
-              <button className="btn bg-highlight text-t-highlight px-2 rounded-md" onClick={() => document.getElementById('file-input')?.click()}>
+              <button className="btn bg-highlight text-t-highlight px-6 font-comic-cat" onClick={() => document.getElementById('file-input')?.click()}>
                 Upload Excel Sheet
               </button>
               <input
@@ -163,7 +163,7 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
         <div className="flex justify-start mx-auto max-w-3xl w-full gap-2 mb-5">
           {!surveyDetails?.isVerified ? (
             <button
-              className="btn bg-highlight text-t-highlight px-2 rounded-md"
+              className="btn bg-highlight text-t-highlight px-8 font-comic-cat"
               id="verify"
               onClick={() => {
                 setAction("verify");
@@ -174,7 +174,7 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
             </button>
             ) : (
               <button
-                className="btn border border-yellow-500 text-t-highlight bg-white px-2 rounded-md cursor-not-allowed"
+                className="btn border border-yellow-500 text-t-highlight bg-white px-8 font-comic-cat cursor-not-allowed"
                 id="complete"
                 disabled
               >
@@ -183,7 +183,7 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
           )}
           {!surveyDetails?.isComplete ? (
             <button
-              className="btn bg-highlight text-t-highlight px-2 rounded-md"
+              className="btn bg-highlight text-t-highlight px-8 font-comic-cat"
               id="complete"
               onClick={() => {
                 setAction("complete");
@@ -194,7 +194,7 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
             </button>
           ) : (
             <button
-              className="btn border border-yellow-500 text-t-highlight bg-white px-2 rounded-md cursor-not-allowed"
+              className="btn border border-yellow-500 text-t-highlight bg-white px-8 font-comic-cat cursor-not-allowed"
               id="complete"
               disabled
             >

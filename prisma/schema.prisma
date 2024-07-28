@@ -124,6 +124,8 @@ model Survey {
   SurveyFile       SurveyFile?
   SurveyGuideImage SurveyGuideImage[]
   coralDatasheetImage coralDatasheetImage[]
+  bffData          bffData[]
+  tmiData          tmiData[]
   dataType         SurveyDataType 
   isVerified       Boolean        @default(false)
   isComplete       Boolean        @default(false)
@@ -218,4 +220,37 @@ model coralDatasheetImage {
   surveyId   Int
   survey     Survey @relation(fields: [surveyId], references: [id])
   fileName   String
+}
+
+model bffData {
+  id          Int    @id @default(autoincrement())
+  surveyId    Int
+  survey      Survey @relation(fields: [surveyId], references: [id])
+  bffType     String
+  cs1         Int    @default(0)
+  cs2         Int    @default(0)
+  cs3         Int    @default(0)
+  cs4         Int    @default(0)
+  cs5         Int    @default(0)
+  cs6         Int    @default(0)
+  totalCount  Int
+  average     Float
+  range       Int
+}
+
+model tmiData {
+  id          Int    @id @default(autoincrement())
+  surveyId    Int
+  survey      Survey @relation(fields: [surveyId], references: [id])
+  tmiType     String
+  tmiSubType  String?
+  cs1         Int    @default(0)
+  cs2         Int    @default(0)
+  cs3         Int    @default(0)
+  cs4         Int    @default(0)
+  cs5         Int    @default(0)
+  cs6         Int    @default(0)
+  totalCount  Int
+  average     Float
+  range       Int
 }

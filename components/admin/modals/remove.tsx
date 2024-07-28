@@ -37,14 +37,14 @@ const RemoveModal: FC<RemoveModalProps> = ({
               onClick={close}
               disabled={isLoading}
             >
-              Cancel
+              CANCEL
             </button>
             <LoadingButton
               className={cn(styles.btn, " btn border-2 !bg-primary text-secondary !rounded-full")}
               onClick={handleActionClick}
               isLoading={isLoading}
             >
-              Confirm
+              CONFIRM
             </LoadingButton>
           </div>
         </div>

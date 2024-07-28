@@ -33,7 +33,7 @@ const RequestAccordion: FC<RequestAccordionProps> = ({ teamInfo }) => {
             </div>
             <div className="w-full text-right">
               <button className="bg-primary text-secondary rounded-full py-2 px-4 text-xl">
-                Approve
+                APPROVE
               </button>
             </div>
           </Disclosure.Panel>
