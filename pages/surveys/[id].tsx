@@ -163,7 +163,7 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
         <div className="flex justify-start mx-auto max-w-3xl w-full gap-2 mb-5">
           {!surveyDetails?.isVerified ? (
             <button
-              className="btn bg-highlight text-t-highlight px-8 font-comic-cat"
+              className="btn primary"
               id="verify"
               onClick={() => {
                 setAction("verify");
@@ -174,7 +174,7 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
             </button>
             ) : (
               <button
-                className="btn border border-yellow-500 text-t-highlight bg-white px-8 font-comic-cat cursor-not-allowed"
+                className="btn primary"
                 id="complete"
                 disabled
               >
@@ -183,7 +183,7 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
           )}
           {!surveyDetails?.isComplete ? (
             <button
-              className="btn bg-highlight text-t-highlight px-8 font-comic-cat"
+              className="btn primary"
               id="complete"
               onClick={() => {
                 setAction("complete");
@@ -194,7 +194,7 @@ const Survey: NextPage<SurveyProps> = ({ teamId, surveyId }) => {
             </button>
           ) : (
             <button
-              className="btn border border-yellow-500 text-t-highlight bg-white px-8 font-comic-cat cursor-not-allowed"
+              className="btn primary"
               id="complete"
               disabled
             >
