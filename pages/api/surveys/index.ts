@@ -53,7 +53,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(400).json({ error: 'Zip file is not readable' });
           }
 
-          const extractedFiles: { originalFileName: string }[] = [];
+          const extractedFiles: { originalFilename: string }[] = [];
 
           await new Promise<void>((resolve, reject) => {
             fs.createReadStream(zipPath)
@@ -68,7 +68,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 }
           
                 if (fileType === 'File') {
-                  extractedFiles.push({ originalFileName: fileName });
+                  extractedFiles.push({ originalFilename: fileName });
                   entry.autodrain();
                 } else {
                   entry.autodrain();
@@ -78,11 +78,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               .on('error', reject);
           });
 
-          fileData.imageUpload = extractedFiles.filter(file => file.originalFileName.endsWith('.jpg') || file.originalFileName.endsWith('.jpeg') || file.originalFileName.endsWith('.png'));
-          fileData.cpc = extractedFiles.filter(file => file.originalFileName.endsWith('.cpc'));
-          fileData.excel = extractedFiles.filter(file => file.originalFileName.endsWith('.xlsx'));
-
-          console.log(fileData)
+          fileData.imageUpload = extractedFiles.filter(file => file.originalFilename.endsWith('.jpg') || file.originalFilename.endsWith('.jpeg') || file.originalFilename.endsWith('.png'));
+          fileData.cpc = extractedFiles.filter(file => file.originalFilename.endsWith('.cpc'));
+          fileData.excel = extractedFiles.filter(file => file.originalFilename.endsWith('.xlsx'));
         }
 
         const [surveyInfo, team] = await Promise.all([
@@ -143,11 +141,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               }
             });
 
-            for (const file of fileData.imageUpload) {
+            for (var i = 0; i < imgCount; i++) {
               await prisma.c30Image.create({
                 data: {
                   imageSetId: c30ImageSetId,
-                  fileName: file.originalFileName,
+                  fileName: fileData.imageUpload[i].originalFilename,
                 }
               });
             }
@@ -158,8 +156,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               await prisma.surveyFile.create({
                 data: {
                   surveyId: surveyId,
-                  CPCEFilePath: fileData.cpc[0].originalFileName,
-                  excelFilePath: fileData.excel[0].originalFileName
+                  CPCEFilePath: fileData.cpc[0].originalFilename,
+                  excelFilePath: fileData.excel[0].originalFilename
                 }
               });
               break;
