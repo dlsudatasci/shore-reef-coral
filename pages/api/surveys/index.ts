@@ -83,6 +83,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           fileData.imageUpload = extractedFiles.filter(file => file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.png'));
           fileData.cpc = extractedFiles.filter(file => file.endsWith('.cpc'));
           fileData.excel = extractedFiles.filter(file => file.endsWith('.xlsx'));
+
+          console.log(fileData)
         }
 
         const [surveyInfo, team] = await Promise.all([
@@ -143,7 +145,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               }
             });
 
-            for (const [fileName, file] of Object.entries(fileData.imageUpload)) {
+            for (const [fileName] of Object.entries(fileData.imageUpload)) {
               await prisma.c30Image.create({
                 data: {
                   imageSetId: c30ImageSetId,
@@ -158,7 +160,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               await prisma.surveyFile.create({
                 data: {
                   surveyId: surveyId,
-                  CPCEFilePath: fileData.zip[0].originalFilename,
+                  CPCEFilePath: fileData.cpc[0],
+                  excelFilePath: fileData.excel[0]
                 }
               });
               break;
