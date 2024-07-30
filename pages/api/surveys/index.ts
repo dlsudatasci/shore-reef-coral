@@ -43,71 +43,44 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (fileData.zip && fileData.zip[0]) {
           const zipPath = fileData.zip[0].filepath;
 
-          console.log('Zip file path:', zipPath);
-
           if (!fs.existsSync(zipPath)) {
-            console.error('Zip file does not exist');
             return res.status(400).json({ error: 'Zip file does not exist' });
           }
 
           try {
             fs.accessSync(zipPath, fs.constants.R_OK);
           } catch (err) {
-            console.error('Zip file is not readable:', err);
             return res.status(400).json({ error: 'Zip file is not readable' });
           }
 
-          const extractedFiles: { [key: string]: File } = {};
+          const extractedFiles: string[] = [];
 
           await new Promise<void>((resolve, reject) => {
             fs.createReadStream(zipPath)
               .pipe(unzipper.Parse())
-              .on('entry', (entry) => {
+              .on('entry', async (entry) => {
                 const fileName = entry.path;
                 const fileType = entry.type;
-                console.log(fileName)
+
                 if (fileName.includes('/')) {
-                  console.log(fileName)
-                  console.error(`Invalid file name: "${fileName}" contains a backslash.`);
                   entry.autodrain();
                   return;
                 }
           
                 if (fileType === 'File') {
-                  const tempPath = `extracted/${fileName}`;
-                  const writeStream = fs.createWriteStream(tempPath);
-          
-                  entry.pipe(writeStream);
-          
-                  writeStream.on('finish', () => {
-                    extractedFiles[fileName] = {
-                      filepath: tempPath,
-                      newFilename: fileName,
-                      originalFilename: fileName,
-                      mimetype: 'application/octet-stream',
-                      size: fs.statSync(tempPath).size
-                    } as File;
-                    console.log(`Extracted and saved file: ${fileName}`);
-                  });
-          
-                  writeStream.on('error', (err) => {
-                    console.error('Error writing extracted file:', err);
-                    reject(err);
-                  });
+                  extractedFiles.push(fileName);
+                  entry.autodrain();
                 } else {
                   entry.autodrain();
                 }
               })
-              .on('finish', () => {
-                console.log('Extracted files:', Object.keys(extractedFiles));
-                fileData.imageUpload = extractedFiles;
-                resolve();
-              })
-              .on('error', (err) => {
-                console.error('Error during unzip:', err);
-                reject(err);
-              });
+              .on('finish', resolve)
+              .on('error', reject);
           });
+
+          fileData.imageUpload = extractedFiles.filter(file => file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.png'));
+          fileData.cpc = extractedFiles.filter(file => file.endsWith('.cpc'));
+          fileData.excel = extractedFiles.filter(file => file.endsWith('.xlsx'));
         }
 
         const [surveyInfo, team] = await Promise.all([
