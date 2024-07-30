@@ -113,7 +113,7 @@ model Survey {
   uploaderId       Int
   uploader         User           @relation(name: "SurveyUploader", fields: [uploaderId], references: [id])
   leaderNum        String?
-  scientist        String
+  scientist        String?
   volunteer1       String
   volunteer2       String
   volunteer3       String
