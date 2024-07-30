@@ -161,7 +161,7 @@ model CoralAssessment {
   leaderId   Int
   leader     User        @relation(fields: [leaderId], references: [id])
   leaderNum  String?
-  scientist  String
+  scientist  String?
   volunteer1 String
   volunteer2 String
   volunteer3 String
