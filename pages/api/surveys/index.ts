@@ -53,7 +53,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(400).json({ error: 'Zip file is not readable' });
           }
 
-          const extractedFiles: string[] = [];
+          const extractedFiles: { originalFileName: string }[] = [];
 
           await new Promise<void>((resolve, reject) => {
             fs.createReadStream(zipPath)
@@ -68,7 +68,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 }
           
                 if (fileType === 'File') {
-                  extractedFiles.push(fileName);
+                  extractedFiles.push({ originalFileName: fileName });
                   entry.autodrain();
                 } else {
                   entry.autodrain();
@@ -78,11 +78,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               .on('error', reject);
           });
 
-          console.log(extractedFiles)
-
-          fileData.imageUpload = extractedFiles.filter(file => file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.png'));
-          fileData.cpc = extractedFiles.filter(file => file.endsWith('.cpc'));
-          fileData.excel = extractedFiles.filter(file => file.endsWith('.xlsx'));
+          fileData.imageUpload = extractedFiles.filter(file => file.originalFileName.endsWith('.jpg') || file.originalFileName.endsWith('.jpeg') || file.originalFileName.endsWith('.png'));
+          fileData.cpc = extractedFiles.filter(file => file.originalFileName.endsWith('.cpc'));
+          fileData.excel = extractedFiles.filter(file => file.originalFileName.endsWith('.xlsx'));
 
           console.log(fileData)
         }
@@ -145,11 +143,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               }
             });
 
-            for (const [fileName] of Object.entries(fileData.imageUpload)) {
+            for (const file of fileData.imageUpload) {
               await prisma.c30Image.create({
                 data: {
                   imageSetId: c30ImageSetId,
-                  fileName: fileName,
+                  fileName: file.originalFileName,
                 }
               });
             }
@@ -160,8 +158,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               await prisma.surveyFile.create({
                 data: {
                   surveyId: surveyId,
-                  CPCEFilePath: fileData.cpc[0],
-                  excelFilePath: fileData.excel[0]
+                  CPCEFilePath: fileData.cpc[0].originalFileName,
+                  excelFilePath: fileData.excel[0].originalFileName
                 }
               });
               break;
