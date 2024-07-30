@@ -78,6 +78,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               .on('error', reject);
           });
 
+          console.log(extractedFiles)
+
           fileData.imageUpload = extractedFiles.filter(file => file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.png'));
           fileData.cpc = extractedFiles.filter(file => file.endsWith('.cpc'));
           fileData.excel = extractedFiles.filter(file => file.endsWith('.xlsx'));
