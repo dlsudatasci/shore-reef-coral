@@ -85,7 +85,7 @@ function SurveyList({ teams, ...props }: SurveyListProps) {
           <Link className="btn highlight" href="/surveys/submit">
             SUBMIT A SURVEY
           </Link>
-          <Link className="btn primary" href="/reassess/submit">
+          <Link className="btn primary" href="/reassess/submit" style={{ pointerEvents: 'none' }}>
             SUBMIT CORAL REASSESSMENT
           </Link>
         </div>
