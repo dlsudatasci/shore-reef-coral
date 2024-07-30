@@ -32,11 +32,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     switch (method) {
       case 'POST': {
-        // Session authentication
         const session = await getServerSession(req, res, authOptions);
         if (!session) return res.status(401).end();
 
-        // Formidable file parsing
         const form = formidable({ keepExtensions: true, multiples: true, maxFileSize: 300 * 1024 * 1024 });
         const [fields, files] = await form.parse(req);
         const parsedData = parseFormidableOutput(fields);
@@ -121,7 +119,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const [startLongitude, startLatitude] = startCorner.split(', ').map(n => parseFloat(n));
         const [secondLongitude, secondLatitude] = endCorner.split(', ').map(n => parseFloat(n));
 
-        // Prisma transaction
         await prisma.$transaction(async (prisma) => {
           const { id: surveyId } = await prisma.survey.create({
             select: {
