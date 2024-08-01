@@ -8,7 +8,7 @@ const selectMembers = Prisma.validator<Prisma.Team$UsersOnTeamArgs>()({
 	select: {
 		id: true,
 		user: {
-			select: {
+			select: { 
 				id: true,
 				firstName: true,
 				lastName: true,
@@ -17,9 +17,6 @@ const selectMembers = Prisma.validator<Prisma.Team$UsersOnTeamArgs>()({
 		},
 		status: true,
 	},
-	where: {
-		OR: [{ status: 'ACCEPTED' }, { status: 'PENDING' }]
-	}
 })
 
 const selectRequests = Prisma.validator<Prisma.TeamArgs>()({
@@ -76,12 +73,80 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 					return res.status(400).json({ message: 'You already have a pending request to this team!' })
 				}
 
-				await prisma.usersOnTeams.create({
-					data: {
+				const accepted = await prisma.usersOnTeams.count({
+					where: {
 						teamId,
 						userId: session.user.id,
+						status: Status.ACCEPTED
 					}
 				})
+
+				if (accepted !== 0) {
+					return res.status(400).json({ message: 'You are already in this team!' })
+				}
+
+				const exists = await prisma.usersOnTeams.findFirst({
+					where: {
+						teamId,
+						userId: session.user.id,
+						status: {
+							in: [Status.REJECTED, Status.INACTIVE]
+						}
+					},
+					select: {
+						id: true
+					}
+				})
+
+				if (exists) {
+					await prisma.usersOnTeams.update({
+						where: {
+						  id: exists.id,
+						  teamId,
+						},
+						data: {
+						  status: "PENDING",
+						},
+					});
+				}
+				else {
+					await prisma.usersOnTeams.create({
+						data: {
+							teamId,
+							userId: session.user.id,
+						}
+					})
+				}
+				
+
+				break
+			}
+
+			case 'PUT': {
+				const session = await getServerSession(req, res, authOptions)
+				if (!session) return res.status(401)
+
+				const exists = await prisma.usersOnTeams.findFirst({
+					where: {
+						teamId,
+						userId: session.user.id,
+						status: Status.PENDING
+					},
+					select: {
+						id: true
+					}
+				})
+
+				if (!exists) {
+					return res.status(400).json({ message: 'You don\'t have a pending application to this team!' })
+				}
+
+				await prisma.usersOnTeams.delete({
+					where: {
+					  id: exists.id,
+					  teamId,
+					},
+				});
 
 				break
 			}

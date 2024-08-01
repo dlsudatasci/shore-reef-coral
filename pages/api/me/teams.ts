@@ -17,6 +17,10 @@ const userteams = Prisma.validator<Prisma.TeamArgs>()({
 	select: {
 		id: true,
 		name: true,
+		status: true,
+		province: true,
+		town: true,
+		affiliation: true,
 		UsersOnTeam: selectLeader
 	}
 })

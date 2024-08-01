@@ -13,6 +13,10 @@ import LoadingSpinner from '@components/loading-spinner'
 import { useEffect } from 'react'
 import { useUserOnlyAccess } from '@lib/useRoleAccess'
 
+// Toast
+import { toast } from "react-toastify";
+import { toastSuccessConfig } from "@lib/toast-defaults";
+
 const teamCreateSchema = object({
 	name: string().trim().required('Team name is required.'),
 	town: string().trim().required('Town is required.'),
@@ -39,6 +43,7 @@ const CreateTeam: NextPage = () => {
 	async function onSubmit(data: TeamCreateSchema) {
 		try {
 			await app.post('/teams', data)
+			toast.success(`Submitted team creation request for admin approval!`, toastSuccessConfig);
 			push('/dashboard')
 		} catch (err) {
 			if (Axios.isAxiosError(err)) {

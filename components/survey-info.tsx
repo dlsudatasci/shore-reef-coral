@@ -34,7 +34,7 @@ const SurveyInfo: FC<SurveyInfoProps> = ({stationName, date, latitude, longitude
             <Buoy className="fill-primary" height={30} width={30} />
           </div>
           <div className="flex justify-between border-y-2 border-l-2 px-2">
-            <p>Longtitude</p>
+            <p>Longitude</p>
             <p>{longitude}</p>
           </div>
           <div className="flex justify-between border-l-2 border-t-2 px-2">

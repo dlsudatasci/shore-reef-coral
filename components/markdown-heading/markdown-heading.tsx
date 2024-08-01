@@ -28,8 +28,8 @@ export const MarkdownHeading: FC<PropsWithChildren & Props> = ({
     <h1>
       {children}
       <span>
-        {icons?.map((icon) => {
-          const Icon = createElement(ICON_LIST[icon as keyof typeof ICON_LIST], {className: "w-10 h-10 fill-primary inline-block mx-3"});
+        {icons?.map((icon, index) => {
+          const Icon = createElement(ICON_LIST[icon as keyof typeof ICON_LIST], {className: "w-10 h-10 fill-primary inline-block mx-3", key: index});
           return Icon;
         })}
       </span>
