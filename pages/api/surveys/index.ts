@@ -94,6 +94,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await prisma.$transaction(async (prisma) => {
           var fileFound = true;
+          const imgCount = Object.keys(fileData.imageUpload).length;
+          
           const { id: surveyId } = await prisma.survey.create({
             select: {
               id: true,
@@ -116,102 +118,106 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           const surveyNumber = surveyId.toString().padStart(4, '0');
           const formattedSurveyNumber = `ALWAN-${surveyNumber}`;
 
-          switch (parsedData.uploads.submissionType) {
-            case 'CPCE': 
-              if (fileData.cpc[0] && fileData.excel[0]) {
-                await prisma.surveyFile.create({
-                  data: {
-                    surveyId: surveyId,
-                    CPCEFilePath: fileData.cpc[0].originalFilename,
-                    excelFilePath: fileData.excel[0].originalFilename
-                  }
-                });
-              }
-              else {
-                fileFound = false;
-                return;
-              }
-              break;
-            
-            case 'ALWAN': 
-              if (fileData.alwanDataForm[0]) {
-                await prisma.surveyFile.create({
-                  data: {
-                    surveyId: surveyId,
-                    excelFilePath: fileData.alwanDataForm[0].originalFilename,
-                  }
-                });
-              }
-              else {
-                fileFound = false;
-                return;
-              }
-              break;
-            
-            case 'MANUAL':
-              const surveyGuideCount = Object.keys(fileData.surveyGuides).length;
-              if (fileData.coralDataSheet[0]) {
-                await prisma.coralDatasheetImage.create({
-                  data: {
-                    surveyId: surveyId,
-                    fileName: fileData.coralDataSheet[0].originalFilename,
-                  }
-                });
-              }
-              else {
-                fileFound = false;
-                return;
-              }
-              for (let i = 0; i < surveyGuideCount; i++) {
-                if (fileData.surveyGuides[i]) {
-                  await prisma.surveyGuideImage.create({
+          if (imgCount >= 30 && imgCount <= 50) {
+            switch (parsedData.uploads.submissionType) {
+              case 'CPCE': 
+                if (fileData.cpc[0] && fileData.excel[0]) {
+                  await prisma.surveyFile.create({
                     data: {
                       surveyId: surveyId,
-                      fileName: fileData.surveyGuides[i].originalFilename,
+                      CPCEFilePath: fileData.cpc[0].originalFilename,
+                      excelFilePath: fileData.excel[0].originalFilename
                     }
                   });
                 }
-              }
-              break;
-          }
-          
-          if (fileFound) {
-            await prisma.survey.update({
-              where: {
-                id: surveyId,
-              },
-              data: {
-                dbSurveyNum: formattedSurveyNumber,
-              },
-            });
-  
-            if (fileData.imageUpload) {
-              const imgCount = Object.keys(fileData.imageUpload).length;
-  
-              const { id: c30ImageSetId } = await prisma.c30ImageSet.create({
+                else {
+                  fileFound = false;
+                  return;
+                }
+                break;
+              
+              case 'ALWAN': 
+                if (fileData.alwanDataForm[0]) {
+                  await prisma.surveyFile.create({
+                    data: {
+                      surveyId: surveyId,
+                      excelFilePath: fileData.alwanDataForm[0].originalFilename,
+                    }
+                  });
+                }
+                else {
+                  fileFound = false;
+                  return;
+                }
+                break;
+              
+              case 'MANUAL':
+                const surveyGuideCount = Object.keys(fileData.surveyGuides).length;
+                if (fileData.coralDataSheet[0]) {
+                  await prisma.coralDatasheetImage.create({
+                    data: {
+                      surveyId: surveyId,
+                      fileName: fileData.coralDataSheet[0].originalFilename,
+                    }
+                  });
+                }
+                else {
+                  fileFound = false;
+                  return;
+                }
+                for (let i = 0; i < surveyGuideCount; i++) {
+                  if (fileData.surveyGuides[i]) {
+                    await prisma.surveyGuideImage.create({
+                      data: {
+                        surveyId: surveyId,
+                        fileName: fileData.surveyGuides[i].originalFilename,
+                      }
+                    });
+                  }
+                }
+                break;
+            }
+            
+            if (fileFound) {
+              await prisma.survey.update({
+                where: {
+                  id: surveyId,
+                },
                 data: {
-                  surveyId: surveyId,
-                  imageCount: imgCount,
+                  dbSurveyNum: formattedSurveyNumber,
                 },
               });
-  
-              await prisma.coralAssessment.create({
-                data: {
-                  imageSetId: c30ImageSetId,
-                  ...team,
-                }
-              });
-  
-              for (var i = 0; i < imgCount; i++) {
-                if (fileData.imageUpload[i]) {
-                  await prisma.c30Image.create({
-                    data: {
-                      imageSetId: c30ImageSetId,
-                      fileName: fileData.imageUpload[i].originalFilename,
-                    }
-                  });
+    
+              if (fileData.imageUpload) {
+    
+                const { id: c30ImageSetId } = await prisma.c30ImageSet.create({
+                  data: {
+                    surveyId: surveyId,
+                    imageCount: imgCount,
+                  },
+                });
+    
+                await prisma.coralAssessment.create({
+                  data: {
+                    imageSetId: c30ImageSetId,
+                    ...team,
+                  }
+                });
+    
+                for (var i = 0; i < imgCount; i++) {
+                  if (fileData.imageUpload[i]) {
+                    await prisma.c30Image.create({
+                      data: {
+                        imageSetId: c30ImageSetId,
+                        fileName: fileData.imageUpload[i].originalFilename,
+                      }
+                    });
+                  }
                 }
               }
+            }
+            else {
+              return;
             }
           }
         });
