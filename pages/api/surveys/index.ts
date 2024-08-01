@@ -78,7 +78,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               .on('error', reject);
           });
 
-          fileData.imageUpload = extractedFiles.filter(file => file.originalFilename.endsWith('.jpg') || file.originalFilename.endsWith('.jpeg') || file.originalFilename.endsWith('.png'));
+          fileData.imageUpload = extractedFiles.filter(file => file.originalFilename.endsWith('.jpg') || file.originalFilename.endsWith('.jpeg') || file.originalFilename.endsWith('.png')  || file.originalFilename.endsWith('.JPG')  || file.originalFilename.endsWith('.JPEG') || file.originalFilename.endsWith('.PNG'));
           fileData.cpc = extractedFiles.filter(file => file.originalFilename.endsWith('.cpc'));
           fileData.excel = extractedFiles.filter(file => file.originalFilename.endsWith('.xlsx'));
         }
