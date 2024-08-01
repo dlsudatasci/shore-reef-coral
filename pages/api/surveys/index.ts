@@ -59,8 +59,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             fs.createReadStream(zipPath)
               .pipe(unzipper.Parse())
               .on('entry', async (entry) => {
-                const fileName = entry.path;
+                let fileName = entry.path;
                 const fileType = entry.type;
+
+                const lastDotIndex = fileName.lastIndexOf('.');
+                if (lastDotIndex !== -1) {
+                  const namePart = fileName.substring(0, lastDotIndex);
+                  const extensionPart = fileName.substring(lastDotIndex).toLowerCase();
+                  fileName = namePart + extensionPart;
+                }
 
                 if (fileName.includes('/')) {
                   entry.autodrain();
@@ -78,7 +85,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               .on('error', reject);
           });
 
-          fileData.imageUpload = extractedFiles.filter(file => file.originalFilename.endsWith('.jpg') || file.originalFilename.endsWith('.jpeg') || file.originalFilename.endsWith('.png')  || file.originalFilename.endsWith('.JPG')  || file.originalFilename.endsWith('.JPEG') || file.originalFilename.endsWith('.PNG'));
+          fileData.imageUpload = extractedFiles.filter(file => file.originalFilename.endsWith('.jpg') || file.originalFilename.endsWith('.jpeg') || file.originalFilename.endsWith('.png'));
           fileData.cpc = extractedFiles.filter(file => file.originalFilename.endsWith('.cpc'));
           fileData.excel = extractedFiles.filter(file => file.originalFilename.endsWith('.xlsx'));
         }
