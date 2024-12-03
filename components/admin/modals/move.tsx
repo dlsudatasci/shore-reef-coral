@@ -1,55 +1,81 @@
-import { BaseModal, BaseModalProps } from "@components/base-modal";
-import { FC, useRef, useState } from "react";
-import styles from "@styles/Modal.module.css";
-import cn from "classnames";
-import { LoadingButton } from "@components/loading-button";
+import { BaseModal } from '@components/base-modal';
+import { FC, useRef, useState } from 'react';
+import styles from '@styles/Modal.module.css';
+import cn from 'classnames';
+import { LoadingButton } from '@components/loading-button';
 
-export type MoveModalProps = {
+type AvailableTeams = {
+  id: number;
+  name: string;
+};
+
+type MoveModalProps = {
   title: string;
-  teams: string[];
-  onAction: () => void | Promise<void>;
-} & Omit<BaseModalProps, "children">;
+  teams: AvailableTeams[];
+  isOpen: boolean;
+  close: () => void;
+  onAction: () => void;
+  onSelectTeam: (teamId: number) => void;
+};
 
 const MoveModal: FC<MoveModalProps> = ({
   isOpen,
   close,
   onAction,
-  teams,
+  teams = [],
   title,
+  onSelectTeam,
 }) => {
   const cancelButton = useRef<HTMLButtonElement>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
+
   async function handleActionClick() {
     setIsLoading(true);
     await onAction();
     setIsLoading(false);
   }
+
+  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    const teamId = Number(event.target.value);
+    setSelectedTeamId(teamId);
+    onSelectTeam(teamId);
+  }
+
   return (
     <BaseModal isOpen={isOpen} close={close} initialFocus={cancelButton}>
-      <div className={cn(styles.panel, "!bg-secondary text-t-highlight")}>
-        <div className={styles["confirmation-body"]}>
+      <div className={cn(styles.panel, '!bg-secondary text-t-highlight')}>
+        <div className={styles['confirmation-body']}>
           <h2 className="text-2xl">{title}</h2>
-          <div>{teams.map((team, index) =>
-            <label htmlFor={team} key={index}>
-              <input type="radio" id={team} name="team" />
-              {team}
-            </label> 
-          )}</div>
-          <div className={styles["btn-group"]}>
+          <div>
+            <select
+              className="form-select rounded-md border-0"
+              onChange={handleSelectChange}
+              value={selectedTeamId ?? ''}
+            >
+              <option value="" disabled>Select a team</option>
+              {teams.map((team) => (
+                <option key={team.id} value={team.id}>
+                  {team.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={styles['btn-group']}>
             <button
-              className={cn(styles.btn," btn border-2 !border-primary text-primary !rounded-full")}
+              className={cn(styles.btn, 'btn border-2 !border-primary text-primary !rounded-full')}
               ref={cancelButton}
               onClick={close}
               disabled={isLoading}
             >
-              Cancel
+              CANCEL
             </button>
             <LoadingButton
-              className={cn(styles.btn, " btn border-2 !bg-primary text-secondary !rounded-full")}
+              className={cn(styles.btn, 'btn border-2 !bg-primary text-secondary !rounded-full')}
               onClick={handleActionClick}
               isLoading={isLoading}
             >
-              Confirm
+              CONFIRM
             </LoadingButton>
           </div>
         </div>

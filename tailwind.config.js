@@ -13,6 +13,7 @@ module.exports = {
         secondary: "#E7E1DA",
         "accent-1": "#3CA6A9",
         "accent-2": "#2D7E84",
+        "accent-3": "#1E97A0",
         highlight: "#E3AD58",
 				't-highlight': '#254F60',
 				error: '#F28270',

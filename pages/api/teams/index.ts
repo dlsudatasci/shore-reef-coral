@@ -54,8 +54,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 					const teams = await prisma.team.findMany({
 						...selectTeamProfile,
 						where: {
+							status: 'APPROVED',
 							UsersOnTeam: {
-								none: { userId: session.user.id }
+								none: { 
+									userId: session.user.id,
+									status: {
+										in: ['ACCEPTED', 'PENDING']
+									}
+								}
 							}
 						}
 					})
@@ -84,7 +90,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						...selectTeamProfile,
 						where: {
 							UsersOnTeam: {
-								some: { userId: session.user.id }
+								some: { 
+									userId: session.user.id,
+									status: 'ACCEPTED'
+								 }
+							}
+						}
+					})
+					return res.json(teams)
+				}
+
+				if (query.filter === 'pending') {
+					const teams = await prisma.team.findMany({
+						...selectTeamProfile,
+						where: {
+							UsersOnTeam: {
+								some: { 
+									userId: session.user.id,
+									status: 'PENDING'
+								 }
 							}
 						}
 					})

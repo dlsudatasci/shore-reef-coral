@@ -12,5 +12,6 @@ export const surveyInfoSchema = object({
 	town: string().required('Town is required.'),
 	barangay: string().required('Barangay is required.'),
 	managementTypeId: number().required('Management is required.'),
+	dataType: string().required('Data type is required.').matches(/(PRIVATE|PUBLIC)/, { message: 'Invalid data type! Should be either PRIVATE or PUBLIC' }),
 	additionalInfo: string().optional(),
 }).required()

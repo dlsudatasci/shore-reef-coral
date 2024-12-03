@@ -30,7 +30,7 @@
 	}
 
 	label.required, .label.required {
-		@apply after:content-['_*']
+		@apply after:content-['_*'] after:text-red-400
 	}
 
 	select,
@@ -42,6 +42,37 @@
 	[type='tel'],
 	[type='datetime-local'] {
 		@apply rounded-lg w-full border-0 focus-visible:outline-primary focus-visible:outline-2 focus-visible:outline-offset-0 block text-black;
+	}
+
+	[type='radio']:checked {
+		background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='%2317829F' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='4'/%3e%3c/svg%3e");
+		background-color: white;
+		border: 2px solid currentColor;
+		background-size: 100% 100%;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+
+	[type='radio']:not(:checked) {
+		background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='7' stroke='%2317829F' stroke-width='2'/%3e%3c/svg%3e");
+		background-color: white;
+		border: 2px solid currentColor;
+		background-size: 100% 100%;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+
+	[type='radio']:focus {
+		--tw-ring-color: transparent !important;
+	}
+
+	[type='radio']:checked:focus, [type='radio']:checked:hover {
+		background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='%2317829F' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='4'/%3e%3c/svg%3e");
+		background-color: white;
+		border: 2px solid currentColor;
+		--tw-ring-color: transparent !important;
+		--tw-ring-shadow: none !important;
+		--tw-ring-offset-shadow: none !important;
 	}
 }
 

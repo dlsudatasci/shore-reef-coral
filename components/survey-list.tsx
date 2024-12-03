@@ -1,26 +1,16 @@
 import Link from 'next/link'
 import { Waves } from './icons'
-import { HTMLAttributes, useMemo, useState } from 'react'
+import { HTMLAttributes, useMemo, useState, useEffect, useCallback } from 'react'
 import { UserTeamsAPI } from '@pages/api/me/teams'
 import { SurveyTable } from './survey-table'
-import { TeamSurveySummary } from '@pages/api/teams/[teamId]/surveys'
 import { useSession } from 'next-auth/react'
 import { onUnauthenticated } from '@lib/utils'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 
 type SurveyListProps = {
   teams: UserTeamsAPI[];
 } & HTMLAttributes<HTMLDivElement>;
-
-const SampleData: TeamSurveySummary[] = Array.from({ length: 10 }, (_, id) => ({
-  id,
-  date: new Date(Date.now() - Math.random() * 1000000000),
-  stationName: "Station name",
-  startLatitude: Math.random() * 100,
-  startLongtitude: Math.random() * 100,
-  dataType: "Photos",
-  status: "COMPLETE",
-}));
 
 function SurveyList({ teams, ...props }: SurveyListProps) {
   const router = useRouter();
@@ -33,6 +23,34 @@ function SurveyList({ teams, ...props }: SurveyListProps) {
     () => teams.find((t) => t.id === teamId),
     [teams, teamId]
   );
+
+  const [data, setData] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(15);
+  const [sorting, setSorting] = useState({ sortBy: "date", sortOrder: "desc" });
+
+  const fetchData = useCallback(async () => {
+    const { sortBy, sortOrder } = sorting;
+    const response = await axios.get(`/api/teams/${teamId}/surveys`, {
+      params: {
+        page: currentPage,
+        pageSize,
+        sortBy,
+        sortOrder,
+      },
+    });
+    setData(response.data.surveys);
+    setTotalPages(response.data.totalPages);
+  }, [sorting, currentPage, pageSize, teamId]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const handleSortChange = (sortBy: string, sortOrder: string) => {
+    setSorting({ sortBy, sortOrder });
+  };
 
   return (
     <section {...props}>
@@ -67,12 +85,19 @@ function SurveyList({ teams, ...props }: SurveyListProps) {
           <Link className="btn highlight" href="/surveys/submit">
             SUBMIT A SURVEY
           </Link>
-          <Link className="btn primary" href="/reassess/submit">
+          <Link className="btn primary" href="/reassess/submit" style={{ pointerEvents: 'none' }}>
             SUBMIT CORAL REASSESSMENT
           </Link>
         </div>
       </div>
-      <SurveyTable className="w-full mt-8" data={SampleData} />
+      <SurveyTable 
+        className="w-full mt-8"
+        data={data}
+        totalPages={totalPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        handleSortChange={handleSortChange} 
+      />
     </section>
   );
 }

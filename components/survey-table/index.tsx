@@ -1,2 +1,2 @@
 export { SurveyTable } from './survey-table'
-export { SurveyTableAdmin } from './survey-table-admin';
+export { SurveyTableAdmin } from '../admin/survey-table/survey-table-admin';

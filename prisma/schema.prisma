@@ -18,7 +18,8 @@ model User {
   contactNumber    String?
   UsersOnTeam      UsersOnTeams[]
   PasswordRecovery PasswordRecovery?
-  Survey           Survey[]
+  SurveyLeader     Survey[]          @relation("SurveyLeader")
+  SurveyUploader   Survey[]          @relation("SurveyUploader")  
   CoralAssessment  CoralAssessment[]
   isAdmin          Boolean           @default(false)
 }
@@ -29,10 +30,25 @@ model Team {
   province        String
   town            String
   affiliation     String?
+  status          TeamStatus        @default(PENDING)
   isVerified      Boolean           @default(false)
   UsersOnTeam     UsersOnTeams[]
   Survey          Survey[]
   CoralAssessment CoralAssessment[]
+  rejectionReason RejectionReason?
+}
+
+model RejectionReason {
+  id         Int     @id @default(autoincrement())
+  reason     String  @db.VarChar(480) 
+  team       Team    @relation(fields: [teamId], references: [id])
+  teamId     Int     @unique
+}
+
+enum TeamStatus {
+  APPROVED
+  REJECTED
+  PENDING
 }
 
 model UsersOnTeams {
@@ -76,11 +92,12 @@ model ManagementType {
 
 model Survey {
   id               Int            @id @default(autoincrement())
+  dbSurveyNum      String         
   date             DateTime
   stationName      String
-  startLongtitude  Float
+  startLongitude  Float
   startLatitude    Float
-  secondLongtitude Float
+  secondLongitude Float
   secondLatitude   Float
   gpsDatum         String
   barangay         String
@@ -92,8 +109,11 @@ model Survey {
   teamId           Int
   team             Team           @relation(fields: [teamId], references: [id])
   leaderId         Int
-  leader           User           @relation(fields: [leaderId], references: [id])
-  scientist        String
+  leader           User           @relation(name: "SurveyLeader", fields: [leaderId], references: [id])
+  uploaderId       Int
+  uploader         User           @relation(name: "SurveyUploader", fields: [uploaderId], references: [id])
+  leaderNum        String?
+  scientist        String?
   volunteer1       String
   volunteer2       String
   volunteer3       String
@@ -101,9 +121,16 @@ model Survey {
   volunteer5       String?
   volunteer6       String?
   C30ImageSet      C30ImageSet?
-  dataType         String
-  status           String         @default("PENDING")
+  SurveyFile       SurveyFile?
+  SurveyGuideImage SurveyGuideImage[]
+  coralDatasheetImage coralDatasheetImage[]
+  bffData          bffData[]
+  tmiData          tmiData[]
+  dataType         SurveyDataType 
+  isVerified       Boolean        @default(false)
+  isComplete       Boolean        @default(false)
   submissionType   SubmissionType
+  tag              String         
 
   @@index([teamId])
 }
@@ -133,7 +160,8 @@ model CoralAssessment {
   team       Team        @relation(fields: [teamId], references: [id])
   leaderId   Int
   leader     User        @relation(fields: [leaderId], references: [id])
-  scientist  String
+  leaderNum  String?
+  scientist  String?
   volunteer1 String
   volunteer2 String
   volunteer3 String
@@ -165,4 +193,64 @@ enum SubmissionType {
   CPCE
   ALWAN
   MANUAL
+}
+
+enum SurveyDataType {
+  PRIVATE
+  PUBLIC
+}
+
+model SurveyFile {
+  id              Int               @id @default(autoincrement())
+  surveyId        Int               @unique
+  survey          Survey            @relation(fields: [surveyId], references: [id])
+  excelFilePath   String?
+  CPCEFilePath    String?
+}
+
+model SurveyGuideImage {
+  id         Int    @id @default(autoincrement())
+  surveyId   Int
+  survey     Survey @relation(fields: [surveyId], references: [id])
+  fileName   String
+}
+
+model coralDatasheetImage {
+  id         Int    @id @default(autoincrement())
+  surveyId   Int
+  survey     Survey @relation(fields: [surveyId], references: [id])
+  fileName   String
+}
+
+model bffData {
+  id          Int    @id @default(autoincrement())
+  surveyId    Int
+  survey      Survey @relation(fields: [surveyId], references: [id])
+  bffType     String
+  cs1         Int    @default(0)
+  cs2         Int    @default(0)
+  cs3         Int    @default(0)
+  cs4         Int    @default(0)
+  cs5         Int    @default(0)
+  cs6         Int    @default(0)
+  totalCount  Int
+  average     Float
+  range       Int
+}
+
+model tmiData {
+  id          Int    @id @default(autoincrement())
+  surveyId    Int
+  survey      Survey @relation(fields: [surveyId], references: [id])
+  tmiType     String
+  tmiSubType  String?
+  cs1         Int    @default(0)
+  cs2         Int    @default(0)
+  cs3         Int    @default(0)
+  cs4         Int    @default(0)
+  cs5         Int    @default(0)
+  cs6         Int    @default(0)
+  totalCount  Int
+  average     Float
+  range       Int
 }
